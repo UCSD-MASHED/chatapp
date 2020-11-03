@@ -1,3 +1,4 @@
+import Blank from "./"
 import logo from "./logo.svg";
 import "./App.css";
 

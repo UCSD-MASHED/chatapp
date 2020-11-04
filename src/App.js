@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn ChatApp
+          Learn Potatoes
         </a>
       </header>
     </div>

@@ -1,12 +1,6 @@
 name: Lint
 
-on: 
-  push:
-    paths-ignore: 
-      - .github/**
-  pull_request:
-    paths-ignore: 
-      - .github/**
+on: [push, pull_request]
   
 
 jobs:
@@ -29,7 +23,7 @@ jobs:
         uses: creyD/prettier_action@v3.0
         with:
           # This part is also where you can pass other options, for example:
-          prettier_options: --write .
+          prettier_options: --write **
         env: 
           GITHUB_TOKEN: ${{ secrets.github_token }}
 

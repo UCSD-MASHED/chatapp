@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn Potatoes
+          Dian Test
         </a>
       </header>
     </div>

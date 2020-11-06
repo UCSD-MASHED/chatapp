@@ -25,6 +25,7 @@ jobs:
         with:
           # This part is also where you can pass other options, for example:
           prettier_options: --write .
+        env: 
           github_token: ${{ secrets.github_token }}
 
       - name: Run linters

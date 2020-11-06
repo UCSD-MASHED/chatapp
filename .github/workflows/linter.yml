@@ -34,8 +34,6 @@ jobs:
         with:
           github_token: ${{ secrets.github_token }}
           # Enable linters
-          eslint: true
-          eslint_extensions: js
           prettier: true
           prettier_extensions: js,md
           

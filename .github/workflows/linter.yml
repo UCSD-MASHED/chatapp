@@ -2,8 +2,9 @@ name: Lint
 
 on: 
   push:
-    paths-ignore: 
+    paths_ignore: 
       - .github/**
+  
 
 jobs:
   run-linters:

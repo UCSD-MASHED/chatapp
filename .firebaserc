@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "twotenchatapp"
+    "default": "twotenchatapp",
+    "prod": "twotenchatapp",
+    "dev": "twotenchatapp-beta-a41e8"
   }
 }

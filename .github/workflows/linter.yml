@@ -19,14 +19,6 @@ jobs:
       # ESLint and Prettier must be in `package.json`
       - name: Install Node.js dependencies
         run: npm install
-      
-      - name: Prettify code
-        uses: creyD/prettier_action@v3.0
-        with:
-          # This part is also where you can pass other options, for example:
-          prettier_options: --write .
-        env: 
-          GITHUB_TOKEN: ${{ secrets.github_token }}
 
       - name: Run linters
         uses: wearerequired/lint-action@v1

@@ -25,7 +25,7 @@ jobs:
         with:
           # This part is also where you can pass other options, for example:
           prettier_options: --write .
-          github_token: ${{ secrets.github_token }}
+          GITHUB_TOKEN: ${{ secrets.github_token }}
 
       - name: Run linters
         uses: wearerequired/lint-action@v1

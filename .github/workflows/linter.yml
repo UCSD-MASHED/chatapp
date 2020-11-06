@@ -1,8 +1,5 @@
 name: Lint
-
 on: [push, pull_request]
-  
-
 jobs:
   run-linters:
     name: Run linters

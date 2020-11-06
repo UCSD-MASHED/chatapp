@@ -1,7 +1,7 @@
 name: Trello Issue List
 on:
   issues:
-    types: [opened]
+    types: [opened, reopened]
 env:
   TRELLO_KEY: ${{ secrets.TRELLO_KEY }}
   TRELLO_TOKEN: ${{ secrets.TRELLO_TOKEN }}

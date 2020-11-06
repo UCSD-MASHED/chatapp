@@ -2,7 +2,10 @@ name: Lint
 
 on: 
   push:
-    paths_ignore: 
+    paths-ignore: 
+      - .github/**
+  pull_request:
+    paths-ignore: 
       - .github/**
   
 

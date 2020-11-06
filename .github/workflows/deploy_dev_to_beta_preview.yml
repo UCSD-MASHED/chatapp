@@ -1,4 +1,4 @@
-name: Dev Branch Deployment Preview
+name: Deploy Dev Branch to Beta Preview
 "on": 
   pull_request:
     branches:
@@ -12,7 +12,7 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_TWOTENCHATAPP }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_TWOTENCHATAPP_BETA }}"
           projectId: twotenchatapp-beta-a41e8
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels

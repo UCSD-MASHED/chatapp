@@ -17,7 +17,6 @@ firebase.initializeApp({
   appId: process.env.REACT_APP_ID,
 });
 
-const auth = firebase.auth();
 const firestore = firebase.firestore();
 
 function App() {
@@ -25,18 +24,18 @@ function App() {
     <div className="App">
       <header className="App-header">
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <section>
-          <ChatRoom />
-        </section>
       </header>
+      <section>
+        <ChatRoom />
+      </section>
     </div>
   );
 }
 
 function ChatRoom() {
   const dummy = useRef();
-  const messagesRef = firestore.collection('messages');
-  const query = messagesRef.orderBy('createdAt').limit(25);
+  const messagesRef = firestore.collection('rooms').doc('2dY50Vdjmkoqfk5RL9os').collection('messages');
+  const query = messagesRef.orderBy('timestamp').limit(25);
 
   const [messages] = useCollectionData(query, { idField: 'id' });
 
@@ -46,13 +45,12 @@ function ChatRoom() {
   const sendMessage = async (e) => {
     e.preventDefault();
 
-    const { uid, photoURL } = auth.currentUser;
+    // const { uid, photoURL } = auth.currentUser;
 
     await messagesRef.add({
-      text: formValue,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      uid,
-      photoURL
+      message: formValue,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      userId: "test_user",
     })
 
     setFormValue('');
@@ -79,14 +77,13 @@ function ChatRoom() {
 }
 
 function ChatMessage(props) {
-  const { text, uid } = props.message;
-
-  const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
+  const { message, userId } = props.message;
+  const messageClass = userId.key === 'test_user'/*auth.currentUser.uid*/ ? 'sent' : 'received';
 
   return (<>
     <div className={`message ${messageClass}`}>
       {/* <img src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} /> */}
-      <p>{text}</p>
+      <p>{message}</p>
     </div>
   </>)
 }

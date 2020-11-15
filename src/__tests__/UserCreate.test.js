@@ -23,10 +23,10 @@ test("Create User", async () => {
 
   const usernameInput = screen.getByPlaceholderText("Enter your username");
   expect(usernameInput).toBeInTheDocument();
-  fireEvent.input(usernameInput, { target: { value: 'username123' } });
-  const inputVal = screen.getByDisplayValue('username123')
+  fireEvent.input(usernameInput, { target: { value: "username123" } });
+  const inputVal = screen.getByDisplayValue("username123");
   expect(inputVal).toBeInTheDocument();
-  const submit = screen.getByText('Submit');
+  const submit = screen.getByText("Submit");
   expect(submit).toBeInTheDocument();
 
   fireEvent.click(submit);

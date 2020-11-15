@@ -12,13 +12,16 @@ class Login extends React.Component {
   async handleGoogleSignIn(event) {
     event.preventDefault();
     var googleProvider = new firebase.auth.GoogleAuthProvider();
-    var res = await firebase.auth().signInWithPopup(googleProvider).catch(err => console.log(err));
+    var res = await firebase
+      .auth()
+      .signInWithPopup(googleProvider)
+      .catch((err) => console.log(err));
     var googleUser = {
       uid: res.user.uid,
       displayName: res.user.displayName,
     };
     // console.log(googleUser);
-    var user = await this.getUser(googleUser).catch(err => console.log(err));
+    var user = await this.getUser(googleUser).catch((err) => console.log(err));
     // console.log(user);
     if (user) {
       // TODO: go to chat

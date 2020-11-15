@@ -24,15 +24,17 @@ class CreateUser extends React.Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    var isUnique = await this.usernameIsUnique(this.state.username).catch(err => console.log(err));
+    var isUnique = await this.usernameIsUnique(
+      this.state.username
+    ).catch((err) => console.log(err));
     if (isUnique) {
       var user = await this.createUser(
         this.props.location.state.googleUser,
         this.state.username
-      ).catch((error) => console.log(error));;
+      ).catch((error) => console.log(error));
       if (user) {
         // TODO: successful, go to chat
-        console.log('Go to chat')
+        console.log("Go to chat");
         toast.success("User is created successfully.");
       } else {
         // error

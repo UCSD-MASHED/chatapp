@@ -21,7 +21,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --runInBand --detectOpenHandles",
+    "test": "react-scripts test --runInBand --detectOpenHandles --watchAll=false",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

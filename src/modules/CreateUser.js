@@ -2,6 +2,7 @@ import React from "react";
 import firebase from "firebase/app";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { withRouter } from "react-router-dom";
 
 class CreateUser extends React.Component {
   constructor(props) {
@@ -9,7 +10,9 @@ class CreateUser extends React.Component {
 
     this.state = {
       isSignedIn: !(
-        props.location.state == null || props.location.state.googleUser == null
+        props.location == null ||
+        props.location.state == null ||
+        props.location.state.googleUser == null
       ),
       username: "",
     };
@@ -122,4 +125,4 @@ class CreateUser extends React.Component {
   }
 }
 
-export default CreateUser;
+export default withRouter(CreateUser);

@@ -1,7 +1,10 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import App from "../App";
+import Login from "../modules/Login";
 import React from "react";
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "../firebase";
+import { Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
 
 const user = {
   uid: "abcdefg",
@@ -14,7 +17,14 @@ beforeEach(() => {
   firebase.auth().signInWithPopup = jest
     .fn()
     .mockImplementation(() => Promise.resolve(res));
-  render(<App />);
+  const history = createMemoryHistory();
+  history.push("/createUser", { googleUser: user });
+  render(
+    <Router history={history}>
+      <Login />
+    </Router>
+  );
+  expect(history.location.pathname).toEqual("/createUser");
 });
 
 test("Login page elements", () => {

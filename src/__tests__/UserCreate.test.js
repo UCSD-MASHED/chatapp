@@ -1,12 +1,27 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import React from "react";
 import CreateUser from "../modules/CreateUser";
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "../firebase";
+import { Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
 
 const user = {
   uid: "abcdefg",
   displayName: "test user",
 };
+
+test("Try to go to create user without logging in", async () => {
+  const history = createMemoryHistory();
+  history.push("/createUser");
+  render(
+    <Router history={history}>
+      <CreateUser />
+    </Router>
+  );
+  // it will go back to sign in page
+  expect(history.location.pathname).toEqual("/");
+});
 
 test("Create User", async () => {
   const firestoreMock = {
@@ -19,7 +34,15 @@ test("Create User", async () => {
   };
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
 
-  render(<CreateUser location={{ state: { googleUser: user } }} />);
+  const history = createMemoryHistory();
+  history.push("/createUser", { googleUser: user });
+  render(
+    <Router history={history}>
+      <CreateUser />
+    </Router>
+  );
+  // it stays at create user page
+  expect(history.location.pathname).toEqual("/createUser");
 
   const usernameInput = screen.getByPlaceholderText("Enter your username");
   expect(usernameInput).toBeInTheDocument();

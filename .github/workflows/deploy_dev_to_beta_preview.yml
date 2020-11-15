@@ -6,13 +6,22 @@ name: Deploy Dev Branch to Beta Preview
 jobs:
   build_and_preview:
     runs-on: ubuntu-latest
+    env:
+      FIREBASE_CREDENTIAL: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_TWOTENCHATAPP_BETA }}"
+      APIKEY: "AIzaSyClt_cw75ffjm45ehfsrcnpCSRm17p0Xyg",
+      AUTHDOMAIN: "twotenchatapp-beta-a41e8.firebaseapp.com",
+      DATABASEURL: "https://twotenchatapp-beta-a41e8.firebaseio.com",
+      PROJECTID: "twotenchatapp-beta-a41e8",
+      STORAGEBUCKET: "twotenchatapp-beta-a41e8.appspot.com",
+      MESSAGINGSENDERID: "1056001987312",
+      APPID: "1:1056001987312:web:c0e59a9e51560b70126835"
     steps:
       - uses: actions/checkout@v2
       - run: npm ci && npm test && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_TWOTENCHATAPP_BETA }}"
+          firebaseServiceAccount: "$FIREBASE_CREDENTIAL"
           projectId: twotenchatapp-beta-a41e8
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels

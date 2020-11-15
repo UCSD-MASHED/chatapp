@@ -6,13 +6,22 @@ name: Deploy Main Branch to Prod
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    env:
+      FIREBASE_CREDENTIAL: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_TWOTENCHATAPP }}"
+      APIKEY: "AIzaSyAhIa-bShF-Akrvjq3_sUh2oFtq4FLhkdk"
+      AUTHDOMAIN: "twotenchatapp.firebaseapp.com"
+      DATABASEURL: "https://twotenchatapp.firebaseio.com"
+      PROJECTID: "twotenchatapp",
+      STORAGEBUCKET: "twotenchatapp.appspot.com",
+      MESSAGINGSENDERID: "979980201891",
+      APPID: "1:979980201891:web:36d2046c568f83b854b416"
     steps:
       - uses: actions/checkout@v2
       - run: npm ci && npm test && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_TWOTENCHATAPP }}"
+          firebaseServiceAccount: "$FIREBASE_CREDENTIAL"
           channelId: live
           projectId: twotenchatapp
         env:

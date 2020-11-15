@@ -1,24 +1,25 @@
-import logo from "./logo.svg";
-import "./App.css";
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import Login from "./modules/Login.js";
+import CreateUser from "./modules/CreateUser.js";
+// import Chat from './modules/Chat.js'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn Potatoes
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Login} />
+        <Route exact path="/createUser" component={CreateUser} />
+        {/* <Route exact path='/chat' component={Chat} /> */}
+        <Route path="/sign-in" component={Login} />
+        <Redirect to="/" />
+      </Switch>
+    </Router>
   );
 }
 

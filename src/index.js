@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 // import firebase config
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
     projectId: "twotenchatapp-beta-a41e8",
     storageBucket: "twotenchatapp-beta-a41e8.appspot.com",
     messagingSenderId: "1056001987312",
-    appId: "1:1056001987312:web:c0e59a9e51560b70126835"
+    appId: "1:1056001987312:web:c0e59a9e51560b70126835",
   };
 } else {
   firebaseConfig = {
@@ -30,10 +30,9 @@ if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
     projectId: process.env.PROJECTID,
     storageBucket: process.env.STORAGEBUCKET,
     messagingSenderId: process.env.MESSAGINGSENDERID,
-    appId: process.env.APPID
+    appId: process.env.APPID,
   };
 }
-
 
 firebase.initializeApp(firebaseConfig);
 

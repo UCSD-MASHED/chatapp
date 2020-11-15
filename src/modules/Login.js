@@ -1,5 +1,6 @@
 import React from "react";
 import firebase from "firebase/app";
+// import "firebase/firestore";
 
 class Login extends React.Component {
   constructor(props) {
@@ -8,44 +9,36 @@ class Login extends React.Component {
     this.handleGoogleSignIn = this.handleGoogleSignIn.bind(this);
   }
 
-  handleGoogleSignIn(event) {
+  async handleGoogleSignIn(event) {
     event.preventDefault();
     var googleProvider = new firebase.auth.GoogleAuthProvider();
-    firebase
-      .auth()
-      .signInWithPopup(googleProvider)
-      .then((res) => {
-        var googleUser = {
-          uid: res.user.uid,
-          displayName: res.user.displayName,
-        };
-        // console.log(googleUser)
-        this.userExists(googleUser).then((exists) => {
-          if (exists) {
-            // TODO: go to chat
-            console.log("user exists, go to chat");
-          } else {
-            console.log("user does not exists, go to create user");
-            this.props.history.push("/createUser", { googleUser });
-          }
-        });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    var res = await firebase.auth().signInWithPopup(googleProvider).catch(err => console.log(err));
+    var googleUser = {
+      uid: res.user.uid,
+      displayName: res.user.displayName,
+    };
+    // console.log(googleUser);
+    var user = await this.getUser(googleUser).catch(err => console.log(err));
+    // console.log(user);
+    if (user) {
+      // TODO: go to chat
+      console.log("user exists, go to chat");
+    } else {
+      console.log("user does not exists, go to create user");
+      this.props.history.push("/createUser", { googleUser });
+    }
+    return;
   }
 
-  async userExists(user) {
+  async getUser(user) {
     var res = await firebase
       .firestore()
       .collection("users")
       .doc(user.uid)
       .get()
-      .then((doc) => {
-        return doc.exists;
-      })
+      .then((doc) => doc.data())
       .catch((error) => {
-        console.log("An error occurs");
+        console.log("An error occurs", error.message);
       });
     return res;
   }
@@ -60,7 +53,7 @@ class Login extends React.Component {
               onClick={this.handleGoogleSignIn}
               className="btn btn-primary btn-block"
             >
-              Sign in
+              Sign In
             </button>
           </form>
         </div>

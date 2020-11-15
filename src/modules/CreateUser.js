@@ -22,28 +22,26 @@ class CreateUser extends React.Component {
     this.setState({ username: event.target.value });
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
-    console.log("CREATING");
-    this.usernameIsUnique(this.state.username).then((isUnique) => {
-      if (isUnique) {
-        this.createUser(
-          this.props.location.state.googleUser,
-          this.state.username
-        ).then((user) => {
-          if (user) {
-            // TODO: successful, go to chat
-            toast.success("User is created successfully.");
-          } else {
-            // error
-            toast.error("Cannot create user.");
-          }
-        });
+    var isUnique = await this.usernameIsUnique(this.state.username).catch(err => console.log(err));
+    if (isUnique) {
+      var user = await this.createUser(
+        this.props.location.state.googleUser,
+        this.state.username
+      ).catch((error) => console.log(error));;
+      if (user) {
+        // TODO: successful, go to chat
+        console.log('Go to chat')
+        toast.success("User is created successfully.");
       } else {
-        toast.error("Username is not unique.");
-        // warning popup, create another username
+        // error
+        toast.error("Cannot create user.");
       }
-    });
+    } else {
+      toast.error("Username is not unique.");
+      // warning popup, create another username
+    }
   }
 
   componentDidMount() {
@@ -62,11 +60,7 @@ class CreateUser extends React.Component {
       .limit(1)
       .get()
       .then((querySnapshot) => {
-        console.log(querySnapshot);
         return querySnapshot.empty;
-      })
-      .catch((err) => {
-        console.log("An error occurs", err);
       });
     return res;
   }

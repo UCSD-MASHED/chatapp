@@ -36,7 +36,8 @@ class Login extends React.Component {
   }
 
   async userExists(user) {
-    var res = await firebase.firestore()
+    var res = await firebase
+      .firestore()
       .collection("users")
       .doc(user.uid)
       .get()

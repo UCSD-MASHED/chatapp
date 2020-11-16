@@ -9,6 +9,11 @@ class CreateUser extends React.Component {
     super(props);
 
     this.state = {
+      /*
+      * If the user 'hacked' into this page by typing the URL,
+      * it will not have any history and props.location will be empty.
+      * We need this boolean to detect and return user to sign in page accordingly.
+      */
       isSignedIn: !(
         props.location == null ||
         props.location.state == null ||
@@ -22,10 +27,19 @@ class CreateUser extends React.Component {
   }
 
   handleChange(event) {
+    /*
+    * Handles username input change, update state accordingly.
+    */
     this.setState({ username: event.target.value });
   }
 
   async handleSubmit(event) {
+    /*
+    * Handles Submit button click, it will first check if the username
+    * is unique, if it is, it will then create the user in firestore with
+    * the username and display a toast and redirect to Chat,
+    * else it will display an error toast and remain in the page.
+    */
     event.preventDefault();
     var isUnique = await this.usernameIsUnique(
       this.state.username
@@ -50,13 +64,20 @@ class CreateUser extends React.Component {
   }
 
   componentDidMount() {
-    // go back to sign-in page if not signed in
+    /*
+    * Go back to sign-in page if not signed in
+    * (This can happen when the user types in the URL (/createUser) directly)
+    */
     if (!this.state.isSignedIn) {
       this.props.history.replace("/");
     }
   }
 
   async usernameIsUnique() {
+    /*
+    * Check if current state.username is unique in firestore.
+    * If it is, return true, else return false.
+    */
     var username = this.state.username;
     var res = await firebase
       .firestore()
@@ -71,6 +92,11 @@ class CreateUser extends React.Component {
   }
 
   async createUser(googleUser, username) {
+    /*
+    * Create the actual user in firebase given the googleUser
+    * and the unique username.
+    * Returns the user object once creation is complete.
+    */
     var user = {
       username: username,
       displayName: googleUser.displayName,

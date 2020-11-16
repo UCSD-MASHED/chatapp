@@ -7,7 +7,6 @@ jobs:
   build_and_preview:
     runs-on: ubuntu-latest
     env:
-      FIREBASE_CREDENTIAL: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_TWOTENCHATAPP_BETA }}"
       APIKEY: "AIzaSyClt_cw75ffjm45ehfsrcnpCSRm17p0Xyg"
       AUTHDOMAIN: "twotenchatapp-beta-a41e8.firebaseapp.com"
       DATABASEURL: "https://twotenchatapp-beta-a41e8.firebaseio.com"
@@ -21,7 +20,7 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "$FIREBASE_CREDENTIAL"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_TWOTENCHATAPP_BETA }}"
           projectId: twotenchatapp-beta-a41e8
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels

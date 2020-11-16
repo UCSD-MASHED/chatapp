@@ -17,7 +17,7 @@ jobs:
       APPID: "1:1056001987312:web:c0e59a9e51560b70126835"
     steps:
       - uses: actions/checkout@v2
-      - run: npm ci && npm test && npm run build
+      - run: npm install && npm ci && npm test && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"

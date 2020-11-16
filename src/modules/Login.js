@@ -11,13 +11,13 @@ class Login extends React.Component {
 
   async handleGoogleSignIn(event) {
     /*
-    * Handles Sign in button click, opens a pop up to google sign in page
-    * Once sign in is completed, we will get back the google user object.
-    * We will use the uid to distinguish each user.
-    * If the user is new, we will take them to CreateUser to ask them fill
-    * in a username (has to be unique),
-    * else we will take them to Chat.
-    */
+     * Handles Sign in button click, opens a pop up to google sign in page
+     * Once sign in is completed, we will get back the google user object.
+     * We will use the uid to distinguish each user.
+     * If the user is new, we will take them to CreateUser to ask them fill
+     * in a username (has to be unique),
+     * else we will take them to Chat.
+     */
     event.preventDefault();
     var googleProvider = new firebase.auth.GoogleAuthProvider();
     var res = await firebase
@@ -43,11 +43,11 @@ class Login extends React.Component {
 
   async getUser(googleUser) {
     /*
-    * Try to find the user in firestore from googleUser
-    * If the user exists, we return the user object,
-    * else we will return undefined, which means googleUser
-    * is a new user.
-    */
+     * Try to find the user in firestore from googleUser
+     * If the user exists, we return the user object,
+     * else we will return undefined, which means googleUser
+     * is a new user.
+     */
     var res = await firebase
       .firestore()
       .collection("users")

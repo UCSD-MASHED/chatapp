@@ -7,8 +7,8 @@ jobs:
   build_and_preview:
     runs-on: ubuntu-latest
     env:
-      REACT_APP_APIKEY: "AIzaSyClt_cw75ffjm45ehfsrcnpCSRm17p0Xyg"
-      REACT_APP_AUTHDOMAIN: "twotenchatapp-beta-a41e8.firebaseapp.com"
+      APIKEY: "AIzaSyClt_cw75ffjm45ehfsrcnpCSRm17p0Xyg"
+      AUTHDOMAIN: "twotenchatapp-beta-a41e8.firebaseapp.com"
       DATABASEURL: "https://twotenchatapp-beta-a41e8.firebaseio.com"
       PROJECTID: "twotenchatapp-beta-a41e8"
       STORAGEBUCKET: "twotenchatapp-beta-a41e8.appspot.com"

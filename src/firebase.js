@@ -27,5 +27,7 @@ if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
     appId: process.env.APPID,
   };
 }
+console.log(process.env.APIKEY);
+console.log(process.env.AUTHDOMAIN)
 
 firebase.initializeApp(firebaseConfig);

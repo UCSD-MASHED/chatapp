@@ -6,14 +6,6 @@ name: Deploy Main Branch to Prod Preview
 jobs:
   build_and_preview:
     runs-on: ubuntu-latest
-    env:
-      APIKEY: "AIzaSyAhIa-bShF-Akrvjq3_sUh2oFtq4FLhkdk"
-      AUTHDOMAIN: "twotenchatapp.firebaseapp.com"
-      DATABASEURL: "https://twotenchatapp.firebaseio.com"
-      PROJECTID: "twotenchatapp"
-      STORAGEBUCKET: "twotenchatapp.appspot.com"
-      MESSAGINGSENDERID: "979980201891"
-      APPID: "1:979980201891:web:36d2046c568f83b854b416"
     steps:
       - uses: actions/checkout@v2
       - run: npm install && npm ci && npm test && npm run build

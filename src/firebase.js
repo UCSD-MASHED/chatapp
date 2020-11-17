@@ -35,7 +35,7 @@ firebaseConfig = {
   storageBucket: "twotenchatapp-beta-a41e8.appspot.com",
   messagingSenderId: "1056001987312",
   appId: "1:1056001987312:web:c0e59a9e51560b70126835",
-}
+};
 console.log(process.env.REACT_APP_APIKEY);
 console.log(process.env.REACT_APP_AUTHDOMAIN);
 

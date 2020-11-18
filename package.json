@@ -22,7 +22,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --runInBand --detectOpenHandles --watchAll=false",
+    "test": "env-cmd -f .env.dev react-scripts test --runInBand --detectOpenHandles --watchAll=false",
     "eject": "react-scripts eject",
     "build:dev": "env-cmd -f .env.dev npm run build",
     "build:main": "env-cmd -f .env.main npm run build"

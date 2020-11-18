@@ -6,10 +6,19 @@ name: Deploy Dev Branch to Beta Preview
 jobs:
   build_and_preview:
     runs-on: ubuntu-latest
-    # env:
-    #   FIREBASE_CONFIG: "${{ secrets.FIREBASE_CONFIG_BETA }}"
     steps:
       - uses: actions/checkout@v2
+      - name: Make dev envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_REACT_APP_APIKEY: "AIzaSyClt_cw75ffjm45ehfsrcnpCSRm17p0Xyg"
+          envkey_REACT_APP_AUTHDOMAIN: "twotenchatapp-beta-a41e8.firebaseapp.com"
+          envkey_REACT_APP_DATABASEURL: "https://twotenchatapp-beta-a41e8.firebaseio.com"
+          envkey_REACT_APP_PROJECTID: "twotenchatapp-beta-a41e8"
+          envkey_REACT_APP_STORAGEBUCKET: "twotenchatapp-beta-a41e8.appspot.com"
+          envkey_REACT_APP_MESSAGINGSENDERID: "1056001987312"
+          envkey_REACT_APP_APPID: "1:1056001987312:web:c0e59a9e51560b70126835"
+          file_name: .env.dev
       - run: npm install && npm ci && npm test && npm run build:dev
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
@@ -18,9 +27,3 @@ jobs:
           projectId: twotenchatapp-beta-a41e8
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
-          REACT_APP_FIREBASE_CONFIG: "${{ secrets.FIREBASE_CONFIG_BETA }}"
-      # - name: Deploy Environment Variables
-      #   run: |
-      #     export REACT_APP_FIREBASE_CONFIG="${{ env.FIREBASE_CONFIG }}"
-      #     echo $REACT_APP_FIREBASE_CONFIG
-

@@ -6,9 +6,6 @@ import { withRouter } from "react-router-dom";
 class ChatMessage extends React.Component {
     constructor(props) {
         super(props);
-        //this.message = props.message;
-        //this.user = props.location.state.user
-        //this.messageClass = "sent"//props.userId === "test_user"/*auth.currentUser.uid*/ ? 'sent' : 'received';
         this.state = {
             message: props.message,
             senderId: props.message.userId,

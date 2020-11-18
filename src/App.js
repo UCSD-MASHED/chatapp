@@ -24,6 +24,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
+        TaterTalks
       </header>
       <section>
         <ChatRoom />
@@ -38,6 +39,7 @@ function ChatRoom() {
   const query = messagesRef.orderBy('timestamp').limit(25);
 
   const [messages] = useCollectionData(query, { idField: 'id' });
+  console.log(messages);
 
   const [formValue, setFormValue] = useState('');
 
@@ -78,7 +80,7 @@ function ChatRoom() {
 
 function ChatMessage(props) {
   const { message, userId } = props.message;
-  const messageClass = userId.key === 'test_user'/*auth.currentUser.uid*/ ? 'sent' : 'received';
+  const messageClass = userId === "test_user"/*auth.currentUser.uid*/ ? 'sent' : 'received';
 
   return (<>
     <div className={`message ${messageClass}`}>

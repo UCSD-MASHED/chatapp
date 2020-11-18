@@ -3,7 +3,7 @@
 // import '@testing-library/jest-dom/extend-expect';
 // import { useCollectionData } from 'react-firebase-hooks/firestore';
 
-// // mocking userCollectionData react-firestore hook 
+// // mocking userCollectionData react-firestore hook
 // jest.mock('react-firebase-hooks/firestore', () => ({
 //   useCollectionData: jest
 //     .fn()

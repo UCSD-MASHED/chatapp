@@ -6,24 +6,24 @@ import "@testing-library/jest-dom";
 
 const docData = { data: "MOCK_DATA" };
 const docResult = {
-    // simulate firestore get doc.data() function
-    data: () => docData
+  // simulate firestore get doc.data() function
+  data: () => docData,
 };
 const get = jest.fn(() => Promise.resolve(docResult));
 const set = jest.fn();
 const doc = jest.fn(() => {
-    return {
-        set,
-        get
-    };
+  return {
+    set,
+    get,
+  };
 });
 const firestore = () => {
-    return { doc };
+  return { doc };
 };
 firestore.FieldValue = {
-    serverTimestamp: () => {
-        return "MOCK_TIME";
-    }
+  serverTimestamp: () => {
+    return "MOCK_TIME";
+  },
 };
 
 // const docData = { data: "MOCK_DATA" };
@@ -48,6 +48,6 @@ firestore.FieldValue = {
 //     }
 // };
 //
-// 
+//
 
 export { firestore };

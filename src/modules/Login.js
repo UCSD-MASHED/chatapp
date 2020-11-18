@@ -31,7 +31,7 @@ class Login extends React.Component {
     // console.log(googleUser);
     var user = await this.getUser(googleUser).catch((err) => console.log(err));
     // console.log(user);
-    console.log(user)
+    console.log(user);
     if (user) {
       // TODO: go to chat
       console.log("user exists, go to chat");

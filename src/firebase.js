@@ -5,6 +5,8 @@ import "firebase/firestore";
 
 let firebaseConfig;
 
+console.log(process.env.NODE_ENV);
+console.log(process.env.REACT_APP_FIREBASE_CONFIG);
 if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
   // we use beta app config
   firebaseConfig = {
@@ -27,6 +29,5 @@ if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
     appId: process.env.REACT_APP_APPID,
   };
 }
-console.log(firebaseConfig);
 
 firebase.initializeApp(firebaseConfig);

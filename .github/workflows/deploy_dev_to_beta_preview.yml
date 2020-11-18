@@ -6,6 +6,8 @@ name: Deploy Dev Branch to Beta Preview
 jobs:
   build_and_preview:
     runs-on: ubuntu-latest
+    env:
+      FIREBASE_CONFIG: "${{ secrets.FIREBASE_CONFIG_BETA }}"
     steps:
       - uses: actions/checkout@v2
       - run: npm install && npm ci && npm test && npm run build
@@ -16,3 +18,5 @@ jobs:
           projectId: twotenchatapp-beta-a41e8
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
+      - script: |
+        export REACT_APP_FIREBASE_CONFIG=${{ env.FIREBASE_CONFIG }}

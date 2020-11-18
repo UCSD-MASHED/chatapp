@@ -29,5 +29,6 @@ if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
     appId: process.env.REACT_APP_APPID,
   };
 }
+console.log(firebaseConfig);
 
 firebase.initializeApp(firebaseConfig);

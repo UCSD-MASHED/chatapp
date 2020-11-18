@@ -30,13 +30,13 @@ let firebaseConfig;
 
 firebaseConfig = {
   apiKey: "AIzaSyClt_cw75ffjm45ehfsrcnpCSRm17p0Xyg",
-    authDomain: "twotenchatapp-beta-a41e8.firebaseapp.com",
-    databaseURL: "https://twotenchatapp-beta-a41e8.firebaseio.com",
-    projectId: "twotenchatapp-beta-a41e8",
-    storageBucket: "twotenchatapp-beta-a41e8.appspot.com",
-    messagingSenderId: "1056001987312",
-    appId: "1:1056001987312:web:c0e59a9e51560b70126835",
+  authDomain: "twotenchatapp-beta-a41e8.firebaseapp.com",
+  databaseURL: "https://twotenchatapp-beta-a41e8.firebaseio.com",
+  projectId: "twotenchatapp-beta-a41e8",
+  storageBucket: "twotenchatapp-beta-a41e8.appspot.com",
+  messagingSenderId: "1056001987312",
+  appId: "1:1056001987312:web:c0e59a9e51560b70126835",
 };
-console.log(process.env.NODE_ENV)
+console.log(process.env.NODE_ENV);
 
 firebase.initializeApp(firebaseConfig);

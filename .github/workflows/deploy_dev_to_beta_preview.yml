@@ -11,13 +11,13 @@ jobs:
       - name: Make dev envfile
         uses: SpicyPizza/create-envfile@v1
         with:
-          envkey_REACT_APP_APIKEY: "AIzaSyClt_cw75ffjm45ehfsrcnpCSRm17p0Xyg"
-          envkey_REACT_APP_AUTHDOMAIN: "twotenchatapp-beta-a41e8.firebaseapp.com"
-          envkey_REACT_APP_DATABASEURL: "https://twotenchatapp-beta-a41e8.firebaseio.com"
-          envkey_REACT_APP_PROJECTID: "twotenchatapp-beta-a41e8"
-          envkey_REACT_APP_STORAGEBUCKET: "twotenchatapp-beta-a41e8.appspot.com"
-          envkey_REACT_APP_MESSAGINGSENDERID: "1056001987312"
-          envkey_REACT_APP_APPID: "1:1056001987312:web:c0e59a9e51560b70126835"
+          envkey_REACT_APP_APIKEY: "${{ secrets.FIREBASE_API_KEY_BETA }}"
+          envkey_REACT_APP_AUTHDOMAIN: "${{ secrets.FIREBASE_AUTHDOMAIN_BETA }}"
+          envkey_REACT_APP_DATABASEURL: "${{ secrets.FIREBASE_DATABASEURL_BETA }}"
+          envkey_REACT_APP_PROJECTID: "${{ secrets.FIREBASE_PROJECTID_BETA }}"
+          envkey_REACT_APP_STORAGEBUCKET: "${{ secrets.FIREBASE_STORAGEBUCKET_BETA }}"
+          envkey_REACT_APP_MESSAGINGSENDERID: "${{ secrets.FIREBASE_MESSAGINGSENDERID_BETA }}"
+          envkey_REACT_APP_APPID: "${{ secrets.FIREBASE_APPID_BETA }}"
           file_name: .env.dev
       - run: npm install && npm ci && npm test && npm run build:dev
       - uses: FirebaseExtended/action-hosting-deploy@v0

@@ -20,7 +20,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "env-cmd -f .env.dev react-scripts start",
     "build": "react-scripts build",
     "test": "env-cmd -f .env.dev react-scripts test --runInBand --detectOpenHandles --watchAll=false",
     "eject": "react-scripts eject",

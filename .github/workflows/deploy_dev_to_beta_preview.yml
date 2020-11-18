@@ -11,7 +11,7 @@ jobs:
       - name: Make dev envfile
         uses: SpicyPizza/create-envfile@v1
         with:
-          envkey_REACT_APP_APIKEY: "${{ secrets.FIREBASE_API_KEY_BETA }}"
+          envkey_REACT_APP_APIKEY: "${{ secrets.FIREBASE_APIKEY_BETA }}"
           envkey_REACT_APP_AUTHDOMAIN: "${{ secrets.FIREBASE_AUTHDOMAIN_BETA }}"
           envkey_REACT_APP_DATABASEURL: "${{ secrets.FIREBASE_DATABASEURL_BETA }}"
           envkey_REACT_APP_PROJECTID: "${{ secrets.FIREBASE_PROJECTID_BETA }}"

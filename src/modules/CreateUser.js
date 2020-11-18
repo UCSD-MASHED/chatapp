@@ -33,7 +33,7 @@ class CreateUser extends React.Component {
     this.setState({ username: event.target.value });
   }
 
-  async handleSubmit(event) {
+  handleSubmit(event) {
     /*
      * Handles Submit button click, it will first check if the username
      * is unique, if it is, it will then create the user in firestore with
@@ -41,26 +41,30 @@ class CreateUser extends React.Component {
      * else it will display an error toast and remain in the page.
      */
     event.preventDefault();
-    var isUnique = await this.usernameIsUnique(
-      this.state.username
-    ).catch((err) => console.log(err));
-    if (isUnique) {
-      var user = await this.createUser(
-        this.props.location.state.googleUser,
-        this.state.username
-      ).catch((error) => console.log(error));
-      if (user) {
-        // TODO: successful, go to chat
-        console.log("Go to chat");
-        toast.success("User is created successfully.");
-      } else {
-        // error
-        toast.error("Cannot create user.");
-      }
-    } else {
-      toast.error("Username is not unique.");
-      // warning popup, create another username
-    }
+    this.usernameIsUnique(this.state.username)
+      .then((isUnique) => {
+        if (isUnique) {
+          this.createUser(
+            this.props.location.state.googleUser,
+            this.state.username
+          )
+            .then((user) => {
+              if (user) {
+                // TODO: successful, go to chat
+                console.log("Go to chat");
+                toast.success("User is created successfully.");
+              } else {
+                // error
+                toast.error("Cannot create user.");
+              }
+            })
+            .catch((error) => console.log(error));
+        } else {
+          toast.error("Username is not unique.");
+          // warning popup, create another username
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
   componentDidMount() {
@@ -85,9 +89,7 @@ class CreateUser extends React.Component {
       .where("username", "==", username)
       .limit(1)
       .get()
-      .then((querySnapshot) => {
-        return querySnapshot.empty;
-      });
+      .then((querySnapshot) => querySnapshot.empty);
     return res;
   }
 

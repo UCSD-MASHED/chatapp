@@ -10,7 +10,7 @@ class Login extends React.Component {
     this.handleGoogleSignIn = this.handleGoogleSignIn.bind(this);
   }
 
-  async handleGoogleSignIn(event) {
+  handleGoogleSignIn(event) {
     /*
      * Handles Sign in button click, opens a pop up to google sign in page
      * Once sign in is completed, we will get back the google user object.
@@ -21,32 +21,34 @@ class Login extends React.Component {
      */
     event.preventDefault();
     var googleProvider = new firebase.auth.GoogleAuthProvider();
-    var res = await firebase
+    firebase
       .auth()
       .signInWithPopup(googleProvider)
+      .then((res) => {
+        var googleUser = {
+          uid: res.user.uid,
+          displayName: res.user.displayName,
+        };
+        // console.log(googleUser);
+        this.getUser(googleUser)
+          .then((user) => {
+            // console.log(user);
+            if (user) {
+              // TODO: go to chat
+              console.log("user exists, go to chat");
+            } else {
+              console.log("user does not exists, go to create user");
+              this.props.history.push("/createUser", { googleUser });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            toast.error(err);
+          });
+      })
       .catch((err) => {
         console.log(err);
-        return;
       });
-    var googleUser = {
-      uid: res.user.uid,
-      displayName: res.user.displayName,
-    };
-    // console.log(googleUser);
-    var user = await this.getUser(googleUser).catch((err) => {
-      console.log(err);
-      toast.error(err);
-      return;
-    });
-    // console.log(user);
-    if (user) {
-      // TODO: go to chat
-      console.log("user exists, go to chat");
-    } else {
-      console.log("user does not exists, go to create user");
-      this.props.history.push("/createUser", { googleUser });
-    }
-    return;
   }
 
   async getUser(googleUser) {

@@ -41,12 +41,9 @@ class ChatRoom extends React.Component {
  }
 
   handleChange(event) {
+    event.preventDefault();
     this.setState({ message: event.target.value });
-    console.log(this.state.messages)
-    var i;
-     for (i = 0; i < this.state.messages.length; i++) {
-        console.log(this.state.messages[i]);
-    }
+    //console.log(this.state.messages)
   }
 
   handleSubmit(event) {
@@ -81,9 +78,15 @@ class ChatRoom extends React.Component {
      *
      */
     let message = this.state.message;
+    //let messages = this.state.messages;
     let username = this.state.user.username;
     let roomName = this.state.roomName;
     let timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    let newMessage = {
+      message: message,
+      timestamp: timestamp,
+      userId: username
+    };
     await firebase
       .firestore()
       .collection("rooms")
@@ -95,12 +98,15 @@ class ChatRoom extends React.Component {
       .collection("rooms")
       .doc(roomName)
       .collection("messages")
-      .add({
-        message: message,
-        timestamp: timestamp,
-        userId: username
-      });
+      .add(newMessage);
       this.setState({ message: '' }); // set message bar text back to placeholder (empty)
+
+    // pretty hacky way to update most recent messages
+    var newMessages = this.state.messages;
+    newMessages.unshift(newMessage);
+    newMessages = newMessages.slice(0, -1);
+    this.setState({messages: newMessages})
+    console.log(this.state.messages)
   }
   render() {
     return (

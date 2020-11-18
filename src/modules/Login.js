@@ -1,6 +1,7 @@
 import React from "react";
 import firebase from "firebase/app";
 import { withRouter } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 class Login extends React.Component {
   constructor(props) {
@@ -23,13 +24,20 @@ class Login extends React.Component {
     var res = await firebase
       .auth()
       .signInWithPopup(googleProvider)
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        return;
+      });
     var googleUser = {
       uid: res.user.uid,
       displayName: res.user.displayName,
     };
     // console.log(googleUser);
-    var user = await this.getUser(googleUser).catch((err) => console.log(err));
+    var user = await this.getUser(googleUser).catch((err) => {
+      console.log(err);
+      toast.error(err);
+      return;
+    });
     // console.log(user);
     if (user) {
       // TODO: go to chat
@@ -53,10 +61,7 @@ class Login extends React.Component {
       .collection("users")
       .doc(googleUser.uid)
       .get()
-      .then((doc) => doc.data())
-      .catch((error) => {
-        console.log("An error occurs", error.message);
-      });
+      .then((doc) => doc.data());
     return res;
   }
 
@@ -74,6 +79,7 @@ class Login extends React.Component {
             </button>
           </form>
         </div>
+        <ToastContainer />
       </div>
     );
   }

@@ -6,19 +6,19 @@ import { withRouter } from "react-router-dom";
 class ChatMessage extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       message: props.message,
-      senderId: props.message.userId,
-      messageClass: "sent", //props.senderId === firebase.auth().currentUser.uid ? 'sent' : 'received'
+      messageUsername: props.message.username,
+      username: props.username,
     };
   }
 
   render() {
     const message = this.state.message;
-    const messageClass = this.state.messageClass;
-    //console.log("hi")
-    console.log(this.state.message);
-    //console.log(firebase.auth().currentUser.uid)
+    const messageClass = this.state.messageUsername === this.state.username ? 'sent' : 'received';
+    console.log("chat messages: " + this.state.message.message + " " + this.state.messageUsername);
+    console.log("messageClass " + messageClass);
     return (
       <>
         <div className={`message ${messageClass}`}>

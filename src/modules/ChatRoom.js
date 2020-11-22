@@ -1,8 +1,8 @@
-import React, { createRef } from 'react';
+import React, { createRef } from "react";
 import firebase from "firebase/app";
 import { withRouter } from "react-router-dom";
 import ChatMessage from "./ChatMessage.js";
-import "../App.css"
+import "../App.css";
 
 class ChatRoom extends React.Component {
   constructor(props) {
@@ -21,10 +21,14 @@ class ChatRoom extends React.Component {
 
   componentDidMount() {
     if (!this.initMessages) {
-      this.getInitMessages().then(() => { this.scrollToBottom() });
+      this.getInitMessages().then(() => {
+        this.scrollToBottom();
+      });
       this.initMessages = true;
     }
-    this.getMessages().then(() => { this.scrollToBottom() });
+    this.getMessages().then(() => {
+      this.scrollToBottom();
+    });
   }
 
   componentWillUnmount() {
@@ -66,7 +70,7 @@ class ChatRoom extends React.Component {
 
   async sendMessage() {
     /*
-     * Update user timestamp and append message to room of messages. 
+     * Update user timestamp and append message to room of messages.
      */
     let message = this.state.message;
     let username = this.state.user.username;
@@ -101,13 +105,14 @@ class ChatRoom extends React.Component {
      */
     let roomName = this.state.roomName;
     let msgs = [];
-    await firebase.firestore()
+    await firebase
+      .firestore()
       .collection("rooms")
       .doc(roomName)
       .collection("messages")
       .orderBy("timestamp", "desc")
       .get()
-      .then(snapshot => {
+      .then((snapshot) => {
         snapshot.forEach(function (doc) {
           msgs.push(doc.data());
         });
@@ -121,7 +126,8 @@ class ChatRoom extends React.Component {
      * Listener to messages list. Periodically update messages.
      */
     let roomName = this.state.roomName;
-    this.dbListener = firebase.firestore()
+    this.dbListener = firebase
+      .firestore()
       .collection("rooms")
       .doc(roomName)
       .collection("messages")
@@ -136,11 +142,10 @@ class ChatRoom extends React.Component {
   }
 
   scrollToBottom() {
-    this.dummy.current.scrollIntoView({ behavior: 'smooth' });
+    this.dummy.current.scrollIntoView({ behavior: "smooth" });
   }
 
   render() {
-
     let style = {
       backgroundColor: "#F8F8F8",
       borderTop: "1px solid #E7E7E7",
@@ -151,19 +156,25 @@ class ChatRoom extends React.Component {
       bottom: "0",
       height: "60px",
       width: "100%",
-    }
+    };
 
     if (this.state.messages[0]) {
       console.log("inside render: " + this.state.messages[0].message);
-
     }
     console.log(this.state.messages);
     return (
       <>
         <main>
           {this.state.messages &&
-            this.state.messages.reverse()
-              .map((msg, i) => <ChatMessage key={i} message={msg} username={this.state.user.username} />)}
+            this.state.messages
+              .reverse()
+              .map((msg, i) => (
+                <ChatMessage
+                  key={i}
+                  message={msg}
+                  username={this.state.user.username}
+                />
+              ))}
 
           <span ref={this.dummy}></span>
         </main>

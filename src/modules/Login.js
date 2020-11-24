@@ -14,10 +14,10 @@ class Login extends React.Component {
     /*
      * Handles Sign in button click, opens a pop up to google sign in page
      * Once sign in is completed, we will get back the google user object.
-     * We will use the uid to distinguish each user.
-     * If the user is new, we will take them to CreateUser to ask them fill
-     * in a username (has to be unique),
+     * We will use the uid to distinguish each user. If the user is new,
+     * we will take them to CreateUser to ask them fill in a unique username,
      * else we will take them to Chat.
+     * @param {Object} event - An Event Object
      */
     event.preventDefault();
     var googleProvider = new firebase.auth.GoogleAuthProvider();
@@ -54,10 +54,13 @@ class Login extends React.Component {
 
   async getUser(googleUser) {
     /*
-     * Try to find the user in firestore from googleUser
-     * If the user exists, we return the user object,
-     * else we will return undefined, which means googleUser
-     * is a new user.
+     * Get the user from googleUser
+     * @param {Object} googleUser - The google user to be found in database
+     * @param {string} googleUser.uid - The unique id of the google user
+     * @param {string} googleUser.displayName - The displayed name of the 
+     *     google user
+     * @return {(user|undefined)} A user object if googleUser.uid is unique
+     *     in database; otherwise return undefined
      */
     var res = await firebase
       .firestore()

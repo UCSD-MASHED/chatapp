@@ -31,7 +31,6 @@ test("Get messages and check if message is displayed on screen", async () => {
   // const docResult = {
   //   data: () => docData,
   // };
-
   // const firestoreMock = {
   //   collection: jest.fn().mockReturnThis(),
   //   doc: jest.fn().mockReturnThis(),
@@ -39,7 +38,6 @@ test("Get messages and check if message is displayed on screen", async () => {
   //   get: jest.fn(() => Promise.resolve([docResult])),
   // };
   // jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
-
   // const history = createMemoryHistory();
   // history.push("/chatRoom", { user: user });
   // expect(history.location.pathname).toEqual("/chatRoom");
@@ -49,7 +47,6 @@ test("Get messages and check if message is displayed on screen", async () => {
   //   </Router>
   // );
   // expect(history.location.pathname).toEqual("/chatRoom");
-
   // const usernameInput = screen.getByPlaceholderText(
   //   "Potatoes can't talk... but you can!"
   // );

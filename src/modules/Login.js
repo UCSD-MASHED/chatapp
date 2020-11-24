@@ -57,7 +57,7 @@ class Login extends React.Component {
      * Get the user from googleUser
      * @param {Object} googleUser - The google user to be found in database
      * @param {string} googleUser.uid - The unique id of the google user
-     * @param {string} googleUser.displayName - The displayed name of the 
+     * @param {string} googleUser.displayName - The displayed name of the
      *     google user
      * @return {(user|undefined)} A user object if googleUser.uid is unique
      *     in database; otherwise return undefined

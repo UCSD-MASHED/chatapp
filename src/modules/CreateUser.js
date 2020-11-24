@@ -9,7 +9,11 @@ class CreateUser extends React.Component {
     super(props);
 
     let googleUser = null;
-    if (props.location && props.location.state && props.location.state.googleUser) {
+    if (
+      props.location &&
+      props.location.state &&
+      props.location.state.googleUser
+    ) {
       googleUser = props.location.state.googleUser;
     }
 
@@ -46,10 +50,7 @@ class CreateUser extends React.Component {
     this.usernameIsUnique(this.state.username)
       .then((isUnique) => {
         if (isUnique) {
-          this.createUser(
-            this.state.googleUser,
-            this.state.username
-          )
+          this.createUser(this.state.googleUser, this.state.username)
             .then((user) => {
               if (user) {
                 // TODO: successful, go to chat
@@ -101,7 +102,7 @@ class CreateUser extends React.Component {
      * Create a user in database
      * @param {Object} googleUser - The google user to be found in database
      * @param {string} googleUser.uid - The unique id of the google user
-     * @param {string} googleUser.displayName - The displayed name of the 
+     * @param {string} googleUser.displayName - The displayed name of the
      *     google user
      * @param {string} userName - The username of the user
      * @return {user|null} The newly created user if created successfully;

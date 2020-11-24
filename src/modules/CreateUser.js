@@ -53,6 +53,7 @@ class CreateUser extends React.Component {
                 // TODO: successful, go to chat
                 console.log("Go to chat");
                 toast.success("User is created successfully.");
+                this.props.history.push("/chatRoom", { user });
               } else {
                 // error
                 toast.error("Cannot create user.");

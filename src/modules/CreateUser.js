@@ -47,6 +47,10 @@ class CreateUser extends React.Component {
      * @param {Object} event - An Event Object
      */
     event.preventDefault();
+    if (!/^[a-zA-Z0-9]+$/.test(this.state.username)) {
+      toast.error("Username is illegal.");
+      return;
+    }
     this.usernameIsUnique(this.state.username)
       .then((isUnique) => {
         if (isUnique) {

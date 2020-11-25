@@ -20,11 +20,13 @@ class ChatRoom extends React.Component {
       messages: [],
       user: user,
       users: [],
+      keyword: "",
     };
     this.dummy = createRef();
     this.initMessages = false;
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
   }
 
   componentDidMount() {
@@ -63,6 +65,15 @@ class ChatRoom extends React.Component {
     }
   }
 
+  handleSearchChange(event) {
+    event.preventDefault();
+    this.setState({ keyword: event.target.value }, () => {
+      this.searchPrefix(this.state.keyword, this.state.user.username).then((users) => {
+        this.setState({ users: users });
+      });
+    });
+  }
+
   async getUsers(userName) {
     /*
      * Get all the users excluding the current user
@@ -73,6 +84,24 @@ class ChatRoom extends React.Component {
       .firestore()
       .collection("users")
       .where("username", "!=", userName)
+      .get()
+      .then((docs) => {
+        let users = [];
+        docs.forEach((doc) => {
+          users.push(doc.data());
+        });
+        return users;
+      });
+    return res;
+  }
+
+  async searchPrefix(keyword, userName) {
+    var res = await firebase
+      .firestore()
+      .collection("users")
+      .where("username", "!=", userName)
+      .where("username", ">=", keyword)
+      .where("username", "<=", keyword+'\uf8ff')
       .get()
       .then((docs) => {
         let users = [];
@@ -189,6 +218,7 @@ class ChatRoom extends React.Component {
       <div className="main">
         <div className="user-list-wrapper">
           <h3>People</h3>
+            <input className="form-control" type="search" placeholder="Search" aria-label="Search" value={this.state.keyword} onChange={this.handleSearchChange}/>
           <div className="list-group">
             {this.state.users &&
               this.state.users.map((user, i) => <User key={i} user={user} />)}

@@ -1,4 +1,4 @@
-import { render, waitFor, screen, fireEvent } from '@testing-library/react'
+import { render, waitFor, screen, fireEvent } from "@testing-library/react";
 import ChatRoom from "../modules/ChatRoom";
 import React from "react";
 import firebase from "firebase/app";
@@ -19,8 +19,8 @@ let history;
 beforeEach(() => {
   history = createMemoryHistory();
   history.push("/chatRoom", { user: user });
-  
-  window.HTMLElement.prototype.scrollIntoView = function() {};
+
+  window.HTMLElement.prototype.scrollIntoView = function () {};
   firestoreMock = {
     collection: jest.fn().mockReturnThis(),
     doc: jest.fn().mockReturnThis(),
@@ -50,9 +50,9 @@ test("Get messages and check if message is displayed on screen", async () => {
   );
   expect(history.location.pathname).toEqual("/chatRoom");
 
-  await waitFor(() => screen.getByPlaceholderText(
-    "Potatoes can't talk... but you can!"
-  ));
+  await waitFor(() =>
+    screen.getByPlaceholderText("Potatoes can't talk... but you can!")
+  );
 
   const message = screen.getByText("MOCK_MESSAGE");
   expect(message).toBeInTheDocument();
@@ -61,20 +61,18 @@ test("Get messages and check if message is displayed on screen", async () => {
 test("Send message and check if message is populated into the database", async () => {});
 
 test("Render user list", async () => {
-  const docData1 = 
-    {
-      displayName: "Test user1",
-      online: true,
-      roomIds: [],
-      username: "test_user1",
-    };
-  const docData2 = 
-    {
-      displayName: "Test user2",
-      online: true,
-      roomIds: [],
-      username: "test_user2",
-    };
+  const docData1 = {
+    displayName: "Test user1",
+    online: true,
+    roomIds: [],
+    username: "test_user1",
+  };
+  const docData2 = {
+    displayName: "Test user2",
+    online: true,
+    roomIds: [],
+    username: "test_user2",
+  };
   const docResult1 = {
     data: () => docData1,
   };
@@ -92,29 +90,27 @@ test("Render user list", async () => {
   );
   expect(history.location.pathname).toEqual("/chatRoom");
 
-  await waitFor(() => screen.getByPlaceholderText(
-    "Potatoes can't talk... but you can!"
-  ));
-  
+  await waitFor(() =>
+    screen.getByPlaceholderText("Potatoes can't talk... but you can!")
+  );
+
   await waitFor(() => screen.getByText(docData1.displayName));
   await waitFor(() => screen.getByText(docData2.displayName));
 });
 
 test("Search user", async () => {
-  const docData1 = 
-    {
-      displayName: "Test user1",
-      online: true,
-      roomIds: [],
-      username: "testuser1",
-    };
-  const docData2 = 
-    {
-      displayName: "User2",
-      online: true,
-      roomIds: [],
-      username: "user2",
-    };
+  const docData1 = {
+    displayName: "Test user1",
+    online: true,
+    roomIds: [],
+    username: "testuser1",
+  };
+  const docData2 = {
+    displayName: "User2",
+    online: true,
+    roomIds: [],
+    username: "user2",
+  };
   const docResult1 = {
     data: () => docData1,
   };
@@ -142,8 +138,10 @@ test("Search user", async () => {
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
 
   const searchInput = screen.getByPlaceholderText("Search");
-  fireEvent.input(searchInput, {target: {value: "test"}});
+  fireEvent.input(searchInput, { target: { value: "test" } });
 
   await waitFor(() => screen.getByText(docData1.displayName));
-  await waitFor(() => expect(screen.queryByText(docData2.displayName)).toBeNull());
+  await waitFor(() =>
+    expect(screen.queryByText(docData2.displayName)).toBeNull()
+  );
 });

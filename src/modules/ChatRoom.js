@@ -68,9 +68,11 @@ class ChatRoom extends React.Component {
   handleSearchChange(event) {
     event.preventDefault();
     this.setState({ keyword: event.target.value }, () => {
-      this.searchPrefix(this.state.keyword, this.state.user.username).then((users) => {
-        this.setState({ users: users });
-      });
+      this.searchPrefix(this.state.keyword, this.state.user.username).then(
+        (users) => {
+          this.setState({ users: users });
+        }
+      );
     });
   }
 
@@ -101,7 +103,7 @@ class ChatRoom extends React.Component {
       .collection("users")
       .where("username", "!=", userName)
       .where("username", ">=", keyword)
-      .where("username", "<=", keyword+'\uf8ff')
+      .where("username", "<=", keyword + "\uf8ff")
       .get()
       .then((docs) => {
         let users = [];
@@ -218,7 +220,14 @@ class ChatRoom extends React.Component {
       <div className="main">
         <div className="user-list-wrapper">
           <h3>People</h3>
-            <input className="form-control" type="search" placeholder="Search" aria-label="Search" value={this.state.keyword} onChange={this.handleSearchChange}/>
+          <input
+            className="form-control"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            value={this.state.keyword}
+            onChange={this.handleSearchChange}
+          />
           <div className="list-group">
             {this.state.users &&
               this.state.users.map((user, i) => <User key={i} user={user} />)}

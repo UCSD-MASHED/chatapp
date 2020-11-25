@@ -17,7 +17,7 @@ class User extends React.Component {
       <>
         <div className="user" onClick={this.startPrivateChat}>
           <a
-            href="#"
+            href="/#"
             className="list-group-item list-group-item-action list-group-item-secondary justify-content-between d-flex"
           >
             <h5 className="mb-1">{this.props.user.displayName}</h5>

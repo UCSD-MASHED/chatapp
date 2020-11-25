@@ -21,6 +21,7 @@ class ChatRoom extends React.Component {
 
   componentDidMount() {
     if (!this.initMessages) {
+      console.log("Init messages!");
       this.getInitMessages().then(() => { this.scrollToBottom() });
       this.initMessages = true;
     }
@@ -121,7 +122,7 @@ class ChatRoom extends React.Component {
      * Listener to messages list. Periodically update messages.
      */
     let roomName = this.state.roomName;
-    this.dbListener = firebase.firestore()
+    firebase.firestore()
       .collection("rooms")
       .doc(roomName)
       .collection("messages")
@@ -155,9 +156,9 @@ class ChatRoom extends React.Component {
 
     if (this.state.messages[0]) {
       console.log("inside render: " + this.state.messages[0].message);
-
     }
     console.log(this.state.messages);
+    this.state.messages.map((msg, i) => console.log("map: " + i));
     return (
       <>
         <main>

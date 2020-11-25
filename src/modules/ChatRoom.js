@@ -126,7 +126,8 @@ class ChatRoom extends React.Component {
      * Listener to messages list. Periodically update messages.
      */
     let roomName = this.state.roomName;
-    firebase.firestore()
+    firebase
+      .firestore()
       .collection("rooms")
       .doc(roomName)
       .collection("messages")

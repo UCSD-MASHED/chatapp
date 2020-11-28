@@ -33,6 +33,7 @@ beforeEach(() => {
 
 test("Get messages and check if message is displayed on screen", async () => {
     const docData = {
+        docs: [{ "id": "room_id" }],
         message: "MOCK_MESSAGE",
         timestamp: 0,
         username: "test_user",
@@ -62,12 +63,14 @@ test("Send message and check if message is populated into the database", async (
 
 test("Render user list", async () => {
     const docData1 = {
+        docs: [{ "id": "room_id" }],
         displayName: "Test user1",
         online: true,
         roomIds: [],
         username: "test_user1",
     };
     const docData2 = {
+        docs: [{ "id": "room_id" }],
         displayName: "Test user2",
         online: true,
         roomIds: [],
@@ -100,12 +103,14 @@ test("Render user list", async () => {
 
 test("Search user", async () => {
     const docData1 = {
+        docs: [{ "id": "room_id" }],
         displayName: "Test user1",
         online: true,
         roomIds: [],
         username: "testuser1",
     };
     const docData2 = {
+        docs: [{ "id": "room_id" }],
         displayName: "User2",
         online: true,
         roomIds: [],

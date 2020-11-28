@@ -170,9 +170,11 @@ class ChatRoom extends React.Component {
       .get()
       .then((qs) => {
         if (!qs.empty) {
-          console.log('setting room name: ' + qs.docs[0].id);
-          this.setState({
-            roomName: qs.docs[0].id,
+          qs.forEach((doc) => {
+            console.log('setting room name: ' + doc.id);
+            this.setState({
+              roomName: doc.id,
+            });
           });
         }
       });
@@ -256,7 +258,8 @@ class ChatRoom extends React.Component {
      * Listener to messages list. Periodically update messages.
      */
     let roomName = this.state.roomName;
-    firebase.firestore()
+    firebase
+      .firestore()
       .collection("rooms")
       .doc(roomName)
       .collection("messages")

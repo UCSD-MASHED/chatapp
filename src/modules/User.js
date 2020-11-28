@@ -31,9 +31,13 @@ class User extends React.Component {
       .get()
       .then(function (qs) {
         qs.forEach(function (doc) {
-          firebase.firestore().collection("users").doc(doc.id).update({
-            roomIds: firebase.firestore.FieldValue.arrayUnion(roomId)
-          });
+          firebase
+            .firestore()
+            .collection("users")
+            .doc(doc.id)
+            .update({
+              roomIds: firebase.firestore.FieldValue.arrayUnion(roomId),
+            });
         });
       });
     return res;
@@ -43,10 +47,11 @@ class User extends React.Component {
     let chatRoomId = await this.checkChatRoomExists(participants);
     console.log("chat room name: " + chatRoomId);
     if (!chatRoomId) {
-      // create a new chat room 
+      // create a new chat room
       let roomId = await firebase
         .firestore()
-        .collection("rooms").add({
+        .collection("rooms")
+        .add({
           participants: participants,
         })
         .then(function (roomRef) {
@@ -58,7 +63,10 @@ class User extends React.Component {
   }
 
   startPrivateChat() {
-    let participants = [this.props.myUser.username, this.props.user.username].sort();
+    let participants = [
+      this.props.myUser.username,
+      this.props.user.username,
+    ].sort();
     this.openChatRoom(participants);
   }
 

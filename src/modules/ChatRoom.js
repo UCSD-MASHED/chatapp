@@ -26,7 +26,7 @@ class ChatRoom extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
-    this.handleChangeRoom = this.handleChangeRoom.bind(this)
+    this.handleChangeRoom = this.handleChangeRoom.bind(this);
   }
 
   async componentDidMount() {
@@ -35,7 +35,7 @@ class ChatRoom extends React.Component {
     } else {
       await this.getUsers(this.state.user.username).then((users) => {
         this.setState({ users: users });
-      })
+      });
       console.log(this.state.users);
       await this.getFirstRoom();
 
@@ -161,7 +161,7 @@ class ChatRoom extends React.Component {
       otherUser: firstUser,
     });
     let participants = [this.state.user.username, firstUser.username].sort();
-    console.log('participants: ' + participants);
+    console.log("participants: " + participants);
 
     await firebase
       .firestore()
@@ -171,7 +171,7 @@ class ChatRoom extends React.Component {
       .then((qs) => {
         if (!qs.empty) {
           qs.forEach((doc) => {
-            console.log('setting room name: ' + doc.id);
+            console.log("setting room name: " + doc.id);
             this.setState({
               roomName: doc.id,
             });
@@ -183,7 +183,7 @@ class ChatRoom extends React.Component {
   async getRoom(otherUsername) {
     console.log("inside get room");
     let participants = [this.state.user.username, otherUsername].sort();
-    console.log('participants: ' + participants);
+    console.log("participants: " + participants);
 
     await firebase
       .firestore()
@@ -192,7 +192,7 @@ class ChatRoom extends React.Component {
       .get()
       .then((qs) => {
         if (!qs.empty) {
-          console.log('setting room name: ' + qs.docs[0].id);
+          console.log("setting room name: " + qs.docs[0].id);
           this.state.roomName = qs.docs[0].id;
         }
       });
@@ -212,7 +212,7 @@ class ChatRoom extends React.Component {
       username: username,
     };
 
-    var timestampObj = {}
+    var timestampObj = {};
     timestampObj[username] = timestamp;
     await firebase
       .firestore()
@@ -236,7 +236,7 @@ class ChatRoom extends React.Component {
      * Get messages based off of roomName
      */
     let roomName = this.state.roomName;
-    console.log('roomName: ' + roomName);
+    console.log("roomName: " + roomName);
     let msgs = [];
     await firebase
       .firestore()
@@ -294,7 +294,14 @@ class ChatRoom extends React.Component {
           />
           <div className="list-group">
             {this.state.users &&
-              this.state.users.map((user, i) => <User key={i} user={user} myUser={this.state.user} handler={this.handleChangeRoom} />)}
+              this.state.users.map((user, i) => (
+                <User
+                  key={i}
+                  user={user}
+                  myUser={this.state.user}
+                  handler={this.handleChangeRoom}
+                />
+              ))}
           </div>
         </div>
         <div className="chat-wrapper">

@@ -16,7 +16,9 @@ class User extends React.Component {
       .get()
       .then((qs) => {
         if (!qs.empty) {
-          return qs.docs[0].id;
+          qs.forEach((doc) => {
+            return doc.id;
+          });
         }
         return !qs.empty;
       });

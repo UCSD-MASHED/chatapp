@@ -150,3 +150,76 @@ test("Search user", async () => {
         expect(screen.queryByText(docData2.displayName)).toBeNull()
     );
 });
+
+test("Test switch rooms", async () => {
+    const message1 = "MOCK_MESSAGE_1";
+    const message2 = "MOCK_MESSAGE_2";
+
+    const docData1 = {
+        docs: [{ "id": "room_id" }],
+        displayName: "Test user1",
+        online: true,
+        roomIds: [],
+        username: "testuser1",
+        message: message1,
+    };
+    const docData2 = {
+        docs: [{ "id": "room_id" }],
+        displayName: "User2",
+        online: true,
+        roomIds: [],
+        username: "user2",
+    };
+    const docResult1 = {
+        data: () => docData1,
+    };
+    const docResult2 = {
+        data: () => docData2,
+    };
+
+    firestoreMock.get = jest.fn(() => Promise.resolve([docResult1, docResult2]));
+    jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
+
+    render(
+        <Router history={history}>
+            <ChatRoom />
+        </Router>
+    );
+    expect(history.location.pathname).toEqual("/chatRoom");
+
+    await waitFor(() => screen.getByPlaceholderText("Search"));
+    // get all users
+    await waitFor(() => screen.getByText(docData1.displayName));
+    await waitFor(() => screen.getByText(docData2.displayName));
+    await waitFor(() =>
+        screen.getByPlaceholderText("Potatoes can't talk... but you can!")
+    );
+
+    // verify messages are from user1
+    await waitFor(() => screen.getByText(docData1.message));
+    await waitFor(() =>
+        expect(screen.queryByText(message2)).toBeNull()
+    );
+
+    // mock switching rooms
+    docData1.message = null;
+    docData2.message = message2;
+    firestoreMock.get = jest.fn(() => Promise.resolve([docResult1, docResult2])); // 2 -> 1
+    jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
+
+    const user2 = screen.getByText(docData2.displayName);
+    fireEvent.click(user2);
+
+    await waitFor(() => screen.getByText(docData1.displayName));
+    await waitFor(() => screen.getByText(docData2.displayName));
+    await waitFor(() =>
+        screen.getByPlaceholderText("Potatoes can't talk... but you can!")
+    );
+
+    // verify messages are from user2
+    await waitFor(() => screen.getByText(docData2.message));
+    await waitFor(() =>
+        expect(screen.queryByText(message1)).toBeNull()
+    );
+});
+

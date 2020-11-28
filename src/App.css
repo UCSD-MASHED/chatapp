@@ -1,23 +1,80 @@
-main {
+.main {
   background-color: #282c34;
-  padding: 10px;
-  height: 90vh;
-  overflow-y: scroll;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  height: 100%;
 }
 
-main::-webkit-scrollbar {
+.user-list-wrapper {
+  width: 25vw;
+  max-width: 300px;
+  padding: 40px 25px 45px 25px;
+  box-shadow: 0px 0px 14px 5px rgba(160, 160, 161, 0.2);
+  border-radius: 15px;
+  transition: all .3s;
+  overflow-y: auto;
+}
+
+.user-list-wrapper h3 {
+  color: white;
+}
+
+.chat-wrapper {
+  flex: 1;
+  box-shadow: 0px 0px 14px 5px rgba(160, 160, 161, 0.2);
+  padding: 40px 25px 45px 25px;
+  border-radius: 15px;
+  position: relative;
+}
+
+.chat-wrapper h3 {
+  color: white;
+}
+
+.chat-input {
+  position: absolute;
+  bottom: 15px;
+  left: 10px;
+  right: 10px;
+  margin-top: 10px;
+}
+
+.chat-messages {
+  margin-top: 20px;
+  padding: 5px 0px 5px 0px;
+  border-radius: 15px;
+  overflow-y: auto;
+  position: absolute;
+  bottom: 130px;
+  left: 10px;
+  right: 10px;
+  top: 60px;
+}
+
+.chat-messages::-webkit-scrollbar {
   width: 0.25rem;
 }
 
-main::-webkit-scrollbar-track {
+.chat-messages::-webkit-scrollbar-track {
   background: #1e1e24;
 }
 
-main::-webkit-scrollbar-thumb {
+.chat-messages::-webkit-scrollbar-thumb {
   background: #6649b8;
 }
+
+.user-list {
+  float: left;
+  width: 20vw;
+  height: 100vh
+}
+
+.user p {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
 
 p {
   max-width: 500px;

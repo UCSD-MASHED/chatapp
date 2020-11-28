@@ -8,17 +8,22 @@ class CreateUser extends React.Component {
   constructor(props) {
     super(props);
 
+    let googleUser = null;
+    if (
+      props.location &&
+      props.location.state &&
+      props.location.state.googleUser
+    ) {
+      googleUser = props.location.state.googleUser;
+    }
+
     this.state = {
       /*
        * If the user 'hacked' into this page by typing the URL,
        * it will not have any history and props.location will be empty.
        * We need this boolean to detect and return user to sign in page accordingly.
        */
-      isSignedIn: !(
-        props.location == null ||
-        props.location.state == null ||
-        props.location.state.googleUser == null
-      ),
+      googleUser: googleUser,
       username: "",
     };
 
@@ -33,34 +38,41 @@ class CreateUser extends React.Component {
     this.setState({ username: event.target.value });
   }
 
-  async handleSubmit(event) {
+  handleSubmit(event) {
     /*
      * Handles Submit button click, it will first check if the username
      * is unique, if it is, it will then create the user in firestore with
      * the username and display a toast and redirect to Chat,
      * else it will display an error toast and remain in the page.
+     * @param {Object} event - An Event Object
      */
     event.preventDefault();
-    var isUnique = await this.usernameIsUnique(
-      this.state.username
-    ).catch((err) => console.log(err));
-    if (isUnique) {
-      var user = await this.createUser(
-        this.props.location.state.googleUser,
-        this.state.username
-      ).catch((error) => console.log(error));
-      if (user) {
-        // go to chat
-        toast.success("User is created successfully.");
-        this.props.history.push("/chatRoom", { user });
-      } else {
-        // error
-        toast.error("Cannot create user.");
-      }
-    } else {
-      toast.error("Username is not unique.");
-      // warning popup, create another username
+    if (!/^[a-zA-Z0-9]+$/.test(this.state.username)) {
+      toast.error("Username is illegal.");
+      return;
     }
+    this.usernameIsUnique(this.state.username)
+      .then((isUnique) => {
+        if (isUnique) {
+          this.createUser(this.state.googleUser, this.state.username)
+            .then((user) => {
+              if (user) {
+                // TODO: successful, go to chat
+                console.log("Go to chat");
+                toast.success("User is created successfully.");
+                this.props.history.push("/chatRoom", { user });
+              } else {
+                // error
+                toast.error("Cannot create user.");
+              }
+            })
+            .catch((error) => console.log(error));
+        } else {
+          toast.error("Username is not unique.");
+          // warning popup, create another username
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
   componentDidMount() {
@@ -68,37 +80,40 @@ class CreateUser extends React.Component {
      * Go back to sign-in page if not signed in
      * (This can happen when the user types in the URL (/createUser) directly)
      */
-    if (!this.state.isSignedIn) {
+    if (!this.state.googleUser) {
       this.props.history.replace("/");
     }
   }
 
-  async usernameIsUnique() {
+  async usernameIsUnique(userName) {
     /*
-     * Check if current state.username is unique in firestore.
-     * If it is, return true, else return false.
+     * Check if the current userName is unique in database
+     * @param {string} userName - The username to be checked in database
+     * @return {boolean} True if userName is unique; otherwise False
      */
-    var username = this.state.username;
     var res = await firebase
       .firestore()
       .collection("users")
-      .where("username", "==", username)
+      .where("username", "==", userName)
       .limit(1)
       .get()
-      .then((querySnapshot) => {
-        return querySnapshot.empty;
-      });
+      .then((querySnapshot) => querySnapshot.empty);
     return res;
   }
 
-  async createUser(googleUser, username) {
+  async createUser(googleUser, userName) {
     /*
-     * Create the actual user in firebase given the googleUser
-     * and the unique username.
-     * Returns the user object once creation is complete.
+     * Create a user in database
+     * @param {Object} googleUser - The google user to be found in database
+     * @param {string} googleUser.uid - The unique id of the google user
+     * @param {string} googleUser.displayName - The displayed name of the
+     *     google user
+     * @param {string} userName - The username of the user
+     * @return {user|null} The newly created user if created successfully;
+     *     otherwise null
      */
     var user = {
-      username: username,
+      username: userName,
       displayName: googleUser.displayName,
       // blockIds: [],
       // friendIds: [],
@@ -116,7 +131,7 @@ class CreateUser extends React.Component {
       })
       .catch((err) => {
         console.log("An error occurs", err);
-        return {};
+        return null;
       });
     return res;
   }

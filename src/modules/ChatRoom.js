@@ -1,34 +1,51 @@
 import React, { createRef } from "react";
 import firebase from "firebase/app";
 import { withRouter } from "react-router-dom";
-import ChatMessage from "./ChatMessage.js";
+import ChatMessage from "./ChatMessage";
+import User from "./User";
 import "../App.css";
 
 class ChatRoom extends React.Component {
   constructor(props) {
     super(props);
+
+    let user = null;
+    if (props.location && props.location.state && props.location.state.user) {
+      user = props.location.state.user;
+    }
+
     this.state = {
       message: "",
       roomName: "test_room",
       messages: [],
-      user: props.location.state.user,
+      user: user,
+      users: [],
+      keyword: "",
     };
     this.dummy = createRef();
     this.initMessages = false;
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
   }
 
   componentDidMount() {
-    if (!this.initMessages) {
-      this.getInitMessages().then(() => {
+    if (!this.state.user) {
+      this.props.history.replace("/");
+    } else {
+      if (!this.initMessages) {
+        this.getInitMessages().then(() => {
+          this.scrollToBottom();
+        });
+        this.initMessages = true;
+      }
+      this.getMessages().then(() => {
         this.scrollToBottom();
       });
-      this.initMessages = true;
+      this.getUsers(this.state.user.username).then((users) => {
+        this.setState({ users: users });
+      });
     }
-    this.getMessages().then(() => {
-      this.scrollToBottom();
-    });
   }
 
   componentWillUnmount() {
@@ -46,6 +63,56 @@ class ChatRoom extends React.Component {
       this.sendMessage();
       this.scrollToBottom();
     }
+  }
+
+  handleSearchChange(event) {
+    event.preventDefault();
+    this.setState({ keyword: event.target.value }, () => {
+      this.searchPrefix(this.state.keyword, this.state.user.username).then(
+        (users) => {
+          this.setState({ users: users });
+        }
+      );
+    });
+  }
+
+  async getUsers(userName) {
+    /*
+     * Get all the users excluding the current user
+     * @param {string} userName - The username of the current user
+     * @return {user[]} An array of user objects
+     */
+    var res = await firebase
+      .firestore()
+      .collection("users")
+      .where("username", "!=", userName)
+      .get()
+      .then((docs) => {
+        let users = [];
+        docs.forEach((doc) => {
+          users.push(doc.data());
+        });
+        return users;
+      });
+    return res;
+  }
+
+  async searchPrefix(keyword, userName) {
+    var res = await firebase
+      .firestore()
+      .collection("users")
+      .where("username", "!=", userName)
+      .where("username", ">=", keyword)
+      .where("username", "<=", keyword + "\uf8ff")
+      .get()
+      .then((docs) => {
+        let users = [];
+        docs.forEach((doc) => {
+          users.push(doc.data());
+        });
+        return users;
+      });
+    return res;
   }
 
   async checkUserInRoom() {
@@ -99,7 +166,7 @@ class ChatRoom extends React.Component {
 
   async getInitMessages() {
     console.log("inside get init messages");
-    console.log(this.state.user.username);
+    // console.log(this.state.user.username);
     /*
      * Get messages based off of roomName
      */
@@ -117,7 +184,7 @@ class ChatRoom extends React.Component {
           msgs.push(doc.data());
         });
       });
-    console.log(msgs);
+    // console.log(msgs);
     this.setState({ messages: msgs });
   }
 
@@ -141,56 +208,75 @@ class ChatRoom extends React.Component {
   }
 
   scrollToBottom() {
-    this.dummy.current.scrollIntoView({ behavior: "smooth" });
+    if (this.dummy.current) {
+      this.dummy.current.scrollIntoView();
+    }
   }
 
   render() {
-    let style = {
-      backgroundColor: "#F8F8F8",
-      borderTop: "1px solid #E7E7E7",
-      textAlign: "center",
-      padding: "20px",
-      position: "fixed",
-      left: "0",
-      bottom: "0",
-      height: "60px",
-      width: "100%",
-    };
-
-    if (this.state.messages[0]) {
-      console.log("inside render: " + this.state.messages[0].message);
-    }
-    console.log(this.state.messages);
-    this.state.messages.map((msg, i) => console.log("map: " + i));
+    console.log(this.state.users);
     return (
-      <>
-        <main>
-          {this.state.messages &&
-            this.state.messages
-              .reverse()
-              .map((msg, i) => (
-                <ChatMessage
-                  key={i}
-                  message={msg}
-                  username={this.state.user.username}
-                />
-              ))}
-
-          <span ref={this.dummy}></span>
-        </main>
-
-        <form onSubmit={this.handleSubmit} style={style}>
+      <div className="main">
+        <div className="user-list-wrapper">
+          <h3>People</h3>
           <input
-            value={this.state.message}
-            onChange={this.handleChange}
-            placeholder="Potatoes can't talk... but you can!"
+            className="form-control"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            value={this.state.keyword}
+            onChange={this.handleSearchChange}
           />
+          <div className="list-group">
+            {this.state.users &&
+              this.state.users.map((user, i) => <User key={i} user={user} />)}
+          </div>
+        </div>
+        <div className="chat-wrapper">
+          <h3>Chat Room</h3>
+          <div className="chat-messages">
+            {this.state.messages &&
+              this.state.messages
+                .reverse()
+                .map((msg, i) => (
+                  <ChatMessage
+                    key={i}
+                    message={msg}
+                    username={this.state.user.username}
+                  />
+                ))}
+            <span ref={this.dummy}></span>
+          </div>
+          <div className="chat-input">
+            <form onSubmit={this.handleSubmit}>
+              {/* {this.state.showEmoji ? (
+                  <EmojiPicker onClickOutside={() => this.toggleEmojiPicker()} title={'Pick your emoji'} emoji={'point_up'} data={data} style={{ position: "absolute", bottom: "100px", right: "0" }} set="apple" onSelect={this.addEmoji} />
+              ) : null} */}
 
-          <button type="submit" disabled={!this.state.message}>
-            Enter
-          </button>
-        </form>
-      </>
+              <div className="input-group chat-box">
+                <input
+                  className="form-control"
+                  type="text"
+                  value={this.state.message}
+                  onChange={this.handleChange}
+                  placeholder="Potatoes can't talk... but you can!"
+                />
+                {/* <div className="input-group-append">
+                      <button type="button" className="btn" onClick={() => this.toggleEmojiPicker()} id="show-emoji-yes">{'😃'}</button>
+                  </div> */}
+              </div>
+
+              <button
+                disabled={!this.state.message}
+                type="submit"
+                className="btn btn-primary btn-block"
+              >
+                Send
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     );
   }
 }

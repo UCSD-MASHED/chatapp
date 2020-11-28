@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import Login from "../modules/Login";
 import React from "react";
 import firebase from "firebase/app";
@@ -12,19 +12,31 @@ const user = {
 };
 const res = { user: user };
 
+let firestoreMock;
+let history;
+
 beforeEach(() => {
   firebase.auth.GoogleAuthProvider = jest.fn();
   firebase.auth().signInWithPopup = jest
     .fn()
     .mockImplementation(() => Promise.resolve(res));
-  const history = createMemoryHistory();
-  history.push("/createUser", { googleUser: user });
+  history = createMemoryHistory();
+  history.push("/");
   render(
     <Router history={history}>
       <Login />
     </Router>
   );
-  expect(history.location.pathname).toEqual("/createUser");
+  expect(history.location.pathname).toEqual("/");
+
+  firestoreMock = {
+    collection: jest.fn().mockReturnThis(),
+    doc: jest.fn().mockReturnThis(),
+    where: jest.fn().mockReturnThis(),
+    limit: jest.fn().mockReturnThis(),
+    get: null,
+    set: jest.fn().mockResolvedValue({ user: user }),
+  };
 });
 
 test("Login page elements", () => {
@@ -39,14 +51,7 @@ test("Login with an existing user", async () => {
   const docResult = {
     data: () => docData,
   };
-  const firestoreMock = {
-    collection: jest.fn().mockReturnThis(),
-    doc: jest.fn().mockReturnThis(),
-    where: jest.fn().mockReturnThis(),
-    limit: jest.fn().mockReturnThis(),
-    get: jest.fn(() => Promise.resolve(docResult)),
-    set: jest.fn().mockResolvedValue({ user: user }),
-  };
+  firestoreMock.get = jest.fn(() => Promise.resolve(docResult));
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
   const button = screen.getByText("Sign In");
   fireEvent.click(button);
@@ -54,6 +59,7 @@ test("Login with an existing user", async () => {
   expect(firebase.auth.GoogleAuthProvider).toBeCalledTimes(1);
   expect(firebase.auth().signInWithPopup).toBeCalledTimes(1);
   await expect(firebase.auth().signInWithPopup()).resolves.toEqual(res);
+  await waitFor(() => expect(history.location.pathname).toEqual("/chatRoom"));
 });
 
 test("Login with an non-existing user", async () => {
@@ -61,14 +67,7 @@ test("Login with an non-existing user", async () => {
   const docResult = {
     data: () => docData,
   };
-  const firestoreMock = {
-    collection: jest.fn().mockReturnThis(),
-    doc: jest.fn().mockReturnThis(),
-    where: jest.fn().mockReturnThis(),
-    limit: jest.fn().mockReturnThis(),
-    get: jest.fn(() => Promise.resolve(docResult)),
-    set: jest.fn().mockResolvedValue({ user: user }),
-  };
+  firestoreMock.get = jest.fn(() => Promise.resolve(docResult));
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
   const button = screen.getByText("Sign In");
   fireEvent.click(button);
@@ -76,4 +75,5 @@ test("Login with an non-existing user", async () => {
   expect(firebase.auth.GoogleAuthProvider).toBeCalledTimes(1);
   expect(firebase.auth().signInWithPopup).toBeCalledTimes(1);
   await expect(firebase.auth().signInWithPopup()).resolves.toEqual(res);
+  await waitFor(() => expect(history.location.pathname).toEqual("/createUser"));
 });

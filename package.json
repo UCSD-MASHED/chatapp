@@ -6,13 +6,12 @@
     "@testing-library/user-event": "^12.1.10",
     "bootstrap": "^4.5.3",
     "dotenv": "^8.2.0",
+    "env-cmd": "^10.1.0",
     "firebase": "^8.0.2",
     "npm": "^7.0.10",
     "react": "^16.14.0",
     "react-bootstrap": "^1.4.0",
-    "react-dom": "^16.14.0",
-    "react-firebase-hooks": "^2.2.0",
-    "react-helmet": "^6.1.0",
+    "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "react-toastify": "^6.1.0",
@@ -20,10 +19,12 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "env-cmd -f .env.dev react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --runInBand --detectOpenHandles --watchAll=false",
-    "eject": "react-scripts eject"
+    "test": "env-cmd -f .env.dev react-scripts test --runInBand --detectOpenHandles --watchAll=false",
+    "eject": "react-scripts eject",
+    "build:dev": "env-cmd -f .env.dev npm run build",
+    "build:main": "env-cmd -f .env.main npm run build"
   },
   "eslintConfig": {
     "extends": [

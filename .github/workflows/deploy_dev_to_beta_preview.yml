@@ -8,7 +8,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm install && npm ci && npm test && npm run build
+      - name: Make dev envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_REACT_APP_APIKEY: "${{ secrets.FIREBASE_APIKEY_BETA }}"
+          envkey_REACT_APP_AUTHDOMAIN: "${{ secrets.FIREBASE_AUTHDOMAIN_BETA }}"
+          envkey_REACT_APP_DATABASEURL: "${{ secrets.FIREBASE_DATABASEURL_BETA }}"
+          envkey_REACT_APP_PROJECTID: "${{ secrets.FIREBASE_PROJECTID_BETA }}"
+          envkey_REACT_APP_STORAGEBUCKET: "${{ secrets.FIREBASE_STORAGEBUCKET_BETA }}"
+          envkey_REACT_APP_MESSAGINGSENDERID: "${{ secrets.FIREBASE_MESSAGINGSENDERID_BETA }}"
+          envkey_REACT_APP_APPID: "${{ secrets.FIREBASE_APPID_BETA }}"
+          file_name: .env.dev
+      - run: npm install && npm ci && npm test && npm run build:dev
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"

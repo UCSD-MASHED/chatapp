@@ -16,40 +16,40 @@ class ChatRoom extends React.Component {
 
     this.state = {
       message: "",
-      roomName: "test_room",
       messages: [],
       user: user,
       users: [],
       keyword: "",
     };
     this.dummy = createRef();
-    this.initMessages = false;
+    this.initMessages = true;
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.handleChangeRoom = this.handleChangeRoom.bind(this)
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     if (!this.state.user) {
       this.props.history.replace("/");
     } else {
-      if (!this.initMessages) {
+      await this.getUsers(this.state.user.username).then((users) => {
+        this.setState({ users: users });
+      })
+      console.log(this.state.users);
+      await this.getFirstRoom();
+
+      if (this.initMessages) {
         this.getInitMessages().then(() => {
           this.scrollToBottom();
         });
-        this.initMessages = true;
+        this.initMessages = false;
       }
+
       this.getMessages().then(() => {
         this.scrollToBottom();
       });
-      this.getUsers(this.state.user.username).then((users) => {
-        this.setState({ users: users });
-      });
     }
-  }
-
-  componentWillUnmount() {
-    // this.dbListener();
   }
 
   handleChange(event) {
@@ -73,6 +73,22 @@ class ChatRoom extends React.Component {
           this.setState({ users: users });
         }
       );
+    });
+  }
+
+  handleChangeRoom(roomId, otherUser) {
+    this.setState({
+      otherUser: otherUser,
+      roomName: roomId,
+      messages: [],
+    });
+    console.log(this.state);
+    this.getInitMessages().then(() => {
+      this.scrollToBottom();
+    });
+
+    this.getMessages().then(() => {
+      this.scrollToBottom();
     });
   }
 
@@ -135,6 +151,51 @@ class ChatRoom extends React.Component {
     return res;
   }
 
+  async getFirstRoom() {
+    console.log("inside get first room");
+    if (this.state.users.empty) {
+      return;
+    }
+    let firstUser = this.state.users[0];
+    this.setState({
+      otherUser: firstUser,
+    });
+    let participants = [this.state.user.username, firstUser.username].sort();
+    console.log('participants: ' + participants);
+
+    await firebase
+      .firestore()
+      .collection("rooms")
+      .where("participants", "==", participants)
+      .get()
+      .then((qs) => {
+        if (!qs.empty) {
+          console.log('setting room name: ' + qs.docs[0].id);
+          this.setState({
+            roomName: qs.docs[0].id,
+          });
+        }
+      });
+  }
+
+  async getRoom(otherUsername) {
+    console.log("inside get room");
+    let participants = [this.state.user.username, otherUsername].sort();
+    console.log('participants: ' + participants);
+
+    await firebase
+      .firestore()
+      .collection("rooms")
+      .where("participants", "==", participants)
+      .get()
+      .then((qs) => {
+        if (!qs.empty) {
+          console.log('setting room name: ' + qs.docs[0].id);
+          this.state.roomName = qs.docs[0].id;
+        }
+      });
+  }
+
   async sendMessage() {
     /*
      * Update user timestamp and append message to room of messages.
@@ -148,11 +209,14 @@ class ChatRoom extends React.Component {
       timestamp: timestamp,
       username: username,
     };
+
+    var timestampObj = {}
+    timestampObj[username] = timestamp;
     await firebase
       .firestore()
       .collection("rooms")
       .doc(roomName)
-      .set({ username: timestamp });
+      .update(timestampObj);
 
     await firebase
       .firestore()
@@ -166,11 +230,11 @@ class ChatRoom extends React.Component {
 
   async getInitMessages() {
     console.log("inside get init messages");
-    // console.log(this.state.user.username);
     /*
      * Get messages based off of roomName
      */
     let roomName = this.state.roomName;
+    console.log('roomName: ' + roomName);
     let msgs = [];
     await firebase
       .firestore()
@@ -184,7 +248,6 @@ class ChatRoom extends React.Component {
           msgs.push(doc.data());
         });
       });
-    // console.log(msgs);
     this.setState({ messages: msgs });
   }
 
@@ -214,7 +277,6 @@ class ChatRoom extends React.Component {
   }
 
   render() {
-    console.log(this.state.users);
     return (
       <div className="main">
         <div className="user-list-wrapper">
@@ -229,11 +291,11 @@ class ChatRoom extends React.Component {
           />
           <div className="list-group">
             {this.state.users &&
-              this.state.users.map((user, i) => <User key={i} user={user} />)}
+              this.state.users.map((user, i) => <User key={i} user={user} myUser={this.state.user} handler={this.handleChangeRoom} />)}
           </div>
         </div>
         <div className="chat-wrapper">
-          <h3>Chat Room</h3>
+          <h3> Chat Room </h3>
           <div className="chat-messages">
             {this.state.messages &&
               this.state.messages

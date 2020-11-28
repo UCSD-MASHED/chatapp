@@ -1,5 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import firebase from "firebase/app";
 
 class User extends React.Component {
   constructor(props) {
@@ -7,9 +8,58 @@ class User extends React.Component {
     this.startPrivateChat = this.startPrivateChat.bind(this);
   }
 
+  async checkChatRoomExists(participants) {
+    var res = await firebase
+      .firestore()
+      .collection("rooms")
+      .where("participants", "==", participants)
+      .get()
+      .then((qs) => {
+        if (!qs.empty) {
+          return qs.docs[0].id;
+        }
+        return !qs.empty;
+      });
+    return res;
+  }
+
+  async setRoomId(participants, roomId) {
+    var res = await firebase
+      .firestore()
+      .collection("users")
+      .where("username", "in", participants)
+      .get()
+      .then(function (qs) {
+        qs.forEach(function (doc) {
+          firebase.firestore().collection("users").doc(doc.id).update({
+            roomIds: firebase.firestore.FieldValue.arrayUnion(roomId)
+          });
+        });
+      });
+    return res;
+  }
+
+  async openChatRoom(participants) {
+    let chatRoomId = await this.checkChatRoomExists(participants);
+    console.log("chat room name: " + chatRoomId);
+    if (!chatRoomId) {
+      // create a new chat room 
+      let roomId = await firebase
+        .firestore()
+        .collection("rooms").add({
+          participants: participants,
+        })
+        .then(function (roomRef) {
+          return roomRef.id;
+        });
+      await this.setRoomId(participants, roomId);
+    }
+    this.props.handler(chatRoomId, this.user);
+  }
+
   startPrivateChat() {
-    // TODO: create a room
-    console.log(this.props.user);
+    let participants = [this.props.myUser.username, this.props.user.username].sort();
+    this.openChatRoom(participants);
   }
 
   render() {

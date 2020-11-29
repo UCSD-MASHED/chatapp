@@ -192,7 +192,7 @@ class ChatRoom extends React.Component {
     /*
      * Update user timestamp and append message to room of messages.
      * @param {string} message - message to be sent
-     * @param {string} roomId - id of the chat room 
+     * @param {string} roomId - id of the chat room
      * @param {string} username - username of the current user
      */
     let message = this.state.message;
@@ -230,8 +230,8 @@ class ChatRoom extends React.Component {
   async getInitMessages() {
     console.log("inside get init messages");
     /*
-     * Fetch the messages of the chat room 
-     * @param {string} roomId - id of the chat room 
+     * Fetch the messages of the chat room
+     * @param {string} roomId - id of the chat room
      * @return {string[]} messages - list of strings of messages found
      */
     let roomId = this.state.roomId;
@@ -259,7 +259,7 @@ class ChatRoom extends React.Component {
     /*
      * Create a listener for a chat room to fetch messages upon updates to
      * the database
-     * @param {string} roomId - id of the chat room 
+     * @param {string} roomId - id of the chat room
      */
     let roomId = this.state.roomId;
     if (!roomId) {

@@ -63,7 +63,7 @@ class User extends React.Component {
      * Find and open a chat room containing on the list of participants
      * given. If no chat room exists, create a new chat room with these
      * participants. Will call the parent handler to switch to the found
-     * chat room. 
+     * chat room.
      * @param {string[]} participants - list of usernames for users in the room
      */
     let chatRoomId = await this.checkChatRoomExists(participants);
@@ -87,8 +87,8 @@ class User extends React.Component {
   startPrivateChat() {
     /*
      * Open a chat room given a list of participants
-     * @param {string[]} user - username of the target user 
-     * @param {string[]} myUser - username of the current user 
+     * @param {string[]} user - username of the target user
+     * @param {string[]} myUser - username of the current user
      */
     let participants = [
       this.props.myUser.username,

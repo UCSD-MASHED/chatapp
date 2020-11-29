@@ -229,4 +229,3 @@ test("Switch rooms", async () => {
         expect(screen.queryByText(message1)).toBeNull()
     );
 });
-

@@ -1,38 +1,107 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
+.main {
   background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  height: 100%;
+}
+
+.user-list-wrapper {
+  width: 25vw;
+  max-width: 300px;
+  padding: 40px 25px 45px 25px;
+  box-shadow: 0px 0px 14px 5px rgba(160, 160, 161, 0.2);
+  border-radius: 15px;
+  transition: all .3s;
+  overflow-y: auto;
+}
+
+.user-list-wrapper h3 {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.chat-wrapper {
+  flex: 1;
+  box-shadow: 0px 0px 14px 5px rgba(160, 160, 161, 0.2);
+  padding: 40px 25px 45px 25px;
+  border-radius: 15px;
+  position: relative;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.chat-wrapper h3 {
+  color: white;
+}
+
+.chat-input {
+  position: absolute;
+  bottom: 15px;
+  left: 10px;
+  right: 10px;
+  margin-top: 10px;
+}
+
+.chat-messages {
+  margin-top: 20px;
+  padding: 5px 0px 5px 0px;
+  border-radius: 15px;
+  overflow-y: auto;
+  position: absolute;
+  bottom: 130px;
+  left: 10px;
+  right: 10px;
+  top: 60px;
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: #1e1e24;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: #6649b8;
+}
+
+.user-list {
+  float: left;
+  width: 20vw;
+  height: 100vh
+}
+
+.user p {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+
+p {
+  max-width: 500px;
+  margin-bottom: 12px;
+  line-height: 24px;
+  padding: 10px 20px;
+  border-radius: 25px;
+  position: relative;
+  color: white;
+  text-align: center;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+}
+
+.sent {
+  flex-direction: row-reverse;
+}
+
+.sent p {
+  color: white;
+  background: #0b93f6;
+  align-self: flex-end;
+}
+.received p {
+  background: #e5e5ea;
+  color: black;
 }

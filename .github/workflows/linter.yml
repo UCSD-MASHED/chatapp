@@ -19,7 +19,7 @@ jobs:
         with:
           # This part is also where you can pass other options, for example:
           prettier_options: --write **/*.{js,md}
-        env: 
+        env:
           GITHUB_TOKEN: ${{ secrets.github_token }}
 
       # ESLint and Prettier must be in `package.json`
@@ -34,4 +34,3 @@ jobs:
           eslint: true
           prettier: true
           prettier_extensions: js,md
-          

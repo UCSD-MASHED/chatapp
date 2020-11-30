@@ -1,0 +1,25 @@
+name: JSDoc Generation and Deployment
+on: [push, pull_request]
+jobs:
+  run-jsdoc:
+    name: Run JSDoc
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Build
+        uses: andstor/jsdoc-action@v1
+        with:
+          source_dir: ./src
+          output_dir: ./out
+          front_page: README.md
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          external_repository: UCSD-MASHED/TaterTalkDoc.github.io
+          publish_branch: gh-pages  # default: gh-pages
+          publish_dir: ./out

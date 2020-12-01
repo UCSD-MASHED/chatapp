@@ -9,11 +9,11 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
-      - name: Install better-docs
+      - name: Install Dependencies
         run: npm install --save-dev jsdoc better-docs
 
       - name: Build
-        run: jsdoc -c jsdoc.json
+        run: node jsdoc -c jsdoc.json
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3

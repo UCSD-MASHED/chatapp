@@ -4,13 +4,18 @@
     "dictionaries": ["jsdoc", "closure"]
   },
   "source": {
-    "include": ["src"],
     "includePattern": ".+\\.js(doc|x)?$",
     "excludePattern": "(^|\\/|\\\\)_"
   },
-  "plugins": ["plugins/markdown"],
+  "plugins": ["plugins/markdown", "node_modules/better-docs/component"],
+  "templates": {
+    "better-docs": {
+      "name": "TaterTalk Documentation"
+    }
+  },
   "opts": {
     "destination": "out",
-    "recurse": true
+    "recurse": true,
+    "template": "node_modules/better-docs"
   }
 }

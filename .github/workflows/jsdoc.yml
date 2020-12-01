@@ -9,12 +9,14 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
+      - name: Install Dependencies
+        run: npm install --save-dev better-docs
+
       - name: Build
         uses: andstor/jsdoc-action@v1.2.0
         with:
           source_dir: ./src
           output_dir: ./out
-          template: minami
           config_file: jsdoc.json
 
       - name: Deploy

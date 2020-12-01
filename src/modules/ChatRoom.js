@@ -3,7 +3,6 @@ import firebase from "firebase/app";
 import { withRouter } from "react-router-dom";
 import ChatMessage from "./ChatMessage";
 import User from "./User";
-import "../App.css";
 
 /**
  * This is the ChatRoom Component
@@ -239,6 +238,7 @@ class ChatRoom extends React.Component {
             aria-label="Search"
             value={this.state.keyword}
             onChange={this.handleSearchChange}
+            style={{"margin-bottom": "20px"}}
           />
           <div className="list-group">
             {this.state.users &&

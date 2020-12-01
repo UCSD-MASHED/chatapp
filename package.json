@@ -34,7 +34,8 @@
     "extends": [
       "react-app",
       "react-app/jest",
-      "eslint:recommended"
+      "eslint:recommended",
+      "plugin:cypress/recommended"
     ]
   },
   "browserslist": {
@@ -54,6 +55,7 @@
     "@testing-library/react": "^11.2.2",
     "cypress": "^6.0.1",
     "cypress-firebase": "^1.5.0",
+    "eslint-plugin-cypress": "^2.11.2",
     "firebase-admin": "^9.4.1",
     "prettier": "^2.1.2"
   }

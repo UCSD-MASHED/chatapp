@@ -78,7 +78,6 @@ class CreateUser extends React.Component {
       .catch((err) => console.log(err));
   }
 
-
   /**
    * Go back to sign-in page if not signed in
    * (This can happen when the user types in the URL (/createUser) directly)

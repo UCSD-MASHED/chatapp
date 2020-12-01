@@ -22,7 +22,6 @@ class ChatRoom extends React.Component {
       keyword: "",
     };
     this.dummy = createRef();
-    this.initMessages = true;
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
@@ -39,12 +38,9 @@ class ChatRoom extends React.Component {
       console.log(this.state.users);
       await this.getFirstRoom();
 
-      if (this.initMessages) {
-        this.getInitMessages().then(() => {
-          this.scrollToBottom();
-        });
-        this.initMessages = false;
-      }
+      this.getInitMessages().then(() => {
+        this.scrollToBottom();
+      });
 
       this.getMessages().then(() => {
         this.scrollToBottom();

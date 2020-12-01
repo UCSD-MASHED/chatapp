@@ -18,7 +18,6 @@ jobs:
           envkey_REACT_APP_STORAGEBUCKET: "${{ secrets.FIREBASE_STORAGEBUCKET_BETA }}"
           envkey_REACT_APP_MESSAGINGSENDERID: "${{ secrets.FIREBASE_MESSAGINGSENDERID_BETA }}"
           envkey_REACT_APP_APPID: "${{ secrets.FIREBASE_APPID_BETA }}"
-          envkey_CYPRESS_TEST_UID: "${{ secrets.FIREBASE_TEST_UID_BETA }}"
           file_name: .env.dev
       - name: Install, test and build
         run: npm ci && npm test && npm run build:dev

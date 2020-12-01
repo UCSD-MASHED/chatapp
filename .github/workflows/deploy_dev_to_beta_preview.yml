@@ -2,7 +2,7 @@ name: Deploy Dev Branch to Beta Preview
 "on": 
   push:
     branches:
-      - dev
+      - jg-cypress
   pull_request:
     branches:
       - dev

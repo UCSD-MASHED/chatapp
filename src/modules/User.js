@@ -69,6 +69,7 @@ class User extends React.Component {
     let chatRoomId = await this.checkChatRoomExists(participants);
     console.log("chat room name: " + chatRoomId);
     if (!chatRoomId) {
+      console.log("Creating new chat room!");
       // create a new chat room
       let roomId = await firebase
         .firestore()
@@ -76,10 +77,9 @@ class User extends React.Component {
         .add({
           participants: participants,
         })
-        .then(function (roomRef) {
-          return roomRef.id;
-        });
-      await this.setRoomId(participants, roomId);
+        .then((roomRef) => roomRef.id);
+      this.setRoomId(participants, roomId);
+      chatRoomId = roomId;
     }
     this.props.handler(chatRoomId, this.user);
   }

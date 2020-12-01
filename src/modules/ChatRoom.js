@@ -140,6 +140,10 @@ class ChatRoom extends React.Component {
     let username = this.state.user.username;
     let roomId = this.state.roomId;
 
+    if (!roomId) {
+      return false;
+    }
+
     await firebase
       .firestore()
       .collection("users")
@@ -158,7 +162,6 @@ class ChatRoom extends React.Component {
      * @param {string} firstUser - username of the first user in the list
      * @param {string} username - username of the current user
      */
-    console.log("inside get first room");
     if (this.state.users.empty) {
       return;
     }
@@ -167,7 +170,6 @@ class ChatRoom extends React.Component {
       otherUser: firstUser,
     });
     let participants = [this.state.user.username, firstUser.username].sort();
-    console.log("participants: " + participants);
 
     await firebase
       .firestore()
@@ -177,9 +179,6 @@ class ChatRoom extends React.Component {
       .then((qs) => {
         if (!qs.empty) {
           qs.forEach((doc) => {
-            console.log("docdjkfdaksfjdsklajfdklsa: " + doc);
-            console.log(doc);
-            console.log("setting room id: " + doc.id);
             this.setState({
               roomId: doc.id,
             });

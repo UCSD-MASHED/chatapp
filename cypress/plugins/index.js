@@ -22,9 +22,9 @@ module.exports = (on, config) => {
   // `config` is the resolved Cypress config
 
   // load process.env
-  config.env = process.env
+  config.env = process.env;
 
   const extendedConfig = cypressFirebasePlugin(on, config, admin);
 
   return extendedConfig;
-}
+};

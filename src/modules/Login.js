@@ -13,19 +13,21 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
-    this.unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        var googleUser = {
-          uid: user.uid,
-          displayName: user.displayName,
-        };
-        // User is signed in
-        this.loginWithGoogleUserAndRedirect(googleUser);
-      } else {
-        // Not signed in
-        this.setState({ loading: false });
-      }
-    });
+    this.unsubscribeAuthListener = firebase
+      .auth()
+      .onAuthStateChanged((user) => {
+        if (user) {
+          var googleUser = {
+            uid: user.uid,
+            displayName: user.displayName,
+          };
+          // User is signed in
+          this.loginWithGoogleUserAndRedirect(googleUser);
+        } else {
+          // Not signed in
+          this.setState({ loading: false });
+        }
+      });
   }
 
   componentWillUnmount() {
@@ -60,7 +62,7 @@ class Login extends React.Component {
      * @param {Object} event - An Event Object
      */
     event.preventDefault();
-    console.log('click');
+    console.log("click");
     var googleProvider = new firebase.auth.GoogleAuthProvider();
     firebase
       .auth()
@@ -98,8 +100,10 @@ class Login extends React.Component {
   }
 
   render() {
-    return (
-      (this.state.loading ? <Loading /> : <div className="auth-wrapper">
+    return this.state.loading ? (
+      <Loading />
+    ) : (
+      <div className="auth-wrapper">
         <div className="auth-inner">
           <form>
             <h3>Sign In With Google</h3>
@@ -113,7 +117,7 @@ class Login extends React.Component {
         </div>
         <ToastContainer />
       </div>
-    ))
+    );
   }
 }
 

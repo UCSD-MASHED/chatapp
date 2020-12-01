@@ -53,7 +53,7 @@ test("Can log out", async () => {
   const button = screen.getByText("Log out");
   fireEvent.click(button);
   await waitFor(() => expect(history.location.pathname).toEqual("/"));
-})
+});
 
 test("Get messages and check if message is displayed on screen", async () => {
   const docData = {

@@ -27,7 +27,7 @@ jobs:
         with:
           browser: chrome
           headless: true
-          start: npm start
+          start: yarn start
           wait-on: 'http://localhost:3000'
         env:
           CYPRESS_APIKEY: "${{ secrets.FIREBASE_APIKEY_BETA }}"

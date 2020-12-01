@@ -117,6 +117,7 @@ class ChatRoom extends React.Component {
       });
     return res;
   }
+
   /**
    * Query by roomName and userName to check if the
    * user is in this chatroom.

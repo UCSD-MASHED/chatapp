@@ -9,8 +9,8 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
-      - name: Node.js install
-        run: npm install
+      - name: Install better-docs
+        run: npm install --save-dev better-docs
 
       - name: Build
         uses: andstor/jsdoc-action@v1

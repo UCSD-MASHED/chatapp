@@ -19,6 +19,5 @@ jobs:
           file_name: .env.dev
       - name: Install and start local server
         run: npm ci && npm start
-      - name: Run cypress
-        run: npm run cy:run:dev
+
 

@@ -1,5 +1,9 @@
 name: JSDoc Generation and Deployment
-on: [push, pull_request]
+"on":
+  push:
+    branches:
+      - main
+
 jobs:
   run-jsdoc:
     name: Run JSDoc

@@ -57,8 +57,7 @@ class CreateUser extends React.Component {
           this.createUser(this.state.googleUser, this.state.username)
             .then((user) => {
               if (user) {
-                // TODO: successful, go to chat
-                console.log("Go to chat");
+                // console.log("Go to chat");
                 toast.success("User is created successfully.");
                 this.props.history.push("/chatRoom", { user });
               } else {
@@ -126,7 +125,7 @@ class CreateUser extends React.Component {
       .doc(googleUser.uid)
       .set(user)
       .then(() => {
-        console.log("Create user successfully");
+        // console.log("Create user successfully");
         return user;
       })
       .catch((err) => {

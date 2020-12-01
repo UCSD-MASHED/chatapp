@@ -62,7 +62,6 @@ class Login extends React.Component {
      * @param {Object} event - An Event Object
      */
     event.preventDefault();
-    console.log("click");
     var googleProvider = new firebase.auth.GoogleAuthProvider();
     firebase
       .auth()

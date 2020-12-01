@@ -238,7 +238,7 @@ class ChatRoom extends React.Component {
             aria-label="Search"
             value={this.state.keyword}
             onChange={this.handleSearchChange}
-            style={{"margin-bottom": "20px"}}
+            style={{ "margin-bottom": "20px" }}
           />
           <div className="list-group">
             {this.state.users &&

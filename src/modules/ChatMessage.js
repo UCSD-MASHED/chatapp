@@ -3,6 +3,9 @@ import React from "react";
 //import 'firebase/auth';
 import { withRouter } from "react-router-dom";
 
+/**
+ * This is the ChatMessage Component
+ */
 class ChatMessage extends React.Component {
   constructor(props) {
     super(props);

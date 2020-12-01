@@ -5,6 +5,9 @@ import ChatMessage from "./ChatMessage";
 import User from "./User";
 import "../App.css";
 
+/**
+ * This is the ChatRoom Component
+ */
 class ChatRoom extends React.Component {
   constructor(props) {
     super(props);
@@ -76,12 +79,12 @@ class ChatRoom extends React.Component {
     });
   }
 
+  /**
+   * Get all the users excluding the current user
+   * @param {string} userName - The username of the current user
+   * @return {user[]} An array of user objects
+   */
   async getUsers(userName) {
-    /*
-     * Get all the users excluding the current user
-     * @param {string} userName - The username of the current user
-     * @return {user[]} An array of user objects
-     */
     var res = await firebase
       .firestore()
       .collection("users")
@@ -115,11 +118,11 @@ class ChatRoom extends React.Component {
     return res;
   }
 
+  /**
+   * Query by roomName and userName to check if the
+   * user is in this chatroom.
+   */
   async checkUserInRoom() {
-    /*
-     * Query by roomName and userName to check if the
-     * user is in this chatroom.
-     */
     let username = this.state.user.username;
     let roomName = this.state.roomName;
 
@@ -135,10 +138,10 @@ class ChatRoom extends React.Component {
     return res;
   }
 
+  /**
+   * Update user timestamp and append message to room of messages.
+   */
   async sendMessage() {
-    /*
-     * Update user timestamp and append message to room of messages.
-     */
     let message = this.state.message;
     let username = this.state.user.username;
     let roomName = this.state.roomName;
@@ -164,12 +167,12 @@ class ChatRoom extends React.Component {
     this.setState({ message: "" }); // set message bar text back to placeholder (empty)
   }
 
+  /**
+   * Get messages based off of roomName
+   */
   async getInitMessages() {
     console.log("inside get init messages");
     // console.log(this.state.user.username);
-    /*
-     * Get messages based off of roomName
-     */
     let roomName = this.state.roomName;
     let msgs = [];
     await firebase
@@ -188,10 +191,10 @@ class ChatRoom extends React.Component {
     this.setState({ messages: msgs });
   }
 
+  /**
+   * Listener to messages list. Periodically update messages.
+   */
   async getMessages() {
-    /*
-     * Listener to messages list. Periodically update messages.
-     */
     let roomName = this.state.roomName;
     this.dbListener = firebase
       .firestore()

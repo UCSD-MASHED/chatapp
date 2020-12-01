@@ -1,6 +1,9 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 
+/**
+ * This is the User Component
+ */
 class User extends React.Component {
   constructor(props) {
     super(props);

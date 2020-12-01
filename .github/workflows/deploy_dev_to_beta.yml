@@ -20,9 +20,8 @@ jobs:
           envkey_REACT_APP_APPID: "${{ secrets.FIREBASE_APPID_BETA }}"
           envkey_CYPRESS_TEST_UID: "${{ secrets.FIREBASE_TEST_UID_BETA }}"
           file_name: .env.dev
-      - run: npm install && npm ci && npm test && npm run build:dev
-      - name: Run Cypress
-        run: npm start && npm run cy:run:dev
+      - name: Install and build
+        run: npm ci && npm test && npm run build:dev
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"

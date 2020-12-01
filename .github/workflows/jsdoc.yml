@@ -10,10 +10,14 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install Dependencies
-        run: npm install -g jsdoc && npm install --save-dev better-docs
+        run: npm install --save-dev better-docs
 
       - name: Build
-        run: jsdoc -c jsdoc.json -d ./out --verbose
+        uses: andstor/jsdoc-action@v1.2.0
+        with:
+          source_dir: ./src
+          output_dir: ./out
+          config_file: jsdoc.json
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3

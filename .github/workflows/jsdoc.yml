@@ -13,7 +13,7 @@ jobs:
         run: npm install --save-dev jsdoc better-docs
 
       - name: Build
-        run: node jsdoc -c jsdoc.json
+        run: node jsdoc -c jsdoc.json -d ./out
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3

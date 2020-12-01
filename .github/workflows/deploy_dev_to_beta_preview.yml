@@ -1,5 +1,8 @@
 name: Deploy Dev Branch to Beta Preview
 "on": 
+  push:
+    branches:
+      - dev
   pull_request:
     branches:
       - dev

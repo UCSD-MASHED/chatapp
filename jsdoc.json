@@ -8,15 +8,9 @@
     "includePattern": ".+\\.js(doc|x)?$",
     "excludePattern": "(^|\\/|\\\\)_"
   },
-  "plugins": ["plugins/markdown", "node_modules/better-docs/component"],
-  "templates": {
-    "better-docs": {
-      "name": "TaterTalk Documentation"
-    }
-  },
+  "plugins": ["plugins/markdown"],
   "opts": {
     "destination": "out",
-    "recurse": true,
-    "template": "node_modules/better-docs"
+    "recurse": true
   }
 }

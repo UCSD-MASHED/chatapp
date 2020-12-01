@@ -1,5 +1,5 @@
 name: Cypress E2E tests
-on: [push]
+on: [push, pull_request]
 jobs:
   cypress-run:
     runs-on: ubuntu-16.04
@@ -25,6 +25,8 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
+          browser: chrome
+          headless: true
           start: npm start
           wait-on: 'http://localhost:3000'
         env:

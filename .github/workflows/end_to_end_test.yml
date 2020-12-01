@@ -18,6 +18,7 @@ jobs:
           envkey_CYPRESS_TEST_UID: "${{ secrets.FIREBASE_TEST_UID_BETA }}"
           file_name: .env.dev
       - name: Install and start local server
-        run: npm ci && npm start
-
+        run: npm ci && BROWSER=none npm start
+      - name: Run cypress
+        run: npm run cy:run:dev
 

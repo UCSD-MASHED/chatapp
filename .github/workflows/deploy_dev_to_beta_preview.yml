@@ -1,8 +1,5 @@
 name: Deploy Dev Branch to Beta Preview
 "on": 
-  push:
-    branches:
-      - jg-cypress
   pull_request:
     branches:
       - dev
@@ -23,7 +20,7 @@ jobs:
           envkey_REACT_APP_APPID: "${{ secrets.FIREBASE_APPID_BETA }}"
           envkey_CYPRESS_TEST_UID: "${{ secrets.FIREBASE_TEST_UID_BETA }}"
           file_name: .env.dev
-      - name: Install and build
+      - name: Install, test and build
         run: npm ci && npm test && npm run build:dev
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:

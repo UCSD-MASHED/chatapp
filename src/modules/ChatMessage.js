@@ -18,13 +18,6 @@ class ChatMessage extends React.Component {
     const message = this.state.message;
     const messageClass =
       this.state.messageUsername === this.state.username ? "sent" : "received";
-    console.log(
-      "chat messages: " +
-        this.state.message.message +
-        " " +
-        this.state.messageUsername
-    );
-    console.log("messageClass " + messageClass);
     return (
       <>
         <div className={`message ${messageClass}`}>

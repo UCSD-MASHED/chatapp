@@ -49,7 +49,9 @@ class ChatRoom extends React.Component {
   }
 
   componentWillUnmount() {
-    // this.dbListener();
+    if (this.unsubscribeDBListener) {
+      this.unsubscribeDBListener();
+    }
   }
 
   handleChange(event) {
@@ -165,8 +167,6 @@ class ChatRoom extends React.Component {
   }
 
   async getInitMessages() {
-    console.log("inside get init messages");
-    // console.log(this.state.user.username);
     /*
      * Get messages based off of roomName
      */
@@ -193,18 +193,19 @@ class ChatRoom extends React.Component {
      * Listener to messages list. Periodically update messages.
      */
     let roomName = this.state.roomName;
-    this.dbListener = firebase
+    this.unsubscribeDBListener = firebase
       .firestore()
       .collection("rooms")
       .doc(roomName)
       .collection("messages")
       .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) => {
-        this.state.messages = [];
+        var messages = [];
         snapshot.forEach((doc) => {
-          this.state.messages.push(doc.data());
+          messages.push(doc.data());
           this.scrollToBottom();
         });
+        this.setState({ messages: messages });
       });
   }
 
@@ -214,8 +215,16 @@ class ChatRoom extends React.Component {
     }
   }
 
+  logout() {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        this.props.history.replace("/");
+      });
+  }
+
   render() {
-    console.log(this.state.users);
     return (
       <div className="main">
         <div className="user-list-wrapper">
@@ -234,6 +243,14 @@ class ChatRoom extends React.Component {
           </div>
         </div>
         <div className="chat-wrapper">
+          <button
+            type="button"
+            style={{ float: "right" }}
+            className="btn btn-warning btn-sm share-btn"
+            onClick={() => this.logout()}
+          >
+            Log out
+          </button>
           <h3>Chat Room</h3>
           <div className="chat-messages">
             {this.state.messages &&

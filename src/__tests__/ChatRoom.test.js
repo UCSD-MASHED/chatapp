@@ -26,10 +26,34 @@ beforeEach(() => {
     doc: jest.fn().mockReturnThis(),
     orderBy: jest.fn().mockReturnThis(),
     get: null,
-    onSnapshot: jest.fn().mockReturnThis(),
+    onSnapshot: jest.fn(),
     where: jest.fn().mockReturnThis(),
   };
 });
+
+test("Can log out", async () => {
+  firebase.auth().signOut = jest
+    .fn()
+    .mockImplementation(() => Promise.resolve({}));
+  const docData = {
+    message: "MOCK_MESSAGE",
+    timestamp: 0,
+    username: "test_user",
+  };
+  const docResult = {
+    data: () => docData,
+  };
+  firestoreMock.get = jest.fn(() => Promise.resolve([docResult]));
+  jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
+  render(
+    <Router history={history}>
+      <ChatRoom />
+    </Router>
+  );
+  const button = screen.getByText("Log out");
+  fireEvent.click(button);
+  await waitFor(() => expect(history.location.pathname).toEqual("/"));
+})
 
 test("Get messages and check if message is displayed on screen", async () => {
   const docData = {

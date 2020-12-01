@@ -18,6 +18,7 @@ jobs:
           envkey_REACT_APP_STORAGEBUCKET: "${{ secrets.FIREBASE_STORAGEBUCKET }}"
           envkey_REACT_APP_MESSAGINGSENDERID: "${{ secrets.FIREBASE_MESSAGINGSENDERID }}"
           envkey_REACT_APP_APPID: "${{ secrets.FIREBASE_APPID }}"
+          envkey_CYPRESS_TEST_UID: "${{ secrets.FIREBASE_TEST_UID }}"
           file_name: .env.main
       - run: npm install && npm ci && npm test && npm run build:main
       - uses: FirebaseExtended/action-hosting-deploy@v0

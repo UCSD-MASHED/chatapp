@@ -17,8 +17,11 @@ jobs:
           envkey_REACT_APP_MESSAGINGSENDERID: "${{ secrets.FIREBASE_MESSAGINGSENDERID_BETA }}"
           envkey_REACT_APP_APPID: "${{ secrets.FIREBASE_APPID_BETA }}"
           file_name: .env.dev
-      - name: 
-        run: echo ${{ secrets.FIREBASE_SERVICE_JSON }} > serviceAccount.json
+      - name: Create JSON config
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: "serviceAccount.json"
+          json: ${{ secrets.FIREBASE_SERVICE_JSON }}
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:

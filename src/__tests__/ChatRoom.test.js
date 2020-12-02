@@ -41,7 +41,7 @@ test("Cannot enter ChatRoom", async () => {
   );
   // should redirect to login page
   await waitFor(() => expect(history.location.pathname).toEqual("/"));
-})
+});
 
 test("Can log out", async () => {
   firebase.auth().signOut = jest

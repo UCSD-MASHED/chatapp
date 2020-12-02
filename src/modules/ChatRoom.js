@@ -3,7 +3,6 @@ import firebase from "firebase/app";
 import { withRouter } from "react-router-dom";
 import ChatMessage from "./ChatMessage";
 import User from "./User";
-import "../App.css";
 
 /**
  * This is the ChatRoom Component
@@ -52,7 +51,9 @@ class ChatRoom extends React.Component {
   }
 
   componentWillUnmount() {
-    // this.dbListener();
+    if (this.unsubscribeDBListener) {
+      this.unsubscribeDBListener();
+    }
   }
 
   handleChange(event) {
@@ -171,8 +172,6 @@ class ChatRoom extends React.Component {
    * Get messages based off of roomName
    */
   async getInitMessages() {
-    console.log("inside get init messages");
-    // console.log(this.state.user.username);
     let roomName = this.state.roomName;
     let msgs = [];
     await firebase
@@ -196,18 +195,19 @@ class ChatRoom extends React.Component {
    */
   async getMessages() {
     let roomName = this.state.roomName;
-    this.dbListener = firebase
+    this.unsubscribeDBListener = firebase
       .firestore()
       .collection("rooms")
       .doc(roomName)
       .collection("messages")
       .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) => {
-        this.state.messages = [];
+        var messages = [];
         snapshot.forEach((doc) => {
-          this.state.messages.push(doc.data());
+          messages.push(doc.data());
           this.scrollToBottom();
         });
+        this.setState({ messages: messages });
       });
   }
 
@@ -217,8 +217,16 @@ class ChatRoom extends React.Component {
     }
   }
 
+  logout() {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        this.props.history.replace("/");
+      });
+  }
+
   render() {
-    console.log(this.state.users);
     return (
       <div className="main">
         <div className="user-list-wrapper">
@@ -230,6 +238,7 @@ class ChatRoom extends React.Component {
             aria-label="Search"
             value={this.state.keyword}
             onChange={this.handleSearchChange}
+            style={{ "margin-bottom": "1rem" }}
           />
           <div className="list-group">
             {this.state.users &&
@@ -237,6 +246,14 @@ class ChatRoom extends React.Component {
           </div>
         </div>
         <div className="chat-wrapper">
+          <button
+            type="button"
+            style={{ float: "right" }}
+            className="btn btn-warning btn-sm share-btn"
+            onClick={() => this.logout()}
+          >
+            Log out
+          </button>
           <h3>Chat Room</h3>
           <div className="chat-messages">
             {this.state.messages &&

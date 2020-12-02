@@ -23,14 +23,19 @@
     "build": "react-scripts build",
     "test": "env-cmd -f .env.dev react-scripts test --runInBand --detectOpenHandles --watchAll=false",
     "eject": "react-scripts eject",
-    "build:dev": "env-cmd -f .env.dev npm run build",
-    "build:main": "env-cmd -f .env.main npm run build"
+    "build:dev": "env-cmd -f .env.dev yarn run build",
+    "build:main": "env-cmd -f .env.main yarn run build",
+    "cy:run": "yarn run cy:run:dev",
+    "cy:run:dev": "env-cmd -f .env.dev cypress run --browser chrome --headless",
+    "cy:run:main": "env-cmd -f .env.main cypress run --browser chrome --headless",
+    "cy:open": "env-cmd -f .env.dev cypress open"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest",
-      "eslint:recommended"
+      "eslint:recommended",
+      "plugin:cypress/recommended"
     ]
   },
   "browserslist": {
@@ -48,6 +53,10 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
+    "cypress": "^6.0.1",
+    "cypress-firebase": "^1.5.0",
+    "eslint-plugin-cypress": "^2.11.2",
+    "firebase-admin": "^9.4.1",
     "better-docs": "^2.3.2",
     "jsdoc": "^3.6.6",
     "prettier": "^2.1.2"

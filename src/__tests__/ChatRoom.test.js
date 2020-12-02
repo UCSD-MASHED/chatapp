@@ -31,6 +31,18 @@ beforeEach(() => {
   };
 });
 
+test("Cannot enter ChatRoom", async () => {
+  history = createMemoryHistory();
+  history.push("/chatRoom");
+  render(
+    <Router history={history}>
+      <ChatRoom />
+    </Router>
+  );
+  // should redirect to login page
+  await waitFor(() => expect(history.location.pathname).toEqual("/"));
+});
+
 test("Can log out", async () => {
   firebase.auth().signOut = jest
     .fn()

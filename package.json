@@ -18,6 +18,15 @@
     "typescript": "^4.0.5",
     "web-vitals": "^0.2.4"
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/modules/*.{js,jsx,ts,tsx}"
+    ],
+    "coverageReporters": [
+      "html",
+      "text"
+    ]
+  },
   "scripts": {
     "start": "env-cmd -f .env.dev react-scripts start",
     "build": "react-scripts build",

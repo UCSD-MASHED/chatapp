@@ -20,7 +20,7 @@ beforeEach(() => {
   history = createMemoryHistory();
   history.push("/chatRoom", { user: user });
 
-  window.HTMLElement.prototype.scrollIntoView = function () { };
+  window.HTMLElement.prototype.scrollIntoView = function () {};
   firestoreMock = {
     collection: jest.fn().mockReturnThis(),
     doc: jest.fn().mockReturnThis(),
@@ -36,13 +36,13 @@ test("Get messages and check if message is displayed on screen", async () => {
   console.log("Starting test: Get message");
 
   const testRoomId = "test_room_id";
-  user.roomIds = [testRoomId]
+  user.roomIds = [testRoomId];
   const roomDocResult = {
-    id: testRoomId
-  }
+    id: testRoomId,
+  };
 
   const userDocResult = {
-    data: () => user
+    data: () => user,
   };
 
   const otherUserDocData = {
@@ -52,7 +52,7 @@ test("Get messages and check if message is displayed on screen", async () => {
     username: "other_test_user",
   };
   const otherUserDocResult = {
-    data: () => otherUserDocData
+    data: () => otherUserDocData,
   };
 
   const testMessage = "MOCK_MESSAGE";
@@ -62,7 +62,7 @@ test("Get messages and check if message is displayed on screen", async () => {
     username: user.username,
   };
   const messageDocResult = {
-    data: () => messageDocData
+    data: () => messageDocData,
   };
 
   firestoreMock.get = jest
@@ -90,10 +90,10 @@ test("Get messages and check if message is displayed on screen", async () => {
   const message = screen.getByText(testMessage);
   expect(message).toBeInTheDocument();
 
-  user.roomIds = [] // set back to empty for other tests
+  user.roomIds = []; // set back to empty for other tests
 });
 
-test("Send message and check if message is populated into the database", async () => { });
+test("Send message and check if message is populated into the database", async () => {});
 
 test("Render user list", async () => {
   console.log("Starting test: Render user list");
@@ -199,7 +199,7 @@ test("Switch rooms", async () => {
   const roomIdForUsers1And3 = "test_room_id_users_1_and_3";
   const roomIdForUsers2And3 = "test_room_id_users_2_and_3";
 
-  user.roomIds = [roomIdForUsers1And2, roomIdForUsers1And3]
+  user.roomIds = [roomIdForUsers1And2, roomIdForUsers1And3];
 
   const user2DocData = {
     displayName: "Test user 2",
@@ -208,7 +208,7 @@ test("Switch rooms", async () => {
     username: "test_user_2",
   };
   const user2DocResult = {
-    data: () => user2DocData
+    data: () => user2DocData,
   };
 
   const user3DocData = {
@@ -218,7 +218,7 @@ test("Switch rooms", async () => {
     username: "test_user_3",
   };
   const user3DocResult = {
-    data: () => user3DocData
+    data: () => user3DocData,
   };
 
   const message1DocData = {
@@ -227,7 +227,7 @@ test("Switch rooms", async () => {
     username: user.username,
   };
   const message1DocResult = {
-    data: () => message1DocData
+    data: () => message1DocData,
   };
 
   const message2DocData = {
@@ -236,18 +236,18 @@ test("Switch rooms", async () => {
     username: user.username,
   };
   const message2DocResult = {
-    data: () => message2DocData
+    data: () => message2DocData,
   };
 
   const room1DocResult = {
     id: user.roomIds[0],
-    messages: [message1DocResult]
-  }
+    messages: [message1DocResult],
+  };
 
   const room2DocResult = {
     id: user.roomIds[1],
-    messages: [message2DocResult]
-  }
+    messages: [message2DocResult],
+  };
 
   firestoreMock.get = jest
     .fn()
@@ -258,7 +258,7 @@ test("Switch rooms", async () => {
     .mockResolvedValueOnce([room1DocResult])
     // third call in getInitMessages, where there is only one message and it's
     // message1, by the current user
-    .mockResolvedValueOnce(room1DocResult.messages)
+    .mockResolvedValueOnce(room1DocResult.messages);
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
 
   render(
@@ -276,7 +276,7 @@ test("Switch rooms", async () => {
   // get all users
   await waitFor(() => screen.getByText(user2DocData.displayName));
   await waitFor(() => screen.getByText(user3DocData.displayName));
-  expect(screen.queryByText(user.displayName)).toBeNull()
+  expect(screen.queryByText(user.displayName)).toBeNull();
 
   await waitFor(() => screen.getByText(message1));
 
@@ -288,7 +288,7 @@ test("Switch rooms", async () => {
     .mockResolvedValueOnce([room2DocResult])
     // second call in getInitMessages, where there is only one message and it's
     // message2, by the current user
-    .mockResolvedValueOnce(room2DocResult.messages)
+    .mockResolvedValueOnce(room2DocResult.messages);
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
 
   const user3Button = screen.getByText(user3DocData.displayName);
@@ -297,5 +297,5 @@ test("Switch rooms", async () => {
   await waitFor(() => expect(screen.queryByText(message1)).toBeNull());
   await waitFor(() => screen.getByText(message2));
 
-  user.roomIds = [] // set back to empty for other tests
+  user.roomIds = []; // set back to empty for other tests
 });

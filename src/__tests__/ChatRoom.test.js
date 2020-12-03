@@ -201,10 +201,6 @@ test("Switch rooms", async () => {
 
   user.roomIds = [roomIdForUsers1And2, roomIdForUsers1And3]
 
-  const userDocResult = {
-    data: () => user
-  };
-
   const user2DocData = {
     displayName: "Test user 2",
     online: true,

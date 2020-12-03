@@ -4,7 +4,6 @@ import { withRouter } from "react-router-dom";
 import ChatMessage from "./ChatMessage";
 import User from "./User";
 
-
 class ChatRoom extends React.Component {
   constructor(props) {
     super(props);

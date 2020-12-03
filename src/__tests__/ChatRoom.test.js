@@ -333,6 +333,4 @@ test("Switch rooms", async () => {
   await waitFor(() => expect(firestoreMock.get).toBeCalledTimes(2));
   await waitFor(() => expect(screen.queryByText(message1)).toBeNull());
   await waitFor(() => screen.getByText(message2));
-
-  user.roomIds = []; // set back to empty for other tests
 });

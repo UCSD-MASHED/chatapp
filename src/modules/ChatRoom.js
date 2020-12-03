@@ -88,7 +88,7 @@ class ChatRoom extends React.Component {
   }
 
   async getUsers(userName) {
-    /*
+    /** 
      * Get all the users excluding the current user
      * @param {string} userName - The username of the current user
      * @return {user[]} An array of user objects
@@ -127,7 +127,7 @@ class ChatRoom extends React.Component {
   }
 
   async checkUserInRoom() {
-    /*
+    /** 
      * Get all the users excluding the current user
      * @param {string} username - username of the current user
      * @param {string} roomId - id of the chat room
@@ -152,10 +152,10 @@ class ChatRoom extends React.Component {
   }
 
   async getFirstRoom() {
-    /*
+    /**
      * On chat room load, open the chat log for the first user in the list
      * if there exists a chat between the first user and the current user
-     * @param {string} firstUser - username of the first user in the list
+     * @param {string} firstUser - username of the first user in the list of other users
      * @param {string} username - username of the current user
      */
     if (this.state.users.empty) {
@@ -184,7 +184,7 @@ class ChatRoom extends React.Component {
   }
 
   async sendMessage() {
-    /*
+    /** 
      * Update user timestamp and append message to room of messages.
      * @param {string} message - message to be sent
      * @param {string} roomId - id of the chat room
@@ -224,7 +224,7 @@ class ChatRoom extends React.Component {
 
   async getInitMessages() {
     console.log("inside get init messages");
-    /*
+    /** 
      * Fetch the messages of the chat room
      * @param {string} roomId - id of the chat room
      * @return {string[]} messages - list of strings of messages found
@@ -251,7 +251,7 @@ class ChatRoom extends React.Component {
   }
 
   async getMessages() {
-    /*
+    /**
      * Create a listener for a chat room to fetch messages upon updates to
      * the database
      * @param {string} roomId - id of the chat room
@@ -276,7 +276,7 @@ class ChatRoom extends React.Component {
   }
 
   scrollToBottom() {
-    /*
+    /** 
      * Helper function to scroll to the bottom of the chat room
      */
     if (this.dummy.current) {

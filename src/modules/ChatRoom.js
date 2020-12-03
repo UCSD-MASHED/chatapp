@@ -111,7 +111,7 @@ class ChatRoom extends React.Component {
 
   /**
    * Returns list of users whose username has a longest prefix
-   * match of the input keyword 
+   * match of the input keyword
    * @param {string} username - username of the current user
    * @param {string} keyword - prefix of username to search for
    * @return {user[]} list of users whose username matches keyword

@@ -22,7 +22,7 @@ beforeEach(() => {
   history = createMemoryHistory();
   history.push("/chatRoom", { user: user });
 
-  window.HTMLElement.prototype.scrollIntoView = function () { };
+  window.HTMLElement.prototype.scrollIntoView = function () {};
   firestoreMock = {
     collection: jest.fn().mockReturnThis(),
     doc: jest.fn().mockReturnThis(),
@@ -129,7 +129,7 @@ test("Get messages and check if message is displayed on screen", async () => {
   expect(message).toBeInTheDocument();
 });
 
-test("Send message and check if message is populated into the database", async () => { });
+test("Send message and check if message is populated into the database", async () => {});
 
 test("Render user list", async () => {
   // console.log("Starting test: Render user list");

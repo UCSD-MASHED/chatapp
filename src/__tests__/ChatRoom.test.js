@@ -17,6 +17,8 @@ let firestoreMock;
 let history;
 
 beforeEach(() => {
+  user.roomIds = [];
+
   history = createMemoryHistory();
   history.push("/chatRoom", { user: user });
 
@@ -69,7 +71,7 @@ test("Can log out", async () => {
 });
 
 test("Get messages and check if message is displayed on screen", async () => {
-  console.log("Starting test: Get message");
+  // console.log("Starting test: Get message");
 
   const testRoomId = "test_room_id";
   user.roomIds = [testRoomId];
@@ -125,14 +127,12 @@ test("Get messages and check if message is displayed on screen", async () => {
 
   const message = screen.getByText(testMessage);
   expect(message).toBeInTheDocument();
-
-  user.roomIds = []; // set back to empty for other tests
 });
 
 test("Send message and check if message is populated into the database", async () => { });
 
 test("Render user list", async () => {
-  console.log("Starting test: Render user list");
+  // console.log("Starting test: Render user list");
 
   const docData1 = {
     displayName: "Test user1",
@@ -175,7 +175,7 @@ test("Render user list", async () => {
 });
 
 test("Search user", async () => {
-  console.log("Starting test: Search user");
+  // console.log("Starting test: Search user");
 
   const docData1 = {
     displayName: "Test user1",
@@ -227,7 +227,8 @@ test("Search user", async () => {
 });
 
 test("Switch rooms", async () => {
-  console.log("Starting test: Switching Rooms");
+  // console.log("Starting test: Switching Rooms");
+
   const message1 = "MOCK_MESSAGE_1";
   const message2 = "MOCK_MESSAGE_2";
 

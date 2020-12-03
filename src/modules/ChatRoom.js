@@ -4,7 +4,9 @@ import { withRouter } from "react-router-dom";
 import ChatMessage from "./ChatMessage";
 import User from "./User";
 
-
+/**
+ * This is the ChatRoom Component
+ */
 class ChatRoom extends React.Component {
   constructor(props) {
     super(props);
@@ -35,7 +37,6 @@ class ChatRoom extends React.Component {
       await this.getUsers(this.state.user.username).then((users) => {
         this.setState({ users: users });
       });
-      console.log(this.state.users);
       await this.getFirstRoom();
 
       this.getInitMessages().then(() => {
@@ -87,12 +88,12 @@ class ChatRoom extends React.Component {
     });
   }
 
+  /**
+   * Get all the users excluding the current user
+   * @param {string} userName - The username of the current user
+   * @return {user[]} list of all users
+   */
   async getUsers(userName) {
-    /**
-     * Get all the users excluding the current user
-     * @param {string} userName - The username of the current user
-     * @return {user[]} An array of user objects
-     */
     var res = await firebase
       .firestore()
       .collection("users")
@@ -108,11 +109,18 @@ class ChatRoom extends React.Component {
     return res;
   }
 
-  async searchPrefix(keyword, userName) {
+  /**
+   * Returns list of users whose username has a longest prefix
+   * match of the input keyword 
+   * @param {string} username - username of the current user
+   * @param {string} keyword - prefix of username to search for
+   * @return {user[]} list of users whose username matches keyword
+   */
+  async searchPrefix(keyword, username) {
     var res = await firebase
       .firestore()
       .collection("users")
-      .where("username", "!=", userName)
+      .where("username", "!=", username)
       .where("username", ">=", keyword)
       .where("username", "<=", keyword + "\uf8ff")
       .get()
@@ -126,13 +134,13 @@ class ChatRoom extends React.Component {
     return res;
   }
 
+  /**
+   * Return whether or not the current user is in the current room
+   * @param {string} username - username of the current user
+   * @param {string} roomId - id of the chat room
+   * @return {boolean} true or false if the user is in the chat room
+   */
   async checkUserInRoom() {
-    /**
-     * Return whether or not the current user is in the current room
-     * @param {string} username - username of the current user
-     * @param {string} roomId - id of the chat room
-     * @return {boolean} true or false if the user is in the chat room
-     */
     let username = this.state.user.username;
     let roomId = this.state.roomId;
 
@@ -151,13 +159,13 @@ class ChatRoom extends React.Component {
       });
   }
 
+  /**
+   * On chat room load, open the chat log for the first user in the list
+   * if there exists a chat between the first user and the current user
+   * @param {string} firstUser - username of the first user in the list of other users
+   * @param {string} username - username of the current user
+   */
   async getFirstRoom() {
-    /**
-     * On chat room load, open the chat log for the first user in the list
-     * if there exists a chat between the first user and the current user
-     * @param {string} firstUser - username of the first user in the list of other users
-     * @param {string} username - username of the current user
-     */
     if (this.state.users.empty) {
       return;
     }
@@ -171,7 +179,6 @@ class ChatRoom extends React.Component {
       .firestore()
       .collection("rooms")
       .where("participants", "==", participants)
-      .limit(1)
       .get()
       .then((qs) => {
         if (!qs.empty) {
@@ -184,13 +191,13 @@ class ChatRoom extends React.Component {
       });
   }
 
+  /**
+   * Update user timestamp and append message to room of messages.
+   * @param {string} message - message to be sent
+   * @param {string} roomId - id of the chat room
+   * @param {string} username - username of the current user
+   */
   async sendMessage() {
-    /**
-     * Update user timestamp and append message to room of messages.
-     * @param {string} message - message to be sent
-     * @param {string} roomId - id of the chat room
-     * @param {string} username - username of the current user
-     */
     let message = this.state.message;
     let username = this.state.user.username;
     let roomId = this.state.roomId;
@@ -223,18 +230,16 @@ class ChatRoom extends React.Component {
     this.setState({ message: "" }); // set message bar text back to placeholder (empty)
   }
 
+  /**
+   * Fetch the messages of the chat room
+   * @param {string} roomId - id of the chat room
+   * @return {string[]} messages - list of strings of messages found
+   */
   async getInitMessages() {
-    console.log("inside get init messages");
-    /**
-     * Fetch the messages of the chat room
-     * @param {string} roomId - id of the chat room
-     * @return {string[]} messages - list of strings of messages found
-     */
     let roomId = this.state.roomId;
     if (!roomId) {
       return;
     }
-    console.log("roomId: " + roomId);
     let msgs = [];
     await firebase
       .firestore()
@@ -251,12 +256,12 @@ class ChatRoom extends React.Component {
     this.setState({ messages: msgs });
   }
 
+  /**
+   * Create a listener for a chat room to fetch messages upon updates to
+   * the database
+   * @param {string} roomId - id of the chat room
+   */
   async getMessages() {
-    /**
-     * Create a listener for a chat room to fetch messages upon updates to
-     * the database
-     * @param {string} roomId - id of the chat room
-     */
     let roomId = this.state.roomId;
     if (!roomId) {
       return;
@@ -277,15 +282,18 @@ class ChatRoom extends React.Component {
       });
   }
 
+  /**
+   * Helper function to scroll to the bottom of the chat room
+   */
   scrollToBottom() {
-    /**
-     * Helper function to scroll to the bottom of the chat room
-     */
     if (this.dummy.current) {
       this.dummy.current.scrollIntoView();
     }
   }
 
+  /**
+   * Logs current user out and returns to landing page
+   */
   logout() {
     firebase
       .auth()

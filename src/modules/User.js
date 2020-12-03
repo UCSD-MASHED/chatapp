@@ -11,17 +11,16 @@ class User extends React.Component {
     this.startPrivateChat = this.startPrivateChat.bind(this);
   }
 
+  /**
+   * Given a list of participants, check to see if this chatRoom already exists.
+   * @param {string[]} participants - list of usernames for users in the room
+   * @return {string} roomId - id of the chat room if found, otherwise empty string
+   */
   async checkChatRoomExists(participants) {
-    /**
-     * Given a list of participants, check to see if this chatRoom already exists.
-     * @param {string[]} participants - list of usernames for users in the room
-     * @return {string} roomId - id of the chat room if found, otherwise empty string
-     */
     let res = await firebase
       .firestore()
       .collection("rooms")
       .where("participants", "==", participants)
-      .limit(1)
       .get()
       .then((qs) => {
         if (!qs.empty) {
@@ -37,17 +36,16 @@ class User extends React.Component {
     return res;
   }
 
+  /**
+   * Set the roomId to the lists of each user in this room
+   * @param {string} roomId - id of the chat room
+   * @param {string[]} participants - list of usernames for users in the room
+   */
   async setRoomId(participants, roomId) {
-    /**
-     * Set the roomId to the lists of each user in this room
-     * @param {string} roomId - id of the chat room
-     * @param {string[]} participants - list of usernames for users in the room
-     */
     var res = await firebase
       .firestore()
       .collection("users")
       .where("username", "in", participants)
-      .limit(1)
       .get()
       .then(function (qs) {
         qs.forEach(function (doc) {
@@ -63,18 +61,16 @@ class User extends React.Component {
     return res;
   }
 
+  /**
+   * Find and open a chat room containing the list of participants
+   * given. If no chat room exists, create a new chat room with these
+   * participants. Will call the parent handler to switch to the found
+   * chat room.
+   * @param {string[]} participants - list of usernames for users in the room
+   */
   async openChatRoom(participants) {
-    /**
-     * Find and open a chat room containing the list of participants
-     * given. If no chat room exists, create a new chat room with these
-     * participants. Will call the parent handler to switch to the found
-     * chat room.
-     * @param {string[]} participants - list of usernames for users in the room
-     */
     let chatRoomId = await this.checkChatRoomExists(participants);
-    console.log("chat room name: " + chatRoomId);
     if (!chatRoomId) {
-      console.log("Creating new chat room!");
       // create a new chat room
       let roomId = await firebase
         .firestore()
@@ -89,13 +85,12 @@ class User extends React.Component {
     this.props.handler(chatRoomId, this.user);
   }
 
+  /**
+   * Open a chat room given a list of participants
+   * @param {string[]} user - username of the target user
+   * @param {string[]} myUser - username of the current user
+   */
   startPrivateChat() {
-    /**
-     * Open a chat room given a list of participants
-     * @param {string[]} user - username of the target user
-     * @param {string[]} myUser - username of the current user
-     */
-    console.log("starting private chat");
     let participants = [
       this.props.myUser.username,
       this.props.user.username,

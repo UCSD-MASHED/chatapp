@@ -2,6 +2,9 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import firebase from "firebase/app";
 
+/**
+ * This is the User Component
+ */
 class User extends React.Component {
   constructor(props) {
     super(props);
@@ -18,6 +21,7 @@ class User extends React.Component {
       .firestore()
       .collection("rooms")
       .where("participants", "==", participants)
+      .limit(1)
       .get()
       .then((qs) => {
         if (!qs.empty) {
@@ -43,6 +47,7 @@ class User extends React.Component {
       .firestore()
       .collection("users")
       .where("username", "in", participants)
+      .limit(1)
       .get()
       .then(function (qs) {
         qs.forEach(function (doc) {

@@ -3,7 +3,7 @@ import firebase from "firebase/app";
 import { withRouter } from "react-router-dom";
 import ChatMessage from "./ChatMessage";
 import User from "./User";
-import "../App.css";
+
 
 class ChatRoom extends React.Component {
   constructor(props) {
@@ -128,7 +128,7 @@ class ChatRoom extends React.Component {
 
   async checkUserInRoom() {
     /**
-     * Get all the users excluding the current user
+     * Return whether or not the current user is in the current room
      * @param {string} username - username of the current user
      * @param {string} roomId - id of the chat room
      * @return {boolean} true or false if the user is in the chat room
@@ -171,6 +171,7 @@ class ChatRoom extends React.Component {
       .firestore()
       .collection("rooms")
       .where("participants", "==", participants)
+      .limit(1)
       .get()
       .then((qs) => {
         if (!qs.empty) {
@@ -267,11 +268,12 @@ class ChatRoom extends React.Component {
       .collection("messages")
       .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) => {
-        this.state.messages = [];
+        var messages = [];
         snapshot.forEach((doc) => {
-          this.state.messages.push(doc.data());
+          messages.push(doc.data());
           this.scrollToBottom();
         });
+        this.setState({ messages: messages });
       });
   }
 
@@ -282,6 +284,15 @@ class ChatRoom extends React.Component {
     if (this.dummy.current) {
       this.dummy.current.scrollIntoView();
     }
+  }
+
+  logout() {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        this.props.history.replace("/");
+      });
   }
 
   render() {
@@ -296,6 +307,7 @@ class ChatRoom extends React.Component {
             aria-label="Search"
             value={this.state.keyword}
             onChange={this.handleSearchChange}
+            style={{ marginBottom: "1rem" }}
           />
           <div className="list-group">
             {this.state.users &&
@@ -310,7 +322,15 @@ class ChatRoom extends React.Component {
           </div>
         </div>
         <div className="chat-wrapper">
-          <h3> Chat Room </h3>
+          <button
+            type="button"
+            style={{ float: "right" }}
+            className="btn btn-warning btn-sm share-btn"
+            onClick={() => this.logout()}
+          >
+            Log out
+          </button>
+          <h3>Chat Room</h3>
           <div className="chat-messages">
             {this.state.messages &&
               this.state.messages

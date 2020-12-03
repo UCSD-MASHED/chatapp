@@ -20,7 +20,7 @@ beforeEach(() => {
   history = createMemoryHistory();
   history.push("/chatRoom", { user: user });
 
-  window.HTMLElement.prototype.scrollIntoView = function () {};
+  window.HTMLElement.prototype.scrollIntoView = function () { };
   firestoreMock = {
     collection: jest.fn().mockReturnThis(),
     doc: jest.fn().mockReturnThis(),
@@ -30,6 +30,42 @@ beforeEach(() => {
     add: jest.fn().mockReturnThis(),
     where: jest.fn().mockReturnThis(),
   };
+});
+
+test("Cannot enter ChatRoom", async () => {
+  history = createMemoryHistory();
+  history.push("/chatRoom");
+  render(
+    <Router history={history}>
+      <ChatRoom />
+    </Router>
+  );
+  // should redirect to login page
+  await waitFor(() => expect(history.location.pathname).toEqual("/"));
+});
+
+test("Can log out", async () => {
+  firebase.auth().signOut = jest
+    .fn()
+    .mockImplementation(() => Promise.resolve({}));
+  const docData = {
+    message: "MOCK_MESSAGE",
+    timestamp: 0,
+    username: "test_user",
+  };
+  const docResult = {
+    data: () => docData,
+  };
+  firestoreMock.get = jest.fn(() => Promise.resolve([docResult]));
+  jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
+  render(
+    <Router history={history}>
+      <ChatRoom />
+    </Router>
+  );
+  const button = screen.getByText("Log out");
+  fireEvent.click(button);
+  await waitFor(() => expect(history.location.pathname).toEqual("/"));
 });
 
 test("Get messages and check if message is displayed on screen", async () => {
@@ -93,7 +129,7 @@ test("Get messages and check if message is displayed on screen", async () => {
   user.roomIds = []; // set back to empty for other tests
 });
 
-test("Send message and check if message is populated into the database", async () => {});
+test("Send message and check if message is populated into the database", async () => { });
 
 test("Render user list", async () => {
   console.log("Starting test: Render user list");

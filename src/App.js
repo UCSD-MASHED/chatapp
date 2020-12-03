@@ -10,6 +10,7 @@ import CreateUser from "./modules/CreateUser.js";
 import ChatRoom from "./modules/ChatRoom.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./firebase.js";
+import "./App.css";
 
 function App() {
   return (

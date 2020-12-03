@@ -18,41 +18,34 @@ class ChatRoom extends React.Component {
 
     this.state = {
       message: "",
-      roomName: "test_room",
       messages: [],
       user: user,
       users: [],
       keyword: "",
     };
     this.dummy = createRef();
-    this.initMessages = false;
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.handleChangeRoom = this.handleChangeRoom.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     if (!this.state.user) {
       this.props.history.replace("/");
     } else {
-      if (!this.initMessages) {
-        this.getInitMessages().then(() => {
-          this.scrollToBottom();
-        });
-        this.initMessages = true;
-      }
+      await this.getUsers(this.state.user.username).then((users) => {
+        this.setState({ users: users });
+      });
+      await this.getFirstRoom();
+
+      this.getInitMessages().then(() => {
+        this.scrollToBottom();
+      });
+
       this.getMessages().then(() => {
         this.scrollToBottom();
       });
-      this.getUsers(this.state.user.username).then((users) => {
-        this.setState({ users: users });
-      });
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.unsubscribeDBListener) {
-      this.unsubscribeDBListener();
     }
   }
 
@@ -80,10 +73,25 @@ class ChatRoom extends React.Component {
     });
   }
 
+  handleChangeRoom(roomId, otherUser) {
+    this.setState({
+      otherUser: otherUser,
+      roomId: roomId,
+      messages: [],
+    });
+    this.getInitMessages().then(() => {
+      this.scrollToBottom();
+    });
+
+    this.getMessages().then(() => {
+      this.scrollToBottom();
+    });
+  }
+
   /**
    * Get all the users excluding the current user
    * @param {string} userName - The username of the current user
-   * @return {user[]} An array of user objects
+   * @return {user[]} list of all users
    */
   async getUsers(userName) {
     var res = await firebase
@@ -101,11 +109,18 @@ class ChatRoom extends React.Component {
     return res;
   }
 
-  async searchPrefix(keyword, userName) {
+  /**
+   * Returns list of users whose username has a longest prefix
+   * match of the input keyword
+   * @param {string} username - username of the current user
+   * @param {string} keyword - prefix of username to search for
+   * @return {user[]} list of users whose username matches keyword
+   */
+  async searchPrefix(keyword, username) {
     var res = await firebase
       .firestore()
       .collection("users")
-      .where("username", "!=", userName)
+      .where("username", "!=", username)
       .where("username", ">=", keyword)
       .where("username", "<=", keyword + "\uf8ff")
       .get()
@@ -120,48 +135,95 @@ class ChatRoom extends React.Component {
   }
 
   /**
-   * Query by roomName and userName to check if the
-   * user is in this chatroom.
+   * Return whether or not the current user is in the current room
+   * @param {string} username - username of the current user
+   * @param {string} roomId - id of the chat room
+   * @return {boolean} true or false if the user is in the chat room
    */
   async checkUserInRoom() {
     let username = this.state.user.username;
-    let roomName = this.state.roomName;
+    let roomId = this.state.roomId;
 
-    var res = await firebase
+    if (!roomId) {
+      return false;
+    }
+
+    await firebase
       .firestore()
-      .collection("rooms")
-      .where("roomName", "==", roomName)
-      .where("participants", "array-contains", username)
+      .collection("users")
+      .where("username", "==", username)
+      .where("roomIds", "array-contains", roomId)
       .get()
       .then((qs) => {
         return !qs.empty;
       });
-    return res;
+  }
+
+  /**
+   * On chat room load, open the chat log for the first user in the list
+   * if there exists a chat between the first user and the current user
+   * @param {string} firstUser - username of the first user in the list of other users
+   * @param {string} username - username of the current user
+   */
+  async getFirstRoom() {
+    if (this.state.users.empty) {
+      return;
+    }
+    let firstUser = this.state.users[0];
+    this.setState({
+      otherUser: firstUser,
+    });
+    let participants = [this.state.user.username, firstUser.username].sort();
+
+    await firebase
+      .firestore()
+      .collection("rooms")
+      .where("participants", "==", participants)
+      .get()
+      .then((qs) => {
+        if (!qs.empty) {
+          qs.forEach((doc) => {
+            this.setState({
+              roomId: doc.id,
+            });
+          });
+        }
+      });
   }
 
   /**
    * Update user timestamp and append message to room of messages.
+   * @param {string} message - message to be sent
+   * @param {string} roomId - id of the chat room
+   * @param {string} username - username of the current user
    */
   async sendMessage() {
     let message = this.state.message;
     let username = this.state.user.username;
-    let roomName = this.state.roomName;
+    let roomId = this.state.roomId;
     let timestamp = firebase.firestore.FieldValue.serverTimestamp();
     let newMessage = {
       message: message,
       timestamp: timestamp,
       username: username,
     };
+
+    if (!roomId) {
+      return;
+    }
+
+    var timestampObj = {};
+    timestampObj[username] = timestamp;
     await firebase
       .firestore()
       .collection("rooms")
-      .doc(roomName)
-      .set({ username: timestamp });
+      .doc(roomId)
+      .update(timestampObj);
 
     await firebase
       .firestore()
       .collection("rooms")
-      .doc(roomName)
+      .doc(roomId)
       .collection("messages")
       .add(newMessage);
 
@@ -169,15 +231,20 @@ class ChatRoom extends React.Component {
   }
 
   /**
-   * Get messages based off of roomName
+   * Fetch the messages of the chat room
+   * @param {string} roomId - id of the chat room
+   * @return {string[]} messages - list of strings of messages found
    */
   async getInitMessages() {
-    let roomName = this.state.roomName;
+    let roomId = this.state.roomId;
+    if (!roomId) {
+      return;
+    }
     let msgs = [];
     await firebase
       .firestore()
       .collection("rooms")
-      .doc(roomName)
+      .doc(roomId)
       .collection("messages")
       .orderBy("timestamp", "desc")
       .get()
@@ -186,19 +253,23 @@ class ChatRoom extends React.Component {
           msgs.push(doc.data());
         });
       });
-    // console.log(msgs);
     this.setState({ messages: msgs });
   }
 
   /**
-   * Listener to messages list. Periodically update messages.
+   * Create a listener for a chat room to fetch messages upon updates to
+   * the database
+   * @param {string} roomId - id of the chat room
    */
   async getMessages() {
-    let roomName = this.state.roomName;
-    this.unsubscribeDBListener = firebase
+    let roomId = this.state.roomId;
+    if (!roomId) {
+      return;
+    }
+    firebase
       .firestore()
       .collection("rooms")
-      .doc(roomName)
+      .doc(roomId)
       .collection("messages")
       .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) => {
@@ -211,12 +282,18 @@ class ChatRoom extends React.Component {
       });
   }
 
+  /**
+   * Helper function to scroll to the bottom of the chat room
+   */
   scrollToBottom() {
     if (this.dummy.current) {
       this.dummy.current.scrollIntoView();
     }
   }
 
+  /**
+   * Logs current user out and returns to landing page
+   */
   logout() {
     firebase
       .auth()
@@ -242,7 +319,14 @@ class ChatRoom extends React.Component {
           />
           <div className="list-group">
             {this.state.users &&
-              this.state.users.map((user, i) => <User key={i} user={user} />)}
+              this.state.users.map((user, i) => (
+                <User
+                  key={i}
+                  user={user}
+                  myUser={this.state.user}
+                  handler={this.handleChangeRoom}
+                />
+              ))}
           </div>
         </div>
         <div className="chat-wrapper">

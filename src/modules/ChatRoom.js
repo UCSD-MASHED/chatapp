@@ -25,7 +25,7 @@ class ChatRoom extends React.Component {
       users: [],
       keyword: "",
       roomName: "Chat Room",
-      loading: true
+      loading: true,
     };
     this.dummy = createRef();
     this.handleChange = this.handleChange.bind(this);

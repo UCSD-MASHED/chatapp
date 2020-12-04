@@ -66,6 +66,11 @@ test("Can log out", async () => {
       <ChatRoom />
     </Router>
   );
+
+  await waitFor(() =>
+    screen.getByPlaceholderText("Potatoes can't talk... but you can!")
+  );
+
   const button = screen.getByText("Log out");
   fireEvent.click(button);
   await waitFor(() => expect(history.location.pathname).toEqual("/"));

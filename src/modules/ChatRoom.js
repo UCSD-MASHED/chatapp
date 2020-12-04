@@ -3,6 +3,7 @@ import firebase from "firebase/app";
 import { withRouter } from "react-router-dom";
 import ChatMessage from "./ChatMessage";
 import User from "./User";
+import Loading from "./Loading";
 
 /**
  * This is the ChatRoom Component
@@ -24,6 +25,7 @@ class ChatRoom extends React.Component {
       users: [],
       keyword: "",
       roomName: "Chat Room",
+      loading: true
     };
     this.dummy = createRef();
     this.handleChange = this.handleChange.bind(this);
@@ -48,6 +50,8 @@ class ChatRoom extends React.Component {
       this.getMessages().then(() => {
         this.scrollToBottom();
       });
+
+      this.setState({ loading: false });
     }
   }
 
@@ -308,7 +312,9 @@ class ChatRoom extends React.Component {
   }
 
   render() {
-    return (
+    return this.state.loading ? (
+      <Loading />
+    ) : (
       <div className="main">
         <div className="user-list-wrapper">
           <h3>People</h3>

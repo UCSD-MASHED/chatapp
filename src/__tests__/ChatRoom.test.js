@@ -468,7 +468,7 @@ test("Switch rooms", async () => {
   const user3Button = screen.getByText(user3DocData.displayName);
   fireEvent.click(user3Button);
   await waitFor(() => expect(firestoreMock.get).toBeCalledTimes(2));
-  // now user2 should appear once but user3 should now appear in user list and room name
+  // now user2 should appear once but user3 should appear in user list and room name
   await waitFor(() =>
     expect(screen.getAllByText(user2DocData.displayName).length).toBe(1)
   );

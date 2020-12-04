@@ -3,6 +3,11 @@ name: Jest Test Generation and Deployment
   push:
     branches:
       - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
 jobs:
   run-jest-coverage:
     name: Run Jest coverage

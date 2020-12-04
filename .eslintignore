@@ -1,0 +1,6 @@
+# Ignore workflows
+.github/workflows
+
+# Ignore artifacts:
+build
+coverage

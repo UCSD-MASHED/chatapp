@@ -3,7 +3,11 @@ name: JSDoc Generation and Deployment
   push:
     branches:
       - main
-
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
 jobs:
   run-jsdoc:
     name: Run JSDoc

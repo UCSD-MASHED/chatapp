@@ -183,7 +183,6 @@ test("Send message button click tries to update database", async () => {
     </Router>
   );
 
-  screen.getByPlaceholderText("Potatoes can't talk... but you can!");
   await waitFor(() => expect(firestoreMock.get).toBeCalledTimes(3));
 
   const messageInput = screen.getByPlaceholderText(

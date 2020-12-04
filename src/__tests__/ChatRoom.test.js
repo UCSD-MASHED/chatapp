@@ -174,7 +174,7 @@ test("Send message button click tries to update database", async () => {
     .mockResolvedValueOnce([])
     // fourth call in checkUserInRoom, representing that current user is
     // in current room
-    .mockResolvedValueOnce({ empty: false })
+    .mockResolvedValueOnce({ empty: false });
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
 
   render(

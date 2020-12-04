@@ -204,6 +204,48 @@ test("Send message button click tries to update database", async () => {
   await waitFor(() => expect(messageInput.value).toBe(""));
 });
 
+test("Render chat room name", async () => {
+  const testRoomId = "test_room_id";
+  user.roomIds = [testRoomId];
+
+  const otherUserDocData = {
+    displayName: "Other test user",
+    online: true,
+    roomIds: [testRoomId],
+    username: "other_test_user",
+  };
+  const otherUserDocResult = {
+    data: () => otherUserDocData,
+  };
+
+  const roomDocResult = {
+    id: testRoomId,
+  };
+
+  firestoreMock.get = jest
+    .fn()
+    // first call in getUsers, where there is only one other user
+    .mockResolvedValueOnce([otherUserDocResult])
+    // second call in getFirstRoom to get the current room
+    .mockResolvedValueOnce([roomDocResult])
+    // third call in getInitMessages, representing no initial messages
+    .mockResolvedValueOnce([])
+  jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
+
+  render(
+    <Router history={history}>
+      <ChatRoom />
+    </Router>
+  );
+
+  await waitFor(() =>
+    screen.getByPlaceholderText("Potatoes can't talk... but you can!")
+  );
+
+  const chatRoomTitleElement = screen.getByTestId('room-name');
+  expect(chatRoomTitleElement.children == otherUserDocData.displayName)
+});
+
 test("Render user list", async () => {
   // console.log("Starting test: Render user list");
 

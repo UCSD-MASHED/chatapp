@@ -30,6 +30,7 @@ beforeEach(() => {
     get: null,
     onSnapshot: jest.fn().mockReturnThis(),
     add: jest.fn().mockReturnThis(),
+    update: jest.fn().mockReturnThis(),
     where: jest.fn().mockReturnThis(),
   };
 });
@@ -129,7 +130,79 @@ test("Get messages and check if message is displayed on screen", async () => {
   expect(message).toBeInTheDocument();
 });
 
-test("Send message and check if message is populated into the database", async () => {});
+test("Send message button click tries to update database", async () => {
+  const testRoomId = "test_room_id";
+  user.roomIds = [testRoomId];
+
+  const otherUserDocData = {
+    displayName: "Other test user",
+    online: true,
+    roomIds: [testRoomId],
+    username: "other_test_user",
+  };
+  const otherUserDocResult = {
+    data: () => otherUserDocData,
+  };
+
+  const roomDocResult = {
+    id: testRoomId,
+  };
+
+  const testTime = "test_time";
+  // mock firebase.firestore.FieldValue.serverTimestamp for call in sendMessage
+  firebase.firestore.FieldValue = {
+    serverTimestamp: () => {
+      return testTime;
+    },
+  };
+
+  // message to mock sending, not for initial chat room messages render
+  const testMessage = "MOCK_MESSAGE";
+  const messageDocData = {
+    message: testMessage,
+    timestamp: testTime,
+    username: user.username,
+  };
+
+  firestoreMock.get = jest
+    .fn()
+    // first call in getUsers, where there is only one other user
+    .mockResolvedValueOnce([otherUserDocResult])
+    // second call in getFirstRoom to get the current room
+    .mockResolvedValueOnce([roomDocResult])
+    // third call in getInitMessages, representing no initial messages
+    .mockResolvedValueOnce([])
+    // fourth call in checkUserInRoom, representing that current user is
+    // in current room
+    .mockResolvedValueOnce({ empty: false });
+  jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
+
+  render(
+    <Router history={history}>
+      <ChatRoom />
+    </Router>
+  );
+
+  await waitFor(() => expect(firestoreMock.get).toBeCalledTimes(3));
+
+  const messageInput = screen.getByPlaceholderText(
+    "Potatoes can't talk... but you can!"
+  );
+  // Type out a message, then click send
+  fireEvent.change(messageInput, { target: { value: testMessage } });
+  await waitFor(() => screen.getByDisplayValue(testMessage));
+  const button = screen.getByText("Send");
+  fireEvent.click(button);
+  await waitFor(() => expect(firestoreMock.get).toBeCalledTimes(4));
+  await waitFor(() => expect(firestoreMock.update).toBeCalledTimes(1));
+  expect(firestoreMock.update).toHaveBeenCalledWith({
+    [user.username]: testTime,
+  });
+  await waitFor(() => expect(firestoreMock.add).toBeCalledTimes(1));
+  expect(firestoreMock.add).toHaveBeenCalledWith(messageDocData);
+  // Check that message form clears
+  await waitFor(() => expect(messageInput.value).toBe(""));
+});
 
 test("Render user list", async () => {
   // console.log("Starting test: Render user list");

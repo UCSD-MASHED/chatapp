@@ -82,7 +82,7 @@ class User extends React.Component {
       this.setRoomId(participants, roomId);
       chatRoomId = roomId;
     }
-    this.props.handler(chatRoomId, this.user);
+    this.props.handler(chatRoomId, this.props.user);
   }
 
   /**

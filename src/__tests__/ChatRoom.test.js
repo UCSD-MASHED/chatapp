@@ -242,7 +242,9 @@ test("Render chat room name", async () => {
     screen.getByPlaceholderText("Potatoes can't talk... but you can!")
   );
 
-  expect(screen.getByTestId("room-name")).toHaveTextContent(otherUserDocData.displayName);
+  expect(screen.getByTestId("room-name")).toHaveTextContent(
+    otherUserDocData.displayName
+  );
 });
 
 test("Render user list", async () => {

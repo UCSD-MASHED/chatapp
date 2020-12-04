@@ -23,7 +23,7 @@ class ChatRoom extends React.Component {
       otherUser: null,
       users: [],
       keyword: "",
-      roomName: ""
+      roomName: "",
     };
     this.dummy = createRef();
     this.handleChange = this.handleChange.bind(this);
@@ -175,7 +175,7 @@ class ChatRoom extends React.Component {
     let firstUser = this.state.users[0];
     this.setState({
       otherUser: firstUser,
-      roomName: firstUser.displayName
+      roomName: firstUser.displayName,
     });
     let participants = [this.state.user.username, firstUser.username].sort();
 
@@ -342,7 +342,7 @@ class ChatRoom extends React.Component {
           >
             Log out
           </button>
-          <h3 data-testid="room-name">{ this.state.roomName }</h3>
+          <h3 data-testid="room-name">{this.state.roomName}</h3>
           <div className="chat-messages">
             {this.state.messages &&
               this.state.messages

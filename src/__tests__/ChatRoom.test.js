@@ -229,7 +229,7 @@ test("Render chat room name", async () => {
     // second call in getFirstRoom to get the current room
     .mockResolvedValueOnce([roomDocResult])
     // third call in getInitMessages, representing no initial messages
-    .mockResolvedValueOnce([])
+    .mockResolvedValueOnce([]);
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
 
   render(
@@ -242,8 +242,8 @@ test("Render chat room name", async () => {
     screen.getByPlaceholderText("Potatoes can't talk... but you can!")
   );
 
-  const chatRoomTitleElement = screen.getByTestId('room-name');
-  expect(chatRoomTitleElement.children == otherUserDocData.displayName)
+  const chatRoomTitleElement = screen.getByTestId("room-name");
+  expect(chatRoomTitleElement.children == otherUserDocData.displayName);
 });
 
 test("Render user list", async () => {
@@ -286,8 +286,12 @@ test("Render user list", async () => {
   );
 
   // first test user should appear once in user list and once as room name
-  await waitFor(() => expect(screen.getAllByText(docData1.displayName).length == 2));
-  await waitFor(() => expect(screen.getAllByText(docData2.displayName).length == 1));
+  await waitFor(() =>
+    expect(screen.getAllByText(docData1.displayName).length == 2)
+  );
+  await waitFor(() =>
+    expect(screen.getAllByText(docData2.displayName).length == 1)
+  );
 });
 
 test("Search user", async () => {
@@ -327,8 +331,12 @@ test("Search user", async () => {
   await waitFor(() => screen.getByPlaceholderText("Search"));
   // get all users
   // first test user should appear once in user list and once as room name
-  await waitFor(() => expect(screen.getAllByText(docData1.displayName).length == 2));
-  await waitFor(() => expect(screen.getAllByText(docData2.displayName).length == 1));
+  await waitFor(() =>
+    expect(screen.getAllByText(docData1.displayName).length == 2)
+  );
+  await waitFor(() =>
+    expect(screen.getAllByText(docData2.displayName).length == 1)
+  );
 
   // mock search user return
   firestoreMock.get = jest.fn(() => Promise.resolve([docResult1]));
@@ -341,7 +349,7 @@ test("Search user", async () => {
     expect(screen.queryByText(docData2.displayName)).toBeNull()
   );
   // first test user should still appear twice, in user list and as room name
-  expect(screen.getAllByText(docData1.displayName).length == 2)
+  expect(screen.getAllByText(docData1.displayName).length == 2);
 });
 
 test("Switch rooms", async () => {
@@ -430,8 +438,12 @@ test("Switch rooms", async () => {
 
   // get all users
   // user2 should appear once in user list and once as room name
-  await waitFor(() => expect(screen.getAllByText(user2DocData.displayName).length == 2));
-  await waitFor(() => expect(screen.getAllByText(user3DocData.displayName).length == 1));
+  await waitFor(() =>
+    expect(screen.getAllByText(user2DocData.displayName).length == 2)
+  );
+  await waitFor(() =>
+    expect(screen.getAllByText(user3DocData.displayName).length == 1)
+  );
   expect(screen.queryByText(user.displayName)).toBeNull();
 
   await waitFor(() => screen.getByText(message1));
@@ -451,8 +463,12 @@ test("Switch rooms", async () => {
   fireEvent.click(user3Button);
   await waitFor(() => expect(firestoreMock.get).toBeCalledTimes(2));
   // now user2 should appear once but user3 should now appear in user list and room name
-  await waitFor(() => expect(screen.getAllByText(user2DocData.displayName).length == 1));
-  await waitFor(() => expect(screen.getAllByText(user3DocData.displayName).length == 2));
+  await waitFor(() =>
+    expect(screen.getAllByText(user2DocData.displayName).length == 1)
+  );
+  await waitFor(() =>
+    expect(screen.getAllByText(user3DocData.displayName).length == 2)
+  );
   await waitFor(() => expect(screen.queryByText(message1)).toBeNull());
   await waitFor(() => screen.getByText(message2));
 });

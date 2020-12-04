@@ -1,5 +1,9 @@
 name: Cypress E2E tests
 "on":
+  push:
+    branches:
+      - main
+      - dev
   pull_request:
     branches:
       - main

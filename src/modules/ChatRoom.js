@@ -3,6 +3,7 @@ import firebase from "firebase/app";
 import { withRouter } from "react-router-dom";
 import ChatMessage from "./ChatMessage";
 import User from "./User";
+import Loading from "./Loading";
 
 /**
  * This is the ChatRoom Component
@@ -20,8 +21,11 @@ class ChatRoom extends React.Component {
       message: "",
       messages: [],
       user: user,
+      otherUser: null,
       users: [],
       keyword: "",
+      roomName: "Chat Room",
+      loading: true,
     };
     this.dummy = createRef();
     this.handleChange = this.handleChange.bind(this);
@@ -46,6 +50,8 @@ class ChatRoom extends React.Component {
       this.getMessages().then(() => {
         this.scrollToBottom();
       });
+
+      this.setState({ loading: false });
     }
   }
 
@@ -77,6 +83,7 @@ class ChatRoom extends React.Component {
     this.setState({
       otherUser: otherUser,
       roomId: roomId,
+      roomName: otherUser.displayName,
       messages: [],
     });
     this.getInitMessages().then(() => {
@@ -172,6 +179,7 @@ class ChatRoom extends React.Component {
     let firstUser = this.state.users[0];
     this.setState({
       otherUser: firstUser,
+      roomName: firstUser.displayName,
     });
     let participants = [this.state.user.username, firstUser.username].sort();
 
@@ -304,7 +312,9 @@ class ChatRoom extends React.Component {
   }
 
   render() {
-    return (
+    return this.state.loading ? (
+      <Loading />
+    ) : (
       <div className="main">
         <div className="user-list-wrapper">
           <h3>People</h3>
@@ -338,7 +348,7 @@ class ChatRoom extends React.Component {
           >
             Log out
           </button>
-          <h3>Chat Room</h3>
+          <h3 data-testid="room-name">{this.state.roomName}</h3>
           <div className="chat-messages">
             {this.state.messages &&
               this.state.messages

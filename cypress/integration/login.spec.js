@@ -16,8 +16,8 @@ describe("Can create a new user", () => {
     // we want to do this so that tests after can run normally
     cy.fixture("loginUser").then((loginUser) => {
       cy.callFirestore("set", `users/${Cypress.env("TEST_UID")}`, loginUser);
-    })
-  })
+    });
+  });
 
   beforeEach(() => {
     cy.visit("/");

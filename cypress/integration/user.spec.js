@@ -31,7 +31,7 @@ describe("Chat room user list and search", () => {
     users.forEach((user) => {
       cy.contains(user.displayName);
       cy.contains(user.username);
-    })
+    });
   });
 
   it("Search existing test users, both should show up", () => {
@@ -40,8 +40,8 @@ describe("Chat room user list and search", () => {
     users.forEach((user) => {
       cy.contains(user.displayName);
       cy.contains(user.username);
-    })
-    cy.get(".list-group").find(".user").should('have.length', 2);
+    });
+    cy.get(".list-group").find(".user").should("have.length", 2);
   });
 
   it("Search existing test user 1, which should show up", () => {
@@ -50,12 +50,12 @@ describe("Chat room user list and search", () => {
     let user1 = users[0];
     cy.contains(user1.displayName);
     cy.contains(user1.username);
-    cy.get(".list-group").find(".user").should('have.length', 1);
+    cy.get(".list-group").find(".user").should("have.length", 1);
   });
 
   it("Search non-existing user, which should not show up", () => {
     cy.get(".user-list-wrapper input").type("testUserCypress0");
     cy.contains("People");
-    cy.get(".list-group").find(".user").should('have.length', 0);
+    cy.get(".list-group").find(".user").should("have.length", 0);
   });
 });

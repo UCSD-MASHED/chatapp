@@ -47,7 +47,7 @@ before(() => {
   // createUser for our login test account
   cy.fixture("loginUser").then((loginUser) => {
     cy.callFirestore("set", `users/${Cypress.env("TEST_UID")}`, loginUser);
-  })
+  });
 });
 
 after(() => {

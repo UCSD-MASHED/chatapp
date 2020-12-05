@@ -30,7 +30,7 @@ describe("Can create a new user", () => {
 
   it("should render chat room", () => {
     cy.contains("Please enter your username");
-    cy.fixture("loginUser").then((loginUser) => {
+    return cy.fixture("loginUser").then((loginUser) => {
       cy.get("input").type(loginUser.username);
       cy.get("button").click();
       cy.contains("People");

@@ -1,0 +1,61 @@
+name: Jest and Cypress Test and Coverage
+"on":
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+jobs:
+  run-coverage:
+    name: Run tests and generate coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Make dev envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_REACT_APP_APIKEY: "${{ secrets.FIREBASE_APIKEY_BETA }}"
+          envkey_REACT_APP_AUTHDOMAIN: "${{ secrets.FIREBASE_AUTHDOMAIN_BETA }}"
+          envkey_REACT_APP_DATABASEURL: "${{ secrets.FIREBASE_DATABASEURL_BETA }}"
+          envkey_REACT_APP_PROJECTID: "${{ secrets.FIREBASE_PROJECTID_BETA }}"
+          envkey_REACT_APP_STORAGEBUCKET: "${{ secrets.FIREBASE_STORAGEBUCKET_BETA }}"
+          envkey_REACT_APP_MESSAGINGSENDERID: "${{ secrets.FIREBASE_MESSAGINGSENDERID_BETA }}"
+          envkey_REACT_APP_APPID: "${{ secrets.FIREBASE_APPID_BETA }}"
+          file_name: .env.dev
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Run Jest with coverage
+        run: yarn test --coverage --coverageDirectory=jest-coverage
+      - name: Create JSON config for Cypress
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: "serviceAccount.json"
+          json: ${{ secrets.FIREBASE_SERVICE_JSON }}
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          browser: chrome
+          headless: true
+          start: yarn start
+          wait-on: 'http://localhost:3000'
+        env:
+          CYPRESS_APIKEY: "${{ secrets.FIREBASE_APIKEY_BETA }}"
+          CYPRESS_AUTHDOMAIN: "${{ secrets.FIREBASE_AUTHDOMAIN_BETA }}"
+          CYPRESS_DATABASEURL: "${{ secrets.FIREBASE_DATABASEURL_BETA }}"
+          CYPRESS_PROJECTID: "${{ secrets.FIREBASE_PROJECTID_BETA }}"
+          CYPRESS_STORAGEBUCKET: "${{ secrets.FIREBASE_STORAGEBUCKET_BETA }}"
+          CYPRESS_MESSAGINGSENDERID: "${{ secrets.FIREBASE_MESSAGINGSENDERID_BETA }}"
+          CYPRESS_APPID: "${{ secrets.FIREBASE_APPID_BETA }}"
+          CYPRESS_TEST_UID: "${{ secrets.FIREBASE_TEST_UID_BETA }}"
+      - name: Combine coverage reports
+        run: yarn run combinereports
+      - name: Deploy coverage html
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY_COVERAGE }}
+          external_repository: UCSD-MASHED/TaterTalkCoverage
+          publish_branch: main
+          publish_dir: ./coverage

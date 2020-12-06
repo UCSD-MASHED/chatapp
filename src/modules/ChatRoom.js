@@ -315,84 +315,84 @@ class ChatRoom extends React.Component {
     return this.state.loading ? (
       <Loading />
     ) : (
-      <div className="main">
-        <div className="user-list-wrapper">
-          <h3>People</h3>
-          <input
-            className="form-control"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-            value={this.state.keyword}
-            onChange={this.handleSearchChange}
-            style={{ marginBottom: "1rem" }}
-          />
-          <div className="list-group">
-            {this.state.users &&
-              this.state.users.map((user, i) => (
-                <User
-                  key={i}
-                  user={user}
-                  myUser={this.state.user}
-                  handler={this.handleChangeRoom}
-                />
-              ))}
-          </div>
-        </div>
-        <div className="chat-wrapper">
-          <button
-            type="button"
-            style={{ float: "right" }}
-            className="btn btn-warning btn-sm"
-            onClick={() => this.logout()}
-          >
-            Log out
-          </button>
-          <h3 data-testid="room-name">{this.state.roomName}</h3>
-          <div className="chat-messages">
-            {this.state.messages &&
-              this.state.messages
-                .reverse()
-                .map((msg, i) => (
-                  <ChatMessage
+        <div className="main">
+          <div className="user-list-wrapper">
+            <h3>People</h3>
+            <input
+              className="form-control"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+              value={this.state.keyword}
+              onChange={this.handleSearchChange}
+              style={{ marginBottom: "1rem" }}
+            />
+            <div className="list-group">
+              {this.state.users &&
+                this.state.users.map((user, i) => (
+                  <User
                     key={i}
-                    message={msg}
-                    username={this.state.user.username}
+                    user={user}
+                    myUser={this.state.user}
+                    handler={this.handleChangeRoom}
                   />
                 ))}
-            <span ref={this.dummy}></span>
+            </div>
           </div>
-          <div className="chat-input">
-            <form onSubmit={this.handleSubmit}>
-              {/* {this.state.showEmoji ? (
+          <div className="btn-wrapper">
+            <button
+              type="button"
+              style={{ float: "right" }}
+              className="btn btn-warning btn-sm"
+              onClick={() => this.logout()}
+            >
+              Log out
+          </button>
+            <h3 data-testid="room-name">{this.state.roomName}</h3>
+            <div className="chat-messages">
+              {this.state.messages &&
+                this.state.messages
+                  .reverse()
+                  .map((msg, i) => (
+                    <ChatMessage
+                      key={i}
+                      message={msg}
+                      username={this.state.user.username}
+                    />
+                  ))}
+              <span ref={this.dummy}></span>
+            </div>
+            <div className="chat-input">
+              <form onSubmit={this.handleSubmit}>
+                {/* {this.state.showEmoji ? (
                   <EmojiPicker onClickOutside={() => this.toggleEmojiPicker()} title={'Pick your emoji'} emoji={'point_up'} data={data} style={{ position: "absolute", bottom: "100px", right: "0" }} set="apple" onSelect={this.addEmoji} />
               ) : null} */}
 
-              <div className="input-group chat-box">
-                <input
-                  className="form-control"
-                  type="text"
-                  value={this.state.message}
-                  onChange={this.handleChange}
-                  placeholder="Potatoes can't talk... but you can!"
-                />
-                {/* <div className="input-group-append">
+                <div className="input-group chat-box">
+                  <input
+                    className="form-control"
+                    type="text"
+                    value={this.state.message}
+                    onChange={this.handleChange}
+                    placeholder="Potatoes can't talk... but you can!"
+                  />
+                  {/* <div className="input-group-append">
                       <button type="button" className="btn" onClick={() => this.toggleEmojiPicker()} id="show-emoji-yes">{'😃'}</button>
                   </div> */}
-              </div>
+                </div>
 
-              <button
-                disabled={!this.state.message}
-                type="submit"
-                className="btn btn-primary btn-block mt-2"
-              >
-                Send
+                <button
+                  disabled={!this.state.message}
+                  type="submit"
+                  className="btn btn-primary btn-block mt-2"
+                >
+                  Send
               </button>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
   }
 }
 

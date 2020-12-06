@@ -99,7 +99,7 @@ test("Get messages and check if message is displayed on screen", async () => {
     data: () => otherUserDocData,
   };
 
-  const testTime = {"seconds": 1606613537}; // 11/28/2020, 5:32 PM
+  const testTime = { seconds: 1606613537 }; // 11/28/2020, 5:32 PM
   // mock firebase.firestore.FieldValue.serverTimestamp for call in sendMessage
   firebase.firestore.FieldValue = {
     serverTimestamp: () => {
@@ -339,13 +339,13 @@ test("Search user", async () => {
     id: "roomId",
   };
   firestoreMock.get = jest
-  .fn()
-  // first call in getUsers, where there is only one other user
-  .mockResolvedValueOnce([docResult1, docResult2])
-  // second call in getFirstRoom to get the current room
-  .mockResolvedValueOnce([])
-  // third call in getInitMessages, representing no initial messages
-  .mockResolvedValueOnce([]);
+    .fn()
+    // first call in getUsers, where there is only one other user
+    .mockResolvedValueOnce([docResult1, docResult2])
+    // second call in getFirstRoom to get the current room
+    .mockResolvedValueOnce([])
+    // third call in getInitMessages, representing no initial messages
+    .mockResolvedValueOnce([]);
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
 
   render(

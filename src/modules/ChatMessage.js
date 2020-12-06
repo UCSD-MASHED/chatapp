@@ -5,19 +5,18 @@ import { withRouter } from "react-router-dom";
  * This is the ChatMessage Component
  */
 class ChatMessage extends React.Component {
-
   getTime(timestamp) {
-    timestamp = timestamp * 1000
-    const date = new Date(timestamp)
+    timestamp = timestamp * 1000;
+    const date = new Date(timestamp);
 
     var options = {
       hour: "numeric",
       minute: "numeric",
       hour12: true,
       month: "2-digit",
-      day: "2-digit"
-    }
-    return date.toLocaleString("en-US", options)
+      day: "2-digit",
+    };
+    return date.toLocaleString("en-US", options);
   }
 
   render() {

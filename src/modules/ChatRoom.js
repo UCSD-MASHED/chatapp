@@ -343,7 +343,7 @@ class ChatRoom extends React.Component {
           <button
             type="button"
             style={{ float: "right" }}
-            className="btn btn-warning btn-sm share-btn"
+            className="btn btn-warning btn-sm"
             onClick={() => this.logout()}
           >
             Log out

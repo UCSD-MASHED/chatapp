@@ -41,3 +41,16 @@ const fbConfig = {
 firebase.initializeApp(fbConfig);
 
 attachCustomCommands({ Cypress, cy, firebase });
+
+// Run before ALL tests
+before(() => {
+  // createUser for our login test account
+  cy.fixture("loginUser").then((loginUser) => {
+    cy.callFirestore("set", `users/${Cypress.env("TEST_UID")}`, loginUser);
+  });
+});
+
+after(() => {
+  // delete user for login test account
+  cy.callFirestore("delete", `users/${Cypress.env("TEST_UID")}`);
+});

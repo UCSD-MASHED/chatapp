@@ -384,7 +384,7 @@ class ChatRoom extends React.Component {
               <button
                 disabled={!this.state.message}
                 type="submit"
-                className="btn btn-primary btn-block"
+                className="btn btn-primary btn-block mt-2"
               >
                 Send
               </button>

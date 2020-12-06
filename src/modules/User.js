@@ -100,24 +100,21 @@ class User extends React.Component {
 
   render() {
     return (
-      <>
-        <div className="user" onClick={this.startPrivateChat}>
-          <a
-            href="# "
-            className="list-group-item list-group-item-action list-group-item-secondary justify-content-between d-flex"
-          >
-            <h5 className="mb-1">{this.props.user.displayName}</h5>
-            <small className="text-muted">
-              @{this.props.user.username}
-              {/* <br/>
-            <br/>
-            {this.props.user.online ? "online" : "offline"} */}
-            </small>
-            {/* <br/>
-            <small>{this.props.user.online ? "online" : "offline"}</small> */}
-          </a>
-        </div>
-      </>
+      <a
+        href="# "
+        className="user list-group-item list-group-item-action list-group-item-secondary justify-content-between d-flex"
+        onClick={this.startPrivateChat}
+      >
+        <h5 className="mb-1">{this.props.user.displayName}</h5>
+        <small className="text-muted">
+          @{this.props.user.username}
+          {/* <br/>
+          <br/>
+          {this.props.user.online ? "online" : "offline"} */}
+        </small>
+        {/* <br/>
+          <small>{this.props.user.online ? "online" : "offline"}</small> */}
+      </a>
     );
   }
 }

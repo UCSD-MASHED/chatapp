@@ -19,8 +19,8 @@ jobs:
           envkey_REACT_APP_MESSAGINGSENDERID: "${{ secrets.FIREBASE_MESSAGINGSENDERID_BETA }}"
           envkey_REACT_APP_APPID: "${{ secrets.FIREBASE_APPID_BETA }}"
           file_name: .env.dev
-      - name: Install, test and build
-        run: yarn install --frozen-lockfile && yarn test && yarn run build:dev
+      - name: Install and build
+        run: yarn install --frozen-lockfile && yarn run build:dev
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"

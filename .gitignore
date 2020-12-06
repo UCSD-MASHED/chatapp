@@ -7,6 +7,10 @@
 
 # testing
 /coverage
+/jest-coverage
+/cypress-coverage
+/reports
+.nyc_output
 
 # cypress
 /cypress/videos

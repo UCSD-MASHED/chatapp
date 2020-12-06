@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import firebase from "firebase/app";
 import { withRouter } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -105,34 +105,36 @@ class Login extends React.Component {
     return this.state.loading ? (
       <Loading />
     ) : (
-        <div className="auth-wrapper">
-          <div className="btn-wrapper">
-            <form>
-              <button
-                style={{ float: "right" }}
-                onClick={this.handleGoogleSignIn}
-                className="btn btn-primary btn-sm"
-              >
-                Sign In
-                </button>
-            </form>
+      <div className="auth-wrapper">
+        <div className="btn-wrapper">
+          <form>
+            <button
+              style={{ float: "right" }}
+              onClick={this.handleGoogleSignIn}
+              className="btn btn-primary btn-sm"
+            >
+              Sign In
+            </button>
+          </form>
 
-            <span className="landing-left-wrapper">
-              <div className="landing-text">
-                <h1>
-                  TaterTalk
-                  </h1>
-                <br></br>
-                <p>Presented by Team Mashed</p>
-              </div>
-            </span>
-            <span className="landing-right-wrapper">
-              <img className="landing-img" alt="illustration" src={process.env.PUBLIC_URL + '/landing_illustration.png'} />
-            </span>
-          </div>
-          <ToastContainer />
+          <span className="landing-left-wrapper">
+            <div className="landing-text">
+              <h1>TaterTalk</h1>
+              <br></br>
+              <p>Presented by Team Mashed</p>
+            </div>
+          </span>
+          <span className="landing-right-wrapper">
+            <img
+              className="landing-img"
+              alt="illustration"
+              src={process.env.PUBLIC_URL + "/landing_illustration.png"}
+            />
+          </span>
         </div>
-      );
+        <ToastContainer />
+      </div>
+    );
   }
 }
 

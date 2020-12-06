@@ -100,12 +100,6 @@ test("Get messages and check if message is displayed on screen", async () => {
   };
 
   const testTime = { seconds: 1606613537 }; // 11/28/2020, 5:32 PM
-  // mock firebase.firestore.FieldValue.serverTimestamp for call in sendMessage
-  firebase.firestore.FieldValue = {
-    serverTimestamp: () => {
-      return testTime;
-    },
-  };
   const testMessage = "MOCK_MESSAGE";
   const messageDocData = {
     message: testMessage,

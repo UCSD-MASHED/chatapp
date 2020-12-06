@@ -15,6 +15,7 @@ class ChatMessage extends React.Component {
       hour12: true,
       month: "2-digit",
       day: "2-digit",
+      timeZone: "America/Los_Angeles"
     };
     return date.toLocaleString("en-US", options);
   }

@@ -50,6 +50,11 @@ jobs:
           CYPRESS_MESSAGINGSENDERID: "${{ secrets.FIREBASE_MESSAGINGSENDERID_BETA }}"
           CYPRESS_APPID: "${{ secrets.FIREBASE_APPID_BETA }}"
           CYPRESS_TEST_UID: "${{ secrets.FIREBASE_TEST_UID_BETA }}"
+      - uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
       - name: Combine coverage reports
         run: yarn run combinereports
       - name: Deploy coverage html

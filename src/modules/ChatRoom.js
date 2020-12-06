@@ -187,7 +187,7 @@ class ChatRoom extends React.Component {
             this.setState({
               otherUser: firstUser,
               roomName: firstUser.displayName,
-              roomId: doc.id
+              roomId: doc.id,
             });
           });
         }

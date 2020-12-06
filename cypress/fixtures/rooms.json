@@ -1,0 +1,34 @@
+[{
+    "messages":
+        [{
+            "message": "Room 1 Message 1 from cypressLoginUser",
+            "timestamp": "",
+            "username": "cypressLoginUser",
+            "uid" : "abcd"
+        },
+        {
+            "message": "Room 1 Message 2 from testUserCypress1",
+            "timestamp": "",
+            "username": "testUserCypress1",
+            "uid" : "efgh"
+        }],
+    "participants": ["cypressLoginUser", "testUserCypress1"],
+    "uid": "abcdefgh"
+},
+{
+    "messages":
+        [{
+            "message": "Room 2 Message 1 from testUserCypress2",
+            "timestamp": "",
+            "username": "testUserCypress2",
+            "uid" : "stuv"
+        },
+        {
+            "message": "Room 2 Message 2 from cypressLoginUser",
+            "timestamp": "",
+            "username": "cypressLoginUser",
+            "uid" : "wxyz"
+        }],
+    "participants": ["cypressLoginUser", "testUserCypress2"],
+    "uid": "stuvwxyz"
+}]

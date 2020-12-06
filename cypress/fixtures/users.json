@@ -2,13 +2,13 @@
   "username": "testUserCypress1",
   "displayName": "Cypress Test User 1",
   "online": false,
-  "roomIds": [],
+  "roomIds": ["abcdefgh"],
   "uid": "123456"
 },
 {
   "username": "testUserCypress2",
   "displayName": "Cypress Test User 2",
   "online": false,
-  "roomIds": [],
+  "roomIds": ["stuvwxyz"],
   "uid": "234567"
 }]

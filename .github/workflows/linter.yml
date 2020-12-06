@@ -12,6 +12,9 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
+        with:
+          # Use personal access token to trigger workflows
+          token: ${{ secrets.JASON_PAT }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v1
@@ -25,8 +28,6 @@ jobs:
       - name: Run linters
         uses: wearerequired/lint-action@v1
         with:
-          # Use personal access token to trigger workflows
-          github_token: ${{ secrets.JASON_PAT }}
           # Enable linters
           eslint: true
           prettier: true

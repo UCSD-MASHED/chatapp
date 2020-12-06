@@ -2,5 +2,5 @@
   "username": "cypressLoginUser",
   "displayName": "Cypress Login User",
   "online": false,
-  "roomIds": []
+  "roomIds": ["abcdefgh", "stuvwxyz"]
 }

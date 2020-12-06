@@ -174,10 +174,6 @@ class ChatRoom extends React.Component {
       return;
     }
     let firstUser = this.state.users[0];
-    this.setState({
-      otherUser: firstUser,
-      roomName: firstUser.displayName,
-    });
     let participants = [this.state.user.username, firstUser.username].sort();
 
     await firebase
@@ -189,7 +185,9 @@ class ChatRoom extends React.Component {
         if (!qs.empty) {
           qs.forEach((doc) => {
             this.setState({
-              roomId: doc.id,
+              otherUser: firstUser,
+              roomName: firstUser.displayName,
+              roomId: doc.id
             });
           });
         }

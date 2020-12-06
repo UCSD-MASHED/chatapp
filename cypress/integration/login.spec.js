@@ -30,8 +30,10 @@ describe("Can create a new user", () => {
 
   it("should render chat room", () => {
     cy.contains("Please enter your username");
+    // need return to pass lint
     return cy.fixture("loginUser").then((loginUser) => {
-      cy.get("input").type(loginUser.username);
+      // reduce the chance of it being not unique
+      cy.get("input").type(loginUser.username + Math.floor(Date.now() / 1000));
       cy.get("button").click();
       cy.contains("People");
     });

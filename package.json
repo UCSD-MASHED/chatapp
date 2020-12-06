@@ -22,12 +22,25 @@
       "src/modules/*.{js,jsx,ts,tsx}"
     ],
     "coverageReporters": [
+      "json",
+      "html",
+      "text"
+    ]
+  },
+  "nyc": {
+    "include": [
+      "src/modules/*.{js,jsx,ts,tsx}"
+    ],
+    "exclude": ["src/*.{js,jsx,ts,tsx}"],
+    "report-dir": "cypress-coverage",
+    "reporter": [
+      "json",
       "html",
       "text"
     ]
   },
   "scripts": {
-    "start": "env-cmd -f .env.dev react-scripts start",
+    "start": "env-cmd -f .env.dev react-scripts -r @cypress/instrument-cra start",
     "build": "react-scripts build",
     "test": "env-cmd -f .env.dev react-scripts test --runInBand --detectOpenHandles --watchAll=false",
     "eject": "react-scripts eject",
@@ -36,7 +49,17 @@
     "cy:run": "yarn run cy:run:dev",
     "cy:run:dev": "env-cmd -f .env.dev cypress run --browser chrome --headless",
     "cy:run:main": "env-cmd -f .env.main cypress run --browser chrome --headless",
-    "cy:open": "env-cmd -f .env.dev cypress open"
+    "cy:open": "env-cmd -f .env.dev cypress open",
+    "cleannyc": "rm -rf .nyc_output || true",
+    "cleanreports": "rm -rf reports || true",
+    "clean": "yarn run cleannyc && yarn run cleanreports",
+    "combinereports": "yarn run clean && yarn run report:combined",
+    "precopy:reports": "mkdir reports",
+    "copy:reports": "cp cypress-coverage/coverage-final.json reports/from-cypress.json && cp jest-coverage/coverage-final.json reports/from-jest.json",
+    "precombine:reports": "yarn run copy:reports && mkdir .nyc_output",
+    "combine:reports": "npx nyc merge reports && mv coverage.json .nyc_output/out.json",
+    "prereport:combined": "yarn run combine:reports",
+    "report:combined": "npx nyc report --reporter html --reporter text --report-dir coverage"
   },
   "eslintConfig": {
     "extends": [
@@ -59,6 +82,8 @@
     ]
   },
   "devDependencies": {
+    "@cypress/code-coverage": "^3.8.5",
+    "@cypress/instrument-cra": "^1.4.0",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "better-docs": "^2.3.2",

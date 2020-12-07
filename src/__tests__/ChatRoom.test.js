@@ -5,7 +5,6 @@ import firebase from "firebase/app";
 import "../firebase";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
-import { firestore } from "firebase-admin";
 
 const user = {
   displayName: "Test user",

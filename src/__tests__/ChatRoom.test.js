@@ -23,7 +23,7 @@ beforeEach(() => {
   history = createMemoryHistory();
   history.push("/chatRoom", { user: user });
 
-  window.HTMLElement.prototype.scrollIntoView = function () { };
+  window.HTMLElement.prototype.scrollIntoView = function () {};
   firestoreMock = {
     collection: jest.fn().mockReturnThis(),
     doc: jest.fn().mockReturnThis(),
@@ -458,9 +458,7 @@ test("Switch rooms", async () => {
   // mock switching rooms
 
   // room has not been created yet. return new room created.
-  firestoreMock.add = jest
-    .fn()
-    .mockResolvedValueOnce(room2DocResult)
+  firestoreMock.add = jest.fn().mockResolvedValueOnce(room2DocResult);
 
   // mock firebase.firestore.FieldValue.arrayUnion for call in setRoomId
   firebase.firestore.FieldValue = {
@@ -473,7 +471,7 @@ test("Switch rooms", async () => {
     .fn()
     // first call in checkChatRoomExists, representing retrieving the room that
     // contains test users 1 and 3
-    // users 1 and 3 do not have a room 
+    // users 1 and 3 do not have a room
     .mockResolvedValueOnce([])
     // second call in setRoomId
     .mockResolvedValueOnce([user, user3DocResult])

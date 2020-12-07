@@ -5,7 +5,6 @@ import { ToastContainer, toast } from "react-toastify";
 import Loading from "./Loading";
 import Jokes from "./Jokes";
 
-
 /**
  * This is the Login Component
  */
@@ -113,9 +112,9 @@ class Login extends React.Component {
   }
 
   incrementImgState() {
-    console.log(this.state)
+    console.log(this.state);
     this.setState({
-      imgState: (this.state.imgState < 4) ? this.state.imgState + 1 : 0
+      imgState: this.state.imgState < 4 ? this.state.imgState + 1 : 0,
     });
   }
 
@@ -125,37 +124,37 @@ class Login extends React.Component {
     return this.state.loading ? (
       <Loading />
     ) : (
-        <div className="auth-wrapper">
-          <div className="signin-wrapper">
-            <span className="landing-left-wrapper">
-              <div className="landing-text">
-                <h1>TaterTalk</h1>
-                <br></br>
-                <p>Presented by Team Mashed</p>
-                <br></br>
-                <form>
-                  <button
-                    style={{ width: "20vw", height: "8vh", fontSize: "3vh" }}
-                    onClick={this.handleGoogleSignIn}
-                    className="btn btn-primary btn-sm"
-                  >
-                    Sign In
-                 </button>
-                </form>
-              </div>
-            </span>
-            <span className="landing-right-wrapper">
-              <img
-                className="landing-img"
-                alt="illustration"
-                src={process.env.PUBLIC_URL + "/landing_illustration.png"}
-              />
-            </span>
-            <Jokes imgState={imgState} />
-          </div>
-          <ToastContainer />
-        </div >
-      );
+      <div className="auth-wrapper">
+        <div className="signin-wrapper">
+          <span className="landing-left-wrapper">
+            <div className="landing-text">
+              <h1>TaterTalk</h1>
+              <br></br>
+              <p>Presented by Team Mashed</p>
+              <br></br>
+              <form>
+                <button
+                  style={{ width: "20vw", height: "8vh", fontSize: "3vh" }}
+                  onClick={this.handleGoogleSignIn}
+                  className="btn btn-primary btn-sm"
+                >
+                  Sign In
+                </button>
+              </form>
+            </div>
+          </span>
+          <span className="landing-right-wrapper">
+            <img
+              className="landing-img"
+              alt="illustration"
+              src={process.env.PUBLIC_URL + "/landing_illustration.png"}
+            />
+          </span>
+          <Jokes imgState={imgState} />
+        </div>
+        <ToastContainer />
+      </div>
+    );
   }
 }
 

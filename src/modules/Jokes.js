@@ -4,10 +4,6 @@ import classNames from "classnames";
 // const ansImages = ["/ans1.png", "/ans2.png"];
 
 class Jokes extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const jokeImages = [
       "/joke1.png",

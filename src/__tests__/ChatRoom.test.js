@@ -470,11 +470,25 @@ test("Switch rooms", async () => {
   await waitFor(() => screen.getByText(message1));
 
   // mock switching rooms
+
+  // room has not been created yet. return new room created.
+  firestoreMock.add = jest.fn().mockResolvedValueOnce(room2DocResult);
+
+  // mock firebase.firestore.FieldValue.arrayUnion for call in setRoomId
+  firebase.firestore.FieldValue = {
+    arrayUnion: () => {
+      return;
+    },
+  };
+
   firestoreMock.get = jest
     .fn()
     // first call in checkChatRoomExists, representing retrieving the room that
     // contains test users 1 and 3
-    .mockResolvedValueOnce([room2DocResult])
+    // users 1 and 3 do not have a room
+    .mockResolvedValueOnce([])
+    // second call in setRoomId
+    .mockResolvedValueOnce([user, user3DocResult])
     // second call in getInitMessages, where there is only one message and it's
     // message2, by the current user
     .mockResolvedValueOnce(room2DocResult.messages);
@@ -482,7 +496,7 @@ test("Switch rooms", async () => {
 
   const user3Button = screen.getByText(user3DocData.displayName);
   fireEvent.click(user3Button);
-  await waitFor(() => expect(firestoreMock.get).toBeCalledTimes(2));
+  await waitFor(() => expect(firestoreMock.get).toBeCalledTimes(3));
   // now user2 should appear once but user3 should appear in user list and room name
   await waitFor(() =>
     expect(screen.getAllByText(user2DocData.displayName).length).toBe(1)

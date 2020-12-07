@@ -119,7 +119,7 @@ body, html, .App, #root, .auth-wrapper {
 .message-time-sent {
   position: absolute;
   margin-top: 2.75rem;
-  font-size: 0.3rem;
+  font-size: 0.7rem;
   color: #fff;
   right: 0.25rem;
 }
@@ -127,7 +127,7 @@ body, html, .App, #root, .auth-wrapper {
 .message-time-received {
   position: absolute;
   margin-top: 2.75rem;
-  font-size: 0.3rem;
+  font-size: 0.7rem;
   color: #fff;
   left: 0.25rem;
 }

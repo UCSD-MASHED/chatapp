@@ -99,10 +99,11 @@ test("Get messages and check if message is displayed on screen", async () => {
     data: () => otherUserDocData,
   };
 
+  const testTime = { seconds: 1606613537 }; // 11/28/2020, 5:32 PM
   const testMessage = "MOCK_MESSAGE";
   const messageDocData = {
     message: testMessage,
-    timestamp: 0,
+    timestamp: testTime,
     username: user.username,
   };
   const messageDocResult = {
@@ -131,8 +132,10 @@ test("Get messages and check if message is displayed on screen", async () => {
     screen.getByPlaceholderText("Potatoes can't talk... but you can!")
   );
 
-  const message = screen.getByText(testMessage);
-  expect(message).toBeInTheDocument();
+  // check message is rendered
+  await waitFor(() => screen.getByText(testMessage));
+  // check timestamp is rendered
+  await waitFor(() => screen.getByText("11/28, 5:32 PM"));
 });
 
 test("Send message button click tries to update database", async () => {
@@ -276,8 +279,14 @@ test("Render user list", async () => {
     data: () => docData2,
     id: "roomId",
   };
-
-  firestoreMock.get = jest.fn(() => Promise.resolve([docResult1, docResult2]));
+  firestoreMock.get = jest
+    .fn()
+    // first call in getUsers, where there is only one other user
+    .mockResolvedValueOnce([docResult1, docResult2])
+    // second call in getFirstRoom to get the current room
+    .mockResolvedValueOnce([])
+    // third call in getInitMessages, representing no initial messages
+    .mockResolvedValueOnce([]);
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
 
   render(
@@ -323,8 +332,14 @@ test("Search user", async () => {
     data: () => docData2,
     id: "roomId",
   };
-
-  firestoreMock.get = jest.fn(() => Promise.resolve([docResult1, docResult2]));
+  firestoreMock.get = jest
+    .fn()
+    // first call in getUsers, where there is only one other user
+    .mockResolvedValueOnce([docResult1, docResult2])
+    // second call in getFirstRoom to get the current room
+    .mockResolvedValueOnce([])
+    // third call in getInitMessages, representing no initial messages
+    .mockResolvedValueOnce([]);
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
 
   render(

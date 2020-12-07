@@ -6,7 +6,6 @@ import classNames from "classnames";
 class Jokes extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
   }
 
   render() {

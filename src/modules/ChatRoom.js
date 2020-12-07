@@ -47,9 +47,7 @@ class ChatRoom extends React.Component {
         this.scrollToBottom();
       });
 
-      this.getMessages().then(() => {
-        this.scrollToBottom();
-      });
+      this.getMessages();
 
       this.setState({ loading: false });
     }
@@ -64,7 +62,6 @@ class ChatRoom extends React.Component {
     event.preventDefault();
     if (this.checkUserInRoom()) {
       this.sendMessage();
-      this.scrollToBottom();
     }
   }
 
@@ -246,20 +243,20 @@ class ChatRoom extends React.Component {
     if (!roomId) {
       return;
     }
-    let msgs = [];
     await firebase
       .firestore()
       .collection("rooms")
       .doc(roomId)
       .collection("messages")
-      .orderBy("timestamp", "desc")
+      .orderBy("timestamp")
       .get()
       .then((snapshot) => {
-        snapshot.forEach(function (doc) {
+        let msgs = [];
+        snapshot.forEach((doc) => {
           msgs.push(doc.data());
         });
+        this.setState({ messages: msgs });
       });
-    this.setState({ messages: msgs });
   }
 
   /**
@@ -272,19 +269,24 @@ class ChatRoom extends React.Component {
     if (!roomId) {
       return;
     }
-    firebase
+    await firebase
       .firestore()
       .collection("rooms")
       .doc(roomId)
       .collection("messages")
-      .orderBy("timestamp", "desc")
+      .orderBy("timestamp")
       .onSnapshot((snapshot) => {
+        // make sure server timestamp is generated
+        if (snapshot.metadata.hasPendingWrites) {
+          // skip, wait for next one
+          return;
+        }
         var messages = [];
         snapshot.forEach((doc) => {
           messages.push(doc.data());
-          this.scrollToBottom();
         });
         this.setState({ messages: messages });
+        this.scrollToBottom();
       });
   }
 
@@ -349,15 +351,13 @@ class ChatRoom extends React.Component {
           <h3 data-testid="room-name">{this.state.roomName}</h3>
           <div className="chat-messages">
             {this.state.messages &&
-              this.state.messages
-                .reverse()
-                .map((msg, i) => (
-                  <ChatMessage
-                    key={i}
-                    message={msg}
-                    username={this.state.user.username}
-                  />
-                ))}
+              this.state.messages.map((msg, i) => (
+                <ChatMessage
+                  key={i}
+                  message={msg}
+                  username={this.state.user.username}
+                />
+              ))}
             <span ref={this.dummy}></span>
           </div>
           <div className="chat-input">

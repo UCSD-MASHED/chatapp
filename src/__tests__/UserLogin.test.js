@@ -40,8 +40,8 @@ beforeEach(() => {
 });
 
 test("Login page elements", () => {
-  const signIn = screen.getByText("Sign In With Google");
-  expect(signIn).toBeInTheDocument();
+  const landingText = screen.getByText("TaterTalk");
+  expect(landingText).toBeInTheDocument();
   const button = screen.getByText("Sign In");
   expect(button).toBeInTheDocument();
 });

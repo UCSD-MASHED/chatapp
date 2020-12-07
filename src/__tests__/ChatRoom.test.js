@@ -99,10 +99,11 @@ test("Get messages and check if message is displayed on screen", async () => {
     data: () => otherUserDocData,
   };
 
+  const testTime = { seconds: 1606613537 }; // 11/28/2020, 5:32 PM
   const testMessage = "MOCK_MESSAGE";
   const messageDocData = {
     message: testMessage,
-    timestamp: 0,
+    timestamp: testTime,
     username: user.username,
   };
   const messageDocResult = {
@@ -131,8 +132,10 @@ test("Get messages and check if message is displayed on screen", async () => {
     screen.getByPlaceholderText("Potatoes can't talk... but you can!")
   );
 
-  const message = screen.getByText(testMessage);
-  expect(message).toBeInTheDocument();
+  // check message is rendered
+  await waitFor(() => screen.getByText(testMessage));
+  // check timestamp is rendered
+  await waitFor(() => screen.getByText("11/28, 5:32 PM"));
 });
 
 test("Send message button click tries to update database", async () => {
@@ -276,8 +279,14 @@ test("Render user list", async () => {
     data: () => docData2,
     id: "roomId",
   };
-
-  firestoreMock.get = jest.fn(() => Promise.resolve([docResult1, docResult2]));
+  firestoreMock.get = jest
+    .fn()
+    // first call in getUsers, where there is only one other user
+    .mockResolvedValueOnce([docResult1, docResult2])
+    // second call in getFirstRoom to get the current room
+    .mockResolvedValueOnce([])
+    // third call in getInitMessages, representing no initial messages
+    .mockResolvedValueOnce([]);
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
 
   render(
@@ -323,8 +332,14 @@ test("Search user", async () => {
     data: () => docData2,
     id: "roomId",
   };
-
-  firestoreMock.get = jest.fn(() => Promise.resolve([docResult1, docResult2]));
+  firestoreMock.get = jest
+    .fn()
+    // first call in getUsers, where there is only one other user
+    .mockResolvedValueOnce([docResult1, docResult2])
+    // second call in getFirstRoom to get the current room
+    .mockResolvedValueOnce([])
+    // third call in getInitMessages, representing no initial messages
+    .mockResolvedValueOnce([]);
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
 
   render(
@@ -455,11 +470,25 @@ test("Switch rooms", async () => {
   await waitFor(() => screen.getByText(message1));
 
   // mock switching rooms
+
+  // room has not been created yet. return new room created.
+  firestoreMock.add = jest.fn().mockResolvedValueOnce(room2DocResult);
+
+  // mock firebase.firestore.FieldValue.arrayUnion for call in setRoomId
+  firebase.firestore.FieldValue = {
+    arrayUnion: () => {
+      return;
+    },
+  };
+
   firestoreMock.get = jest
     .fn()
     // first call in checkChatRoomExists, representing retrieving the room that
     // contains test users 1 and 3
-    .mockResolvedValueOnce([room2DocResult])
+    // users 1 and 3 do not have a room
+    .mockResolvedValueOnce([])
+    // second call in setRoomId
+    .mockResolvedValueOnce([user, user3DocResult])
     // second call in getInitMessages, where there is only one message and it's
     // message2, by the current user
     .mockResolvedValueOnce(room2DocResult.messages);
@@ -467,7 +496,7 @@ test("Switch rooms", async () => {
 
   const user3Button = screen.getByText(user3DocData.displayName);
   fireEvent.click(user3Button);
-  await waitFor(() => expect(firestoreMock.get).toBeCalledTimes(2));
+  await waitFor(() => expect(firestoreMock.get).toBeCalledTimes(3));
   // now user2 should appear once but user3 should appear in user list and room name
   await waitFor(() =>
     expect(screen.getAllByText(user2DocData.displayName).length).toBe(1)

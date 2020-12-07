@@ -1,33 +1,47 @@
-@import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800');
+@import url("https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800");
 * {
   box-sizing: border-box;
 }
 
-h1, h2, h3, h4, h5, h6, label, span {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label,
+span {
   font-weight: 500;
-  font-family: 'Fira Sans', sans-serif;
+  font-family: "Fira Sans", sans-serif;
   text-align: center;
 }
 
-body, html, .App, #root, .auth-wrapper {
+body,
+html,
+.App,
+#root,
+.auth-wrapper {
   width: 100%;
   height: 100%;
   line-height: 1;
+  background-color: #282c34;
 }
 
 .auth-wrapper {
   display: flex;
   justify-content: center;
+  background-color: #282c34;
 }
 
 .auth-inner {
   width: 30vw;
-  margin: auto;
-  background: #ffffff;
   box-shadow: 0rem 1rem 2rem rgba(34, 35, 58, 0.2);
   padding: 2rem 4rem 2rem 4rem;
+  background-color: #282c34;
+  color: white;
   border-radius: 2rem;
-  transition: all .3s;
+  margin: auto;
+  transition: all 0.3s;
 }
 
 .auth-wrapper h3 {
@@ -43,6 +57,75 @@ body, html, .App, #root, .auth-wrapper {
   line-height: 1;
 }
 
+.landing-left-wrapper {
+  left: 0px;
+  width: 50%;
+  height: 100%;
+}
+
+.landing-text {
+  color: white;
+  top: 35%;
+  left: 18%;
+  max-width: 50%;
+  max-height: 60%;
+  position: absolute;
+  text-align: center;
+}
+
+.landing-text h1 {
+  font-size: 7vh;
+}
+
+.landing-text p {
+  font-size: 2vh;
+}
+
+.signin-wrapper {
+  flex: 1;
+  box-shadow: 0rem 0rem 0.3rem 0.2rem rgba(160, 160, 161, 0.2);
+  padding: 1rem 1.2rem 3rem 1.2rem;
+  position: relative;
+}
+
+.landing-right-wrapper {
+  right: 0px;
+  width: 50%;
+  height: 100%;
+}
+
+.landing-img {
+  top: 20%;
+  right: 8%;
+  position: absolute;
+  max-width: 50%;
+  max-height: 60%;
+}
+
+.joke-img {
+  top: 18%;
+  right: 24%;
+  position: absolute;
+  max-width: 15%;
+  max-height: 15%;
+}
+.ans-img {
+  top: 30%;
+  right: 36%;
+  position: absolute;
+  max-width: 15%;
+  max-height: 15%;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 2s;
+}
+.fade-in {
+  opacity: 1;
+  transition: opacity 2s;
+}
+
 .main {
   background-color: #282c34;
   display: flex;
@@ -55,7 +138,7 @@ body, html, .App, #root, .auth-wrapper {
   max-width: 25rem;
   padding: 1rem 1.2rem 3rem 1.2rem;
   box-shadow: 0rem 0rem 0.3rem 0.2rem rgba(160, 160, 161, 0.2);
-  transition: all .3s;
+  transition: all 0.3s;
   overflow-y: auto;
 }
 
@@ -116,6 +199,22 @@ body, html, .App, #root, .auth-wrapper {
   user-select: none; /* Standard syntax */
 }
 
+.message-time-sent {
+  position: absolute;
+  margin-top: 2.75rem;
+  font-size: 0.7rem;
+  color: #fff;
+  right: 0.25rem;
+}
+
+.message-time-received {
+  position: absolute;
+  margin-top: 2.75rem;
+  font-size: 0.7rem;
+  color: #fff;
+  left: 0.25rem;
+}
+
 .message {
   clear: both;
   overflow-wrap: break-word;
@@ -130,7 +229,7 @@ body, html, .App, #root, .auth-wrapper {
 }
 
 .sent p {
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
   border-radius: 1.2rem;
   background: #0b93f6;
   color: #fff;
@@ -145,7 +244,7 @@ body, html, .App, #root, .auth-wrapper {
 .received p {
   background: #e5e5ea;
   color: black;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
   border-radius: 1.2rem;
   padding: 0.8rem;
   float: left;

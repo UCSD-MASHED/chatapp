@@ -250,7 +250,7 @@ class ChatRoom extends React.Component {
       .collection("rooms")
       .doc(roomId)
       .collection("messages")
-      .orderBy("timestamp", "desc")
+      .orderBy("timestamp")
       .get()
       .then((snapshot) => {
         let msgs = [];
@@ -276,7 +276,7 @@ class ChatRoom extends React.Component {
       .collection("rooms")
       .doc(roomId)
       .collection("messages")
-      .orderBy("timestamp", "desc")
+      .orderBy("timestamp")
       .onSnapshot((snapshot) => {
         // make sure server timestamp is generated
         if (snapshot.metadata.hasPendingWrites) {
@@ -354,7 +354,6 @@ class ChatRoom extends React.Component {
           <div className="chat-messages">
             {this.state.messages &&
               this.state.messages
-                .reverse()
                 .map((msg, i) => (
                   <ChatMessage
                     key={i}

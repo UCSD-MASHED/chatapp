@@ -116,6 +116,22 @@ body, html, .App, #root, .auth-wrapper {
   user-select: none; /* Standard syntax */
 }
 
+.message-time-sent {
+  position: absolute;
+  margin-top: 2.75rem;
+  font-size: 0.7rem;
+  color: #fff;
+  right: 0.25rem;
+}
+
+.message-time-received {
+  position: absolute;
+  margin-top: 2.75rem;
+  font-size: 0.7rem;
+  color: #fff;
+  left: 0.25rem;
+}
+
 .message {
   clear: both;
   overflow-wrap: break-word;
@@ -130,7 +146,7 @@ body, html, .App, #root, .auth-wrapper {
 }
 
 .sent p {
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
   border-radius: 1.2rem;
   background: #0b93f6;
   color: #fff;
@@ -145,7 +161,7 @@ body, html, .App, #root, .auth-wrapper {
 .received p {
   background: #e5e5ea;
   color: black;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
   border-radius: 1.2rem;
   padding: 0.8rem;
   float: left;

@@ -47,9 +47,7 @@ class ChatRoom extends React.Component {
         this.scrollToBottom();
       });
 
-      this.getMessages().then(() => {
-        this.scrollToBottom();
-      });
+      this.getMessages();
 
       this.setState({ loading: false });
     }
@@ -64,7 +62,6 @@ class ChatRoom extends React.Component {
     event.preventDefault();
     if (this.checkUserInRoom()) {
       this.sendMessage();
-      this.scrollToBottom();
     }
   }
 
@@ -248,7 +245,6 @@ class ChatRoom extends React.Component {
     if (!roomId) {
       return;
     }
-    let msgs = [];
     await firebase
       .firestore()
       .collection("rooms")
@@ -257,11 +253,12 @@ class ChatRoom extends React.Component {
       .orderBy("timestamp", "desc")
       .get()
       .then((snapshot) => {
-        snapshot.forEach(function (doc) {
+        let msgs = [];
+        snapshot.forEach((doc) => {
           msgs.push(doc.data());
         });
+        this.setState({ messages: msgs });
       });
-    this.setState({ messages: msgs });
   }
 
   /**
@@ -274,19 +271,24 @@ class ChatRoom extends React.Component {
     if (!roomId) {
       return;
     }
-    firebase
+    await firebase
       .firestore()
       .collection("rooms")
       .doc(roomId)
       .collection("messages")
       .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) => {
+        // make sure server timestamp is generated
+        if (snapshot.metadata.hasPendingWrites) {
+          // skip, wait for next one
+          return;
+        }
         var messages = [];
         snapshot.forEach((doc) => {
           messages.push(doc.data());
-          this.scrollToBottom();
         });
         this.setState({ messages: messages });
+        this.scrollToBottom();
       });
   }
 

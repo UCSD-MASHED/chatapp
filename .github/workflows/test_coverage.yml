@@ -4,7 +4,6 @@ name: Jest and Cypress Test and Coverage
     branches:
       - main
       - dev
-      - jg-badges
   pull_request:
     branches:
       - main

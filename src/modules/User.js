@@ -14,7 +14,7 @@ class User extends React.Component {
   /**
    * Given a list of participants, check to see if this chatRoom already exists.
    * @param {string[]} participants - list of usernames for users in the room
-   * @return {string} roomId - id of the chat room if found, otherwise empty string
+   * @return {string|null} roomId - id of the chat room if found, otherwise empty string
    */
   async checkChatRoomExists(participants) {
     let roomId = await firebase
@@ -27,7 +27,7 @@ class User extends React.Component {
           let room = qs.docs[0];
           return room.id;
         } else {
-          return "";
+          return null;
         }
       });
     return roomId;

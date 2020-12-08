@@ -25,6 +25,7 @@ class ChatRoom extends React.Component {
       users: [],
       keyword: "",
       roomName: "Chat Room",
+      roomId: null,
       loading: true,
     };
     this.dummy = createRef();
@@ -169,7 +170,7 @@ class ChatRoom extends React.Component {
    * if there exists a chat between the first user and the current user
    * @param {string} firstUser - The first user in the list of other users
    * @param {string} username - username of the current user
-   * @return {string} roomId - the roomId if it exists, else empty string
+   * @return {string|null} roomId - the roomId if it exists, else empty string
    */
   async getFirstRoom(firstUser, username) {
     let participants = [username, firstUser.username].sort();
@@ -185,7 +186,7 @@ class ChatRoom extends React.Component {
           const room = qs.docs[0];
           return room.id;
         } else {
-          return "";
+          return null;
         }
       });
     return res;

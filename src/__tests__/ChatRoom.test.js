@@ -309,35 +309,31 @@ test("Render user list", async () => {
 });
 
 test("Search user", async () => {
-  // console.log("Starting test: Search user");
-
-  const docData1 = {
+  const user1DocData = {
     displayName: "Test user1",
     online: true,
     roomIds: [],
-    username: "testuser1",
+    username: "test_user1",
   };
-  const docData2 = {
-    displayName: "User2",
+  const user1DocResult = {
+    data: () => user1DocData
+  };
+
+  const user2DocData = {
+    displayName: "Test user2",
     online: true,
     roomIds: [],
-    username: "user2",
+    username: "test_user2",
   };
-  const docResult1 = {
-    data: () => docData1,
-    id: "roomId",
+  const user2DocResult = {
+    data: () => user2DocData
   };
-  const docResult2 = {
-    data: () => docData2,
-    id: "roomId",
-  };
+
   firestoreMock.get = jest
     .fn()
-    // first call in getUsers, where there is only one other user
-    .mockResolvedValueOnce([docResult1, docResult2])
-    // second call in getFirstRoom to get the current room
-    .mockResolvedValueOnce([])
-    // third call in getInitMessages, representing no initial messages
+    // first call in getUsers, where there are two other users
+    .mockResolvedValueOnce([user1DocResult, user2DocResult])
+    // second call in getFirstRoom, representing not having an open room with first user
     .mockResolvedValueOnce([]);
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
 
@@ -348,28 +344,34 @@ test("Search user", async () => {
   );
   expect(history.location.pathname).toEqual("/chatRoom");
 
-  await waitFor(() => screen.getByPlaceholderText("Search"));
-  // get all users
-  // first test user should appear once in user list and once as room name
   await waitFor(() =>
-    expect(screen.getAllByText(docData1.displayName).length).toBe(2)
-  );
-  await waitFor(() =>
-    expect(screen.getAllByText(docData2.displayName).length).toBe(1)
+    screen.getByPlaceholderText("Potatoes can't talk... but you can!")
   );
 
+  // Each of the other test users should appear once in user list.
+  // Note that the first user's name does not appear a second time
+  // as the room name because the current user is not in a chat room.
+  await waitFor(() =>
+    expect(screen.getAllByText(user1DocData.displayName).length).toBe(1)
+  );
+  await waitFor(() =>
+    expect(screen.getAllByText(user2DocData.displayName).length).toBe(1)
+  );
+  // current user's display name should not appear
+  expect(screen.queryByText(user.displayName)).toBeNull();
+
   // mock search user return
-  firestoreMock.get = jest.fn(() => Promise.resolve([docResult1]));
+  firestoreMock.get = jest.fn(() => Promise.resolve([user1DocResult]));
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
 
   const searchInput = screen.getByPlaceholderText("Search");
   fireEvent.input(searchInput, { target: { value: "test" } });
 
+  // first test user should still appear in user list, but second shouldn't
   await waitFor(() =>
-    expect(screen.queryByText(docData2.displayName)).toBeNull()
+    expect(screen.queryByText(user2DocData.displayName)).toBeNull()
   );
-  // first test user should still appear twice, in user list and as room name
-  expect(screen.getAllByText(docData1.displayName).length).toBe(2);
+  expect(screen.getAllByText(user1DocData.displayName).length).toBe(1);
 });
 
 test("Switch rooms", async () => {

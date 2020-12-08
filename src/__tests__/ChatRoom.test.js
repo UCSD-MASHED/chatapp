@@ -270,7 +270,7 @@ test("Render user list", async () => {
     username: "test_user1",
   };
   const user1DocResult = {
-    data: () => user1DocData
+    data: () => user1DocData,
   };
 
   const user2DocData = {
@@ -280,7 +280,7 @@ test("Render user list", async () => {
     username: "test_user2",
   };
   const user2DocResult = {
-    data: () => user2DocData
+    data: () => user2DocData,
   };
 
   firestoreMock.get = jest
@@ -288,7 +288,7 @@ test("Render user list", async () => {
     // first call in getUsers, where there are two other users
     .mockResolvedValueOnce([user1DocResult, user2DocResult])
     // second call in getFirstRoom, representing not having an open room with first user
-    .mockResolvedValueOnce({ empty: true })
+    .mockResolvedValueOnce({ empty: true });
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
 
   render(
@@ -315,7 +315,7 @@ test("Render user list", async () => {
 });
 
 test("Search user", async () => {
-const user1DocData = {
+  const user1DocData = {
     displayName: "Test user1",
     online: true,
     roomIds: [],

@@ -95,7 +95,7 @@ class ChatRoom extends React.Component {
   /**
    * Get all the users excluding the current user
    * @param {string} userName - The username of the current user
-   * @return {user[]} list of all users
+   * @return {user[]} list of the users excluding the current user
    */
   async getUsers(userName) {
     var res = await firebase

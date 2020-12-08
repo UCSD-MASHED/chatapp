@@ -263,7 +263,7 @@ test("Render user list", async () => {
     username: "test_user1",
   };
   const user1DocResult = {
-    data: () => user1DocData
+    data: () => user1DocData,
   };
 
   const user2DocData = {
@@ -273,7 +273,7 @@ test("Render user list", async () => {
     username: "test_user2",
   };
   const user2DocResult = {
-    data: () => user2DocData
+    data: () => user2DocData,
   };
 
   firestoreMock.get = jest
@@ -316,7 +316,7 @@ test("Search user", async () => {
     username: "test_user1",
   };
   const user1DocResult = {
-    data: () => user1DocData
+    data: () => user1DocData,
   };
 
   const user2DocData = {
@@ -326,7 +326,7 @@ test("Search user", async () => {
     username: "test_user2",
   };
   const user2DocResult = {
-    data: () => user2DocData
+    data: () => user2DocData,
   };
 
   firestoreMock.get = jest

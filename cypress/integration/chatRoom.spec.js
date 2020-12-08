@@ -37,20 +37,14 @@ describe("Chat room messages and room change", () => {
       });
     });
 
-    // get messages that loginUser will send to testUserCypress1 and testUserCypress2
-    cy.fixture("messagesToSendFromLoginUser").then((json) => {
-      messagesToSendFromLoginUser = json;
-    });
+    // get messages that loginUser and test users will send
+    cy.fixture("messagesToSend").then((json) => {
+      messagesToSendFromLoginUser = json.messagesToSendFromLoginUser;
 
-    // get message that testUserCypress1 will send to loginUser
-    cy.fixture("messageToSendFromTestUser1").then((json) => {
-      messageToSendFromTestUser1 = json;
+      messageToSendFromTestUser1 = json.messageToSendFromTestUser1;
       messageToSendFromTestUser1.timestamp = firebase.firestore.Timestamp.now();
-    });
 
-    // get message that testUserCypress2 will send to loginUser
-    cy.fixture("messageToSendFromTestUser2").then((json) => {
-      messageToSendFromTestUser2 = json;
+      messageToSendFromTestUser2 = json.messageToSendFromTestUser2;
       messageToSendFromTestUser2.timestamp = firebase.firestore.Timestamp.now();
     });
   });
@@ -82,10 +76,7 @@ describe("Chat room messages and room change", () => {
     cy.contains("Chat Room");
     const testUser1DisplayName = users[0].displayName;
     cy.get(".list-group").find(".user").contains(testUser1DisplayName).click();
-    cy.get('[data-testid="room-name"]').should(
-      "have.text",
-      testUser1DisplayName
-    );
+    cy.get('[data-testid="room-name"]').contains(testUser1DisplayName);
     const messages = rooms[0].messages;
     messages.forEach((message) => {
       cy.contains(message.message);
@@ -129,10 +120,7 @@ describe("Chat room messages and room change", () => {
     // Go to test room 2 with test user 2 and check room name
     const testUser2DisplayName = users[1].displayName;
     cy.get(".list-group").find(".user").contains(testUser2DisplayName).click();
-    cy.get('[data-testid="room-name"]').should(
-      "have.text",
-      testUser2DisplayName
-    );
+    cy.get('[data-testid="room-name"]').contains(testUser2DisplayName);
     // "Send" a message from test user 2 and check that it renders
     cy.callFirestore(
       "set",

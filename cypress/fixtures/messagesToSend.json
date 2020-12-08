@@ -1,0 +1,23 @@
+{
+  "messagesToSendFromLoginUser":
+     [{
+        "message": "New message from loginUser in Room 1"
+      },
+      {
+        "message": "New message from loginUser in Room 2"
+      }],
+  "messageToSendFromTestUser1" :
+     {
+        "message": "New message from testUserCypress1",
+        "timestamp": "",
+        "username": "testUserCypress1",
+        "uid": "345"
+     },
+  "messageToSendFromTestUser2" :
+     {
+        "message": "New message from testUserCypress2",
+        "timestamp": "",
+        "username": "testUserCypress2",
+        "uid": "456"
+     }
+}

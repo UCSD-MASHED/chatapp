@@ -127,7 +127,7 @@ class Login extends React.Component {
         <div className="signin-wrapper">
           <span className="landing-left-wrapper">
             <div className="landing-text">
-              <h1>TaterTalk</h1>
+              <h1>TaterTalks</h1>
               <br></br>
               <p>Presented by Team Mashed</p>
               <br></br>

@@ -49,7 +49,7 @@ class ChatRoom extends React.Component {
             otherUser: firstUser,
             roomName: firstUser.displayName,
           });
-           // if there exists a room already, get messages
+          // if there exists a room already, get messages
           await this.getInitMessages(roomId);
           await this.getMessages(roomId);
         }

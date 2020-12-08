@@ -98,10 +98,7 @@ class User extends React.Component {
    * @param {string[]} username - username of the current user
    */
   startPrivateChat(targetUsername, username) {
-    let participants = [
-      targetUsername,
-      username
-    ].sort();
+    let participants = [targetUsername, username].sort();
     this.openChatRoom(participants);
   }
 
@@ -110,7 +107,12 @@ class User extends React.Component {
       <a
         href="# "
         className="user list-group-item list-group-item-action list-group-item-secondary justify-content-between d-flex"
-        onClick={() => this.startPrivateChat(this.props.targetUser.username, this.props.user.username)}
+        onClick={() =>
+          this.startPrivateChat(
+            this.props.targetUser.username,
+            this.props.user.username
+          )
+        }
       >
         <h5 className="mb-1">{this.props.targetUser.displayName}</h5>
         <small className="text-muted">

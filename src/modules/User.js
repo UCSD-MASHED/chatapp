@@ -21,6 +21,7 @@ class User extends React.Component {
       .firestore()
       .collection("rooms")
       .where("participants", "==", participants)
+      .limit(1)
       .get()
       .then((qs) => {
         if (!qs.empty) {

@@ -27,6 +27,7 @@ beforeEach(() => {
     collection: jest.fn().mockReturnThis(),
     doc: jest.fn().mockReturnThis(),
     orderBy: jest.fn().mockReturnThis(),
+    limit: jest.fn().mockReturnThis(),
     get: null,
     onSnapshot: jest.fn().mockReturnThis(),
     add: jest.fn().mockReturnThis(),

@@ -43,7 +43,7 @@ class ChatRoom extends React.Component {
       const users = await this.getUsers(username);
       if (!users.empty) {
         const firstUser = users[0];
-        const roomId = await this.getFirstRoom(firstUser, username);
+        const roomId = await this.getFirstRoom(firstUser.username, username);
         if (roomId) {
           this.setState({
             roomId: roomId,
@@ -159,27 +159,26 @@ class ChatRoom extends React.Component {
       .where("username", "==", username)
       .where("roomIds", "array-contains", roomId)
       .get()
-      .then((qs) => {
-        return !qs.empty;
-      });
+      .then((qs) => !qs.empty);
     return exist;
   }
 
   /**
    * On chat room load, open the chat log for the first user in the list
    * if there exists a chat between the first user and the current user
-   * @param {string} firstUser - The first user in the list of other users
+   * @param {string} firstUsername - the username of the first user in the list of other users
    * @param {string} username - username of the current user
    * @return {string|null} roomId - the roomId if it exists, else empty string
    */
-  async getFirstRoom(firstUser, username) {
-    let participants = [username, firstUser.username].sort();
+  async getFirstRoom(firstUsername, username) {
+    let participants = [username, firstUsername].sort();
 
-    // update roomId to be the first room
+    // get roomId to be the first room
     let res = await firebase
       .firestore()
       .collection("rooms")
       .where("participants", "==", participants)
+      .limit(1)
       .get()
       .then((qs) => {
         if (!qs.empty) {

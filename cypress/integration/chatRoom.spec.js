@@ -98,10 +98,7 @@ describe("Chat room messages and room change", () => {
     // Go to test room 1 with test user 1 and check room name
     const testUser1DisplayName = users[0].displayName;
     cy.get(".list-group").find(".user").contains(testUser1DisplayName).click();
-    cy.get('[data-testid="room-name"]').should(
-      "have.text",
-      testUser1DisplayName
-    );
+    cy.get('[data-testid="room-name"]').contains(testUser1DisplayName);
     // "Send" a message from test user 1 and check that it renders
     cy.callFirestore(
       "set",

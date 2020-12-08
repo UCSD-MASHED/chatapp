@@ -286,7 +286,7 @@ test("Render user list", async () => {
   firestoreMock.get = jest
     .fn()
     // first call in getUsers, where there is only one other user
-   .mockResolvedValueOnce([user1DocResult, user2DocResult])
+    .mockResolvedValueOnce([user1DocResult, user2DocResult])
     // second call in getFirstRoom, representing not having an open room with first user
     .mockResolvedValueOnce({ empty: true })
     // third call in getInitMessages, representing no initial messages
@@ -390,7 +390,6 @@ test("Search user", async () => {
     expect(screen.queryByText(user2DocData.displayName)).toBeNull()
   );
   expect(screen.getAllByText(user1DocData.displayName).length).toBe(1);
-
 });
 
 test("Switch rooms", async () => {

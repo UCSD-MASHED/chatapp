@@ -363,7 +363,7 @@ test("Search user", async () => {
   // not mocking chat room, default chat room name
   await waitFor(() => screen.getByText("Chat Room"));
   await waitFor(() =>
-    expect(screen.getAllByText(docData1.displayName).length).toBe(1)
+    expect(screen.getAllByText(user1DocData.displayName).length).toBe(1)
   );
 
   // Each of the other test users should appear once in user list.

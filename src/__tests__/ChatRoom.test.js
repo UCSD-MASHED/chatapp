@@ -263,37 +263,32 @@ test("Render chat room name", async () => {
 });
 
 test("Render user list", async () => {
-  // console.log("Starting test: Render user list");
-
-  const docData1 = {
+  const user1DocData = {
     displayName: "Test user1",
     online: true,
     roomIds: [],
     username: "test_user1",
   };
-  const docData2 = {
-    docs: [{ id: "room_id" }],
+  const user1DocResult = {
+    data: () => user1DocData,
+  };
+
+  const user2DocData = {
     displayName: "Test user2",
     online: true,
     roomIds: [],
     username: "test_user2",
   };
-  const docResult1 = {
-    data: () => docData1,
-    id: "roomId",
+  const user2DocResult = {
+    data: () => user2DocData,
   };
-  const docResult2 = {
-    data: () => docData2,
-    id: "roomId",
-  };
+
   firestoreMock.get = jest
     .fn()
-    // first call in getUsers, where there is only one other user
-    .mockResolvedValueOnce([docResult1, docResult2])
-    // second call in getFirstRoom to get the current room
-    .mockResolvedValueOnce({ empty: true })
-    // third call in getInitMessages, representing no initial messages
-    .mockResolvedValueOnce([]);
+    // first call in getUsers, where there are two other users
+    .mockResolvedValueOnce([user1DocResult, user2DocResult])
+    // second call in getFirstRoom, representing not having an open room with first user
+    .mockResolvedValueOnce({ empty: true });
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
 
   render(
@@ -310,44 +305,42 @@ test("Render user list", async () => {
   // not mocking chat room, default chat room name
   await waitFor(() => screen.getByText("Chat Room"));
   await waitFor(() =>
-    expect(screen.getAllByText(docData1.displayName).length).toBe(1)
+    expect(screen.getAllByText(user1DocData.displayName).length).toBe(1)
   );
   await waitFor(() =>
-    expect(screen.getAllByText(docData2.displayName).length).toBe(1)
+    expect(screen.getAllByText(user2DocData.displayName).length).toBe(1)
   );
+  // current user's display name should not appear
+  expect(screen.queryByText(user.displayName)).toBeNull();
 });
 
 test("Search user", async () => {
-  // console.log("Starting test: Search user");
-
-  const docData1 = {
+  const user1DocData = {
     displayName: "Test user1",
     online: true,
     roomIds: [],
-    username: "testuser1",
+    username: "test_user1",
   };
-  const docData2 = {
-    displayName: "User2",
+  const user1DocResult = {
+    data: () => user1DocData,
+  };
+
+  const user2DocData = {
+    displayName: "Test user2",
     online: true,
     roomIds: [],
-    username: "user2",
+    username: "test_user2",
   };
-  const docResult1 = {
-    data: () => docData1,
-    id: "roomId",
+  const user2DocResult = {
+    data: () => user2DocData,
   };
-  const docResult2 = {
-    data: () => docData2,
-    id: "roomId",
-  };
+
   firestoreMock.get = jest
     .fn()
-    // first call in getUsers, where there is only one other user
-    .mockResolvedValueOnce([docResult1, docResult2])
-    // second call in getFirstRoom to get the current room
-    .mockResolvedValueOnce({ empty: true })
-    // third call in getInitMessages, representing no initial messages
-    .mockResolvedValueOnce([]);
+    // first call in getUsers, where there are two other users
+    .mockResolvedValueOnce([user1DocResult, user2DocResult])
+    // second call in getFirstRoom, representing not having an open room with first user
+    .mockResolvedValueOnce({ empty: true });
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
 
   render(
@@ -363,23 +356,26 @@ test("Search user", async () => {
   // not mocking chat room, default chat room name
   await waitFor(() => screen.getByText("Chat Room"));
   await waitFor(() =>
-    expect(screen.getAllByText(docData1.displayName).length).toBe(1)
+    expect(screen.getAllByText(user1DocData.displayName).length).toBe(1)
   );
   await waitFor(() =>
-    expect(screen.getAllByText(docData2.displayName).length).toBe(1)
+    expect(screen.getAllByText(user2DocData.displayName).length).toBe(1)
   );
+  // current user's display name should not appear
+  expect(screen.queryByText(user.displayName)).toBeNull();
 
   // mock search user return
-  firestoreMock.get = jest.fn(() => Promise.resolve([docResult1]));
+  firestoreMock.get = jest.fn(() => Promise.resolve([user1DocResult]));
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
 
   const searchInput = screen.getByPlaceholderText("Search");
   fireEvent.input(searchInput, { target: { value: "test" } });
 
+  // first test user should still appear in user list, but second shouldn't
   await waitFor(() =>
-    expect(screen.queryByText(docData2.displayName)).toBeNull()
+    expect(screen.queryByText(user2DocData.displayName)).toBeNull()
   );
-  expect(screen.getAllByText(docData1.displayName).length).toBe(1);
+  expect(screen.getAllByText(user1DocData.displayName).length).toBe(1);
 });
 
 test("Switch rooms", async () => {

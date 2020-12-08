@@ -17,23 +17,36 @@ class User extends React.Component {
    * @return {string} roomId - id of the chat room if found, otherwise empty string
    */
   async checkChatRoomExists(participants) {
-    let res = await firebase
+    let roomId = await firebase
       .firestore()
       .collection("rooms")
       .where("participants", "==", participants)
       .get()
       .then((qs) => {
         if (!qs.empty) {
-          let result = "";
-          qs.forEach((doc) => {
-            result = doc.id;
-          });
-          return result;
+          let room = qs.docs[0];
+          return room.id;
         } else {
           return "";
         }
       });
-    return res;
+    return roomId;
+  }
+
+  /**
+   * Create a new chat room for participants
+   * @param {string[]} participants - list of usernames for users in the room
+   * @return {string} roomId - id of the newly created chat room
+   */
+  async createRoom(participants) {
+    let roomId = await firebase
+      .firestore()
+      .collection("rooms")
+      .add({
+        participants: participants,
+      })
+      .then((roomRef) => roomRef.id);
+    return roomId;
   }
 
   /**
@@ -42,13 +55,13 @@ class User extends React.Component {
    * @param {string[]} participants - list of usernames for users in the room
    */
   async setRoomId(participants, roomId) {
-    var res = await firebase
+    await firebase
       .firestore()
       .collection("users")
       .where("username", "in", participants)
       .get()
-      .then(function (qs) {
-        qs.forEach(function (doc) {
+      .then((qs) => {
+        qs.forEach((doc) => {
           firebase
             .firestore()
             .collection("users")
@@ -58,7 +71,6 @@ class User extends React.Component {
             });
         });
       });
-    return res;
   }
 
   /**
@@ -71,29 +83,24 @@ class User extends React.Component {
   async openChatRoom(participants) {
     let chatRoomId = await this.checkChatRoomExists(participants);
     if (!chatRoomId) {
-      // create a new chat room
-      let roomId = await firebase
-        .firestore()
-        .collection("rooms")
-        .add({
-          participants: participants,
-        })
-        .then((roomRef) => roomRef.id);
-      this.setRoomId(participants, roomId);
+      const roomId = await this.createRoom(participants);
+      await this.setRoomId(participants, roomId);
+      // get the new chat room id
       chatRoomId = roomId;
     }
-    this.props.handler(chatRoomId, this.props.user);
+    // bind handleChangeRoom parameters
+    this.props.handler(chatRoomId, this.props.targetUser);
   }
 
   /**
    * Open a chat room given a list of participants
-   * @param {string[]} user - username of the target user
-   * @param {string[]} myUser - username of the current user
+   * @param {string[]} targetUsername - username of the target user
+   * @param {string[]} username - username of the current user
    */
-  startPrivateChat() {
+  startPrivateChat(targetUsername, username) {
     let participants = [
-      this.props.myUser.username,
-      this.props.user.username,
+      targetUsername,
+      username
     ].sort();
     this.openChatRoom(participants);
   }
@@ -103,11 +110,11 @@ class User extends React.Component {
       <a
         href="# "
         className="user list-group-item list-group-item-action list-group-item-secondary justify-content-between d-flex"
-        onClick={this.startPrivateChat}
+        onClick={() => this.startPrivateChat(this.props.targetUser.username, this.props.user.username)}
       >
-        <h5 className="mb-1">{this.props.user.displayName}</h5>
+        <h5 className="mb-1">{this.props.targetUser.displayName}</h5>
         <small className="text-muted">
-          @{this.props.user.username}
+          @{this.props.targetUser.username}
           {/* <br/>
           <br/>
           {this.props.user.online ? "online" : "offline"} */}

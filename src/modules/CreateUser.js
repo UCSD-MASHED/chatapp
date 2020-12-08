@@ -88,15 +88,15 @@ class CreateUser extends React.Component {
   }
 
   /**
-   * Check if the current userName is unique in database
-   * @param {string} userName - The username to be checked in database
-   * @return {boolean} True if userName is unique; otherwise False
+   * Check if the current username is unique in database
+   * @param {string} username - The username to be checked in database
+   * @return {boolean} True if username is unique; otherwise False
    */
-  async usernameIsUnique(userName) {
+  async usernameIsUnique(username) {
     var res = await firebase
       .firestore()
       .collection("users")
-      .where("username", "==", userName)
+      .where("username", "==", username)
       .limit(1)
       .get()
       .then((querySnapshot) => querySnapshot.empty);
@@ -109,13 +109,13 @@ class CreateUser extends React.Component {
    * @param {string} googleUser.uid - The unique id of the google user
    * @param {string} googleUser.displayName - The displayed name of the
    *     google user
-   * @param {string} userName - The username of the user
+   * @param {string} username - The username of the user
    * @return {user|null} The newly created user if created successfully;
    *     otherwise null
    */
-  async createUser(googleUser, userName) {
+  async createUser(googleUser, username) {
     var user = {
-      username: userName,
+      username: username,
       displayName: googleUser.displayName,
       // blockIds: [],
       // friendIds: [],

@@ -38,18 +38,23 @@ class ChatRoom extends React.Component {
     if (!this.state.user) {
       this.props.history.replace("/");
     } else {
-      await this.getUsers(this.state.user.username).then((users) => {
-        this.setState({ users: users });
-      });
-      await this.getFirstRoom();
-
-      this.getInitMessages().then(() => {
-        this.scrollToBottom();
-      });
-
-      this.getMessages();
-
-      this.setState({ loading: false });
+      const username = this.state.user.username;
+      const users = await this.getUsers(username);
+      if (!users.empty) {
+        const firstUser = users[0];
+        const roomId = await this.getFirstRoom(firstUser, username);
+        if (roomId) {
+          this.setState({
+            roomId: roomId,
+            otherUser: firstUser,
+            roomName: firstUser.displayName,
+          });
+           // if there exists a room already, get messages
+          await this.getInitMessages(roomId);
+          await this.getMessages(roomId);
+        }
+      }
+      this.setState({ loading: false, users: users });
     }
   }
 
@@ -60,8 +65,11 @@ class ChatRoom extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    if (this.checkUserInRoom()) {
-      this.sendMessage();
+    const message = this.state.message;
+    const username = this.state.user.username;
+    const roomId = this.state.roomId;
+    if (this.checkUserInRoom(username, roomId)) {
+      this.sendMessage(message, roomId, username);
     }
   }
 
@@ -76,32 +84,28 @@ class ChatRoom extends React.Component {
     });
   }
 
-  handleChangeRoom(roomId, otherUser) {
+  async handleChangeRoom(roomId, otherUser) {
     this.setState({
       otherUser: otherUser,
       roomId: roomId,
       roomName: otherUser.displayName,
-      messages: [],
-    });
-    this.getInitMessages().then(() => {
-      this.scrollToBottom();
     });
 
-    this.getMessages().then(() => {
-      this.scrollToBottom();
-    });
+    await this.getInitMessages(roomId);
+
+    await this.getMessages(roomId);
   }
 
   /**
    * Get all the users excluding the current user
-   * @param {string} userName - The username of the current user
+   * @param {string} username - The username of the current user
    * @return {user[]} list of the users excluding the current user
    */
-  async getUsers(userName) {
+  async getUsers(username) {
     var res = await firebase
       .firestore()
       .collection("users")
-      .where("username", "!=", userName)
+      .where("username", "!=", username)
       .get()
       .then((docs) => {
         let users = [];
@@ -142,17 +146,13 @@ class ChatRoom extends React.Component {
    * Return whether or not the current user is in the current room
    * @param {string} username - username of the current user
    * @param {string} roomId - id of the chat room
-   * @return {boolean} true or false if the user is in the chat room
+   * @return {boolean} exist - true or false if the user is in the chat room
    */
-  async checkUserInRoom() {
-    let username = this.state.user.username;
-    let roomId = this.state.roomId;
-
+  async checkUserInRoom(username, roomId) {
     if (!roomId) {
       return false;
     }
-
-    await firebase
+    var exist = await firebase
       .firestore()
       .collection("users")
       .where("username", "==", username)
@@ -161,39 +161,34 @@ class ChatRoom extends React.Component {
       .then((qs) => {
         return !qs.empty;
       });
+    return exist;
   }
 
   /**
    * On chat room load, open the chat log for the first user in the list
    * if there exists a chat between the first user and the current user
-   * @param {string} firstUser - username of the first user in the list of other users
+   * @param {string} firstUser - The first user in the list of other users
    * @param {string} username - username of the current user
+   * @return {string} roomId - the roomId if it exists, else empty string
    */
-  async getFirstRoom() {
-    if (this.state.users.empty) {
-      return;
-    }
-    let firstUser = this.state.users[0];
-    this.setState({
-      otherUser: firstUser,
-      roomName: firstUser.displayName,
-    });
-    let participants = [this.state.user.username, firstUser.username].sort();
+  async getFirstRoom(firstUser, username) {
+    let participants = [username, firstUser.username].sort();
 
-    await firebase
+    // update roomId to be the first room
+    let res = await firebase
       .firestore()
       .collection("rooms")
       .where("participants", "==", participants)
       .get()
       .then((qs) => {
         if (!qs.empty) {
-          qs.forEach((doc) => {
-            this.setState({
-              roomId: doc.id,
-            });
-          });
+          const room = qs.docs[0];
+          return room.id;
+        } else {
+          return "";
         }
       });
+    return res;
   }
 
   /**
@@ -202,20 +197,17 @@ class ChatRoom extends React.Component {
    * @param {string} roomId - id of the chat room
    * @param {string} username - username of the current user
    */
-  async sendMessage() {
-    let message = this.state.message;
-    let username = this.state.user.username;
-    let roomId = this.state.roomId;
+  async sendMessage(message, roomId, username) {
+    if (!roomId) {
+      return;
+    }
+
     let timestamp = firebase.firestore.FieldValue.serverTimestamp();
     let newMessage = {
       message: message,
       timestamp: timestamp,
       username: username,
     };
-
-    if (!roomId) {
-      return;
-    }
 
     var timestampObj = {};
     timestampObj[username] = timestamp;
@@ -240,8 +232,7 @@ class ChatRoom extends React.Component {
    * @param {string} roomId - id of the chat room
    * @return {string[]} messages - list of strings of messages found
    */
-  async getInitMessages() {
-    let roomId = this.state.roomId;
+  async getInitMessages(roomId) {
     if (!roomId) {
       return;
     }
@@ -258,6 +249,7 @@ class ChatRoom extends React.Component {
           msgs.push(doc.data());
         });
         this.setState({ messages: msgs });
+        this.scrollToBottom();
       });
   }
 
@@ -266,8 +258,7 @@ class ChatRoom extends React.Component {
    * the database
    * @param {string} roomId - id of the chat room
    */
-  async getMessages() {
-    let roomId = this.state.roomId;
+  async getMessages(roomId) {
     if (!roomId) {
       return;
     }
@@ -331,11 +322,11 @@ class ChatRoom extends React.Component {
           />
           <div className="list-group">
             {this.state.users &&
-              this.state.users.map((user, i) => (
+              this.state.users.map((otherUser, i) => (
                 <User
                   key={i}
-                  user={user}
-                  myUser={this.state.user}
+                  targetUser={otherUser}
+                  user={this.state.user}
                   handler={this.handleChangeRoom}
                 />
               ))}

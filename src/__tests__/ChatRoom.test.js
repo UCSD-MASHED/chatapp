@@ -27,6 +27,7 @@ beforeEach(() => {
     collection: jest.fn().mockReturnThis(),
     doc: jest.fn().mockReturnThis(),
     orderBy: jest.fn().mockReturnThis(),
+    limit: jest.fn().mockReturnThis(),
     get: null,
     onSnapshot: jest.fn().mockReturnThis(),
     add: jest.fn().mockReturnThis(),
@@ -59,7 +60,12 @@ test("Can log out", async () => {
   const docResult = {
     data: () => docData,
   };
-  firestoreMock.get = jest.fn(() => Promise.resolve([docResult]));
+  firestoreMock.get = jest
+    .fn()
+    // first call in getUsers, where there is only one other user
+    .mockResolvedValueOnce([docResult])
+    // second call in getFirstRoom to get the current room
+    .mockResolvedValueOnce({ empty: true });
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
   render(
     <Router history={history}>
@@ -115,7 +121,7 @@ test("Get messages and check if message is displayed on screen", async () => {
     // first call in getUsers
     .mockResolvedValueOnce([userDocResult, otherUserDocResult])
     // second call in getFirstRoom
-    .mockResolvedValueOnce([roomDocResult])
+    .mockResolvedValueOnce({ empty: false, docs: [roomDocResult] })
     // third call in getInitMessages, where there is only one message and it's from
     // the current user
     .mockResolvedValueOnce([messageDocResult]);
@@ -157,13 +163,6 @@ test("Send message button click tries to update database", async () => {
   };
 
   const testTime = "test_time";
-  // mock firebase.firestore.FieldValue.serverTimestamp for call in sendMessage
-  firebase.firestore.FieldValue = {
-    serverTimestamp: () => {
-      return testTime;
-    },
-  };
-
   // message to mock sending, not for initial chat room messages render
   const testMessage = "MOCK_MESSAGE";
   const messageDocData = {
@@ -177,13 +176,19 @@ test("Send message button click tries to update database", async () => {
     // first call in getUsers, where there is only one other user
     .mockResolvedValueOnce([otherUserDocResult])
     // second call in getFirstRoom to get the current room
-    .mockResolvedValueOnce([roomDocResult])
+    .mockResolvedValueOnce({ empty: false, docs: [roomDocResult] })
     // third call in getInitMessages, representing no initial messages
     .mockResolvedValueOnce([])
     // fourth call in checkUserInRoom, representing that current user is
     // in current room
     .mockResolvedValueOnce({ empty: false });
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
+  // mock firebase.firestore.FieldValue.serverTimestamp for call in sendMessage
+  firebase.firestore.FieldValue = {
+    serverTimestamp: () => {
+      return testTime;
+    },
+  };
 
   render(
     <Router history={history}>
@@ -235,7 +240,7 @@ test("Render chat room name", async () => {
     // first call in getUsers, where there is only one other user
     .mockResolvedValueOnce([otherUserDocResult])
     // second call in getFirstRoom to get the current room
-    .mockResolvedValueOnce([roomDocResult])
+    .mockResolvedValueOnce({ empty: false, docs: [roomDocResult] })
     // third call in getInitMessages, representing no initial messages
     .mockResolvedValueOnce([]);
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
@@ -250,9 +255,11 @@ test("Render chat room name", async () => {
     screen.getByPlaceholderText("Potatoes can't talk... but you can!")
   );
 
-  expect(screen.getByTestId("room-name")).toHaveTextContent(
-    otherUserDocData.displayName
-  );
+  await waitFor(() => {
+    expect(screen.getByTestId("room-name")).toHaveTextContent(
+      otherUserDocData.displayName
+    );
+  });
 });
 
 test("Render user list", async () => {
@@ -278,9 +285,11 @@ test("Render user list", async () => {
 
   firestoreMock.get = jest
     .fn()
-    // first call in getUsers, where there are two other users
-    .mockResolvedValueOnce([user1DocResult, user2DocResult])
+    // first call in getUsers, where there is only one other user
+   .mockResolvedValueOnce([user1DocResult, user2DocResult])
     // second call in getFirstRoom, representing not having an open room with first user
+    .mockResolvedValueOnce({ empty: true })
+    // third call in getInitMessages, representing no initial messages
     .mockResolvedValueOnce([]);
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
 
@@ -295,6 +304,8 @@ test("Render user list", async () => {
     screen.getByPlaceholderText("Potatoes can't talk... but you can!")
   );
 
+  // not mocking chat room, default chat room name
+  await waitFor(() => screen.getByText("Chat Room"));
   // Each of the other test users should appear once in user list.
   // Note that the first user's name does not appear a second time
   // as the room name because the current user is not in a chat room.
@@ -334,6 +345,8 @@ test("Search user", async () => {
     // first call in getUsers, where there are two other users
     .mockResolvedValueOnce([user1DocResult, user2DocResult])
     // second call in getFirstRoom, representing not having an open room with first user
+    .mockResolvedValueOnce({ empty: true })
+    // third call in getInitMessages, representing no initial messages
     .mockResolvedValueOnce([]);
   jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
 
@@ -344,8 +357,13 @@ test("Search user", async () => {
   );
   expect(history.location.pathname).toEqual("/chatRoom");
 
+  await waitFor(() => screen.getByPlaceholderText("Search"));
+  // get all users
+
+  // not mocking chat room, default chat room name
+  await waitFor(() => screen.getByText("Chat Room"));
   await waitFor(() =>
-    screen.getByPlaceholderText("Potatoes can't talk... but you can!")
+    expect(screen.getAllByText(docData1.displayName).length).toBe(1)
   );
 
   // Each of the other test users should appear once in user list.
@@ -372,6 +390,7 @@ test("Search user", async () => {
     expect(screen.queryByText(user2DocData.displayName)).toBeNull()
   );
   expect(screen.getAllByText(user1DocData.displayName).length).toBe(1);
+
 });
 
 test("Switch rooms", async () => {
@@ -440,7 +459,7 @@ test("Switch rooms", async () => {
     // just test user 2 and 3
     .mockResolvedValueOnce([user2DocResult, user3DocResult])
     // second call in getFirstRoom to get a room
-    .mockResolvedValueOnce([room1DocResult])
+    .mockResolvedValueOnce({ empty: false, docs: [room1DocResult] })
     // third call in getInitMessages, where there is only one message and it's
     // message1, by the current user
     .mockResolvedValueOnce(room1DocResult.messages);
@@ -487,7 +506,7 @@ test("Switch rooms", async () => {
     // first call in checkChatRoomExists, representing retrieving the room that
     // contains test users 1 and 3
     // users 1 and 3 do not have a room
-    .mockResolvedValueOnce([])
+    .mockResolvedValueOnce({ empty: true })
     // second call in setRoomId
     .mockResolvedValueOnce([user, user3DocResult])
     // second call in getInitMessages, where there is only one message and it's

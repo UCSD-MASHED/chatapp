@@ -1,5 +1,8 @@
 import React from "react";
 
+/**
+ * This is the ChatInput Component for the ChatRoom
+ */
 class ChatInput extends React.Component {
   render() {
     return (

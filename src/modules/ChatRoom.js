@@ -162,9 +162,9 @@ class ChatRoom extends React.Component {
   }
 
   /**
-   * Given a list of participants, check to see if this chatRoom already exists.
-   * @param {string[]} participants - list of usernames for users in the room
-   * @return {string|null} roomId - id of the chat room if found, otherwise empty string
+   * Given a list of participants, check to see if this chat room already exists.
+   * @param {string[]} participants - list of usernames for users in the room which may not exist
+   * @return {string|null} roomId - id of the chat room if found, otherwise null
    */
   async checkChatRoomExists(participants) {
     let roomId = await firebase

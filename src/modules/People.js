@@ -1,6 +1,9 @@
 import React from "react";
 import User from "./User";
 
+/**
+ * This is the People Component used to render the list of users except current user
+ */
 class People extends React.Component {
   render() {
     return (

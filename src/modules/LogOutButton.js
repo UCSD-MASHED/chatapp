@@ -1,5 +1,8 @@
 import React from "react";
 
+/**
+ * This is the LogOutButton Component
+ */
 class LogOutButton extends React.Component {
   render() {
     return (

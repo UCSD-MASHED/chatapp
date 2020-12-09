@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import ChatMessage from "./ChatMessage";
 import User from "./User";
 import Loading from "./Loading";
+import { ReactComponent as EnterButton } from "../enter.svg";
 
 /**
  * This is the ChatRoom Component
@@ -341,7 +342,9 @@ class ChatRoom extends React.Component {
           >
             Log out
           </button>
-          <h3 data-testid="room-name">{this.state.roomName}</h3>
+          <h3 className="truncate" data-testid="room-name">
+            {this.state.roomName}
+          </h3>
           <div className="chat-messages">
             {this.state.messages &&
               this.state.messages.map((msg, i) => (
@@ -367,18 +370,25 @@ class ChatRoom extends React.Component {
                   onChange={this.handleChange}
                   placeholder="Potatoes can't talk... but you can!"
                 />
-                {/* <div className="input-group-append">
-                      <button type="button" className="btn" onClick={() => this.toggleEmojiPicker()} id="show-emoji-yes">{'😃'}</button>
-                  </div> */}
+                <div className="input-group-append">
+                  {/* onClick={() => this.toggleEmojiPicker()}  */}
+                  <button
+                    type="button"
+                    className="btn btn-warning"
+                    id="show-emoji-yes"
+                  >
+                    {"😃"}
+                  </button>
+                  <button
+                    disabled={!this.state.message}
+                    type="submit"
+                    className="btn btn-success btn-block"
+                    title="Send"
+                  >
+                    <EnterButton />
+                  </button>
+                </div>
               </div>
-
-              <button
-                disabled={!this.state.message}
-                type="submit"
-                className="btn btn-primary btn-block mt-2"
-              >
-                Send
-              </button>
             </form>
           </div>
         </div>

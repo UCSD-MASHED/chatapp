@@ -64,3 +64,9 @@ jobs:
           external_repository: UCSD-MASHED/TaterTalkCoverage
           publish_branch: main
           publish_dir: ./coverage
+      - name: Update code coverage to code climate
+        uses: paambaati/codeclimate-action@v2.7.4
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_REPORT_ID }}
+        with:
+          coverageLocations: ./coverage/lcov.info:lcov

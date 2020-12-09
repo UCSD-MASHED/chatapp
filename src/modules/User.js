@@ -116,7 +116,7 @@ class User extends React.Component {
         }
       >
         <h5 className="mb-1 truncate">{this.props.targetUser.displayName}</h5>
-        <small className="text-muted">
+        <small className="text-muted truncate">
           @{this.props.targetUser.username}
           {/* <br/>
           <br/>

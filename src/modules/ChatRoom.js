@@ -2,7 +2,9 @@ import React, { createRef } from "react";
 import firebase from "firebase/app";
 import { withRouter } from "react-router-dom";
 import ChatMessage from "./ChatMessage";
-import User from "./User";
+import People from "./People";
+import LogOutButton from "./LogOutButton";
+import ChatInput from "./ChatInput";
 import Loading from "./Loading";
 
 /**
@@ -21,7 +23,6 @@ class ChatRoom extends React.Component {
       message: "",
       messages: [],
       user: user,
-      otherUser: null,
       users: [],
       keyword: "",
       roomName: "Chat Room",
@@ -33,6 +34,8 @@ class ChatRoom extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleChangeRoom = this.handleChangeRoom.bind(this);
+    this.checkChatRoomExists = this.checkChatRoomExists.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   async componentDidMount() {
@@ -42,17 +45,13 @@ class ChatRoom extends React.Component {
       const username = this.state.user.username;
       const users = await this.getUsers(username);
       if (!users.empty) {
+        // On chat room load, open the chat room for the first user in the list
+        // if there exists a chat between the first user and the current user
         const firstUser = users[0];
-        const roomId = await this.getFirstRoom(firstUser.username, username);
+        const participants = [username, firstUser.username].sort();
+        const roomId = await this.checkChatRoomExists(participants);
         if (roomId) {
-          this.setState({
-            roomId: roomId,
-            otherUser: firstUser,
-            roomName: firstUser.displayName,
-          });
-          // if there exists a room already, get messages
-          await this.getInitMessages(roomId);
-          await this.getMessages(roomId);
+          await this.handleChangeRoom(roomId, firstUser);
         }
       }
       this.setState({ loading: false, users: users });
@@ -87,7 +86,6 @@ class ChatRoom extends React.Component {
 
   async handleChangeRoom(roomId, otherUser) {
     this.setState({
-      otherUser: otherUser,
       roomId: roomId,
       roomName: otherUser.displayName,
     });
@@ -164,17 +162,12 @@ class ChatRoom extends React.Component {
   }
 
   /**
-   * On chat room load, open the chat log for the first user in the list
-   * if there exists a chat between the first user and the current user
-   * @param {string} firstUsername - the username of the first user in the list of other users
-   * @param {string} username - username of the current user
-   * @return {string|null} roomId - the roomId if it exists, else empty string
+   * Given a list of participants, check to see if this chatRoom already exists.
+   * @param {string[]} participants - list of usernames for users in the room
+   * @return {string|null} roomId - id of the chat room if found, otherwise empty string
    */
-  async getFirstRoom(firstUsername, username) {
-    let participants = [username, firstUsername].sort();
-
-    // get roomId to be the first room
-    let res = await firebase
+  async checkChatRoomExists(participants) {
+    let roomId = await firebase
       .firestore()
       .collection("rooms")
       .where("participants", "==", participants)
@@ -188,7 +181,7 @@ class ChatRoom extends React.Component {
           return null;
         }
       });
-    return res;
+    return roomId;
   }
 
   /**
@@ -309,38 +302,16 @@ class ChatRoom extends React.Component {
       <Loading />
     ) : (
       <div className="main">
-        <div className="user-list-wrapper">
-          <h3>People</h3>
-          <input
-            className="form-control"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-            value={this.state.keyword}
-            onChange={this.handleSearchChange}
-            style={{ marginBottom: "1rem" }}
-          />
-          <div className="list-group">
-            {this.state.users &&
-              this.state.users.map((otherUser, i) => (
-                <User
-                  key={i}
-                  targetUser={otherUser}
-                  user={this.state.user}
-                  handler={this.handleChangeRoom}
-                />
-              ))}
-          </div>
-        </div>
+        <People
+          user={this.state.user}
+          users={this.state.users}
+          keyword={this.state.keyword}
+          handleSearchChange={this.handleSearchChange}
+          handleChangeRoom={this.handleChangeRoom}
+          checkChatRoomExists={this.checkChatRoomExists}
+        />
         <div className="chat-wrapper">
-          <button
-            type="button"
-            style={{ float: "right" }}
-            className="btn btn-warning btn-sm"
-            onClick={() => this.logout()}
-          >
-            Log out
-          </button>
+          <LogOutButton logout={this.logout} />
           <h3 data-testid="room-name">{this.state.roomName}</h3>
           <div className="chat-messages">
             {this.state.messages &&
@@ -353,34 +324,7 @@ class ChatRoom extends React.Component {
               ))}
             <span ref={this.dummy}></span>
           </div>
-          <div className="chat-input">
-            <form onSubmit={this.handleSubmit}>
-              {/* {this.state.showEmoji ? (
-                  <EmojiPicker onClickOutside={() => this.toggleEmojiPicker()} title={'Pick your emoji'} emoji={'point_up'} data={data} style={{ position: "absolute", bottom: "100px", right: "0" }} set="apple" onSelect={this.addEmoji} />
-              ) : null} */}
-
-              <div className="input-group chat-box">
-                <input
-                  className="form-control"
-                  type="text"
-                  value={this.state.message}
-                  onChange={this.handleChange}
-                  placeholder="Potatoes can't talk... but you can!"
-                />
-                {/* <div className="input-group-append">
-                      <button type="button" className="btn" onClick={() => this.toggleEmojiPicker()} id="show-emoji-yes">{'😃'}</button>
-                  </div> */}
-              </div>
-
-              <button
-                disabled={!this.state.message}
-                type="submit"
-                className="btn btn-primary btn-block mt-2"
-              >
-                Send
-              </button>
-            </form>
-          </div>
+          <ChatInput message={this.state.message} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
         </div>
       </div>
     );

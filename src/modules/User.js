@@ -11,28 +11,7 @@ class User extends React.Component {
     this.startPrivateChat = this.startPrivateChat.bind(this);
   }
 
-  /**
-   * Given a list of participants, check to see if this chatRoom already exists.
-   * @param {string[]} participants - list of usernames for users in the room
-   * @return {string|null} roomId - id of the chat room if found, otherwise empty string
-   */
-  async checkChatRoomExists(participants) {
-    let roomId = await firebase
-      .firestore()
-      .collection("rooms")
-      .where("participants", "==", participants)
-      .limit(1)
-      .get()
-      .then((qs) => {
-        if (!qs.empty) {
-          let room = qs.docs[0];
-          return room.id;
-        } else {
-          return null;
-        }
-      });
-    return roomId;
-  }
+  
 
   /**
    * Create a new chat room for participants
@@ -82,7 +61,7 @@ class User extends React.Component {
    * @param {string[]} participants - list of usernames for users in the room
    */
   async openChatRoom(participants) {
-    let chatRoomId = await this.checkChatRoomExists(participants);
+    let chatRoomId = await this.props.checkChatRoomExists(participants);
     if (!chatRoomId) {
       const roomId = await this.createRoom(participants);
       await this.setRoomId(participants, roomId);
@@ -90,7 +69,7 @@ class User extends React.Component {
       chatRoomId = roomId;
     }
     // bind handleChangeRoom parameters
-    this.props.handler(chatRoomId, this.props.targetUser);
+    this.props.handleChangeRoom(chatRoomId, this.props.targetUser);
   }
 
   /**

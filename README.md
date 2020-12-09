@@ -1,5 +1,8 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/UCSD-MASHED/chatapp)
 
+<a href="https://codeclimate.com/github/UCSD-MASHED/chatapp/maintainability"><img src="https://api.codeclimate.com/v1/badges/3495656c5160e368951d/maintainability" /></a>
+[![Test Coverage](https://api.codeclimate.com/v1/badges/3495656c5160e368951d/test_coverage)](https://codeclimate.com/github/UCSD-MASHED/chatapp/test_coverage)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

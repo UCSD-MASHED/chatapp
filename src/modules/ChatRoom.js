@@ -324,7 +324,11 @@ class ChatRoom extends React.Component {
               ))}
             <span ref={this.dummy}></span>
           </div>
-          <ChatInput message={this.state.message} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
+          <ChatInput
+            message={this.state.message}
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
+          />
         </div>
       </div>
     );

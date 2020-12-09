@@ -2,7 +2,6 @@ import React from "react";
 import User from "./User";
 
 class People extends React.Component {
-
   render() {
     return (
       <div className="user-list-wrapper">

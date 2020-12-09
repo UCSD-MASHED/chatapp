@@ -11,8 +11,6 @@ class User extends React.Component {
     this.startPrivateChat = this.startPrivateChat.bind(this);
   }
 
-  
-
   /**
    * Create a new chat room for participants
    * @param {string[]} participants - list of usernames for users in the room

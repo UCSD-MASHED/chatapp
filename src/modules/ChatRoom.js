@@ -309,7 +309,7 @@ class ChatRoom extends React.Component {
       <Loading />
     ) : (
       <div className="main">
-        <div className="user-list-wrapper">
+        <div className="user-list-wrapper d-none d-md-block">
           <h3>People</h3>
           <input
             className="form-control"

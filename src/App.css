@@ -252,3 +252,9 @@ html,
   margin-right: 30vw;
   max-width: 40rem;
 }
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

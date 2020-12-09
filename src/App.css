@@ -136,6 +136,7 @@ html,
 .user-list-wrapper {
   width: 20vw;
   max-width: 25rem;
+  min-width: 12rem;
   padding: 1rem 1.2rem 3rem 1.2rem;
   box-shadow: 0rem 0rem 0.3rem 0.2rem rgba(160, 160, 161, 0.2);
   transition: all 0.3s;
@@ -184,6 +185,18 @@ html,
 }
 
 .chat-messages::-webkit-scrollbar-thumb {
+  background: #6649b8;
+}
+
+.user-list-wrapper::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+.user-list-wrapper::-webkit-scrollbar-track {
+  background: #1e1e24;
+}
+
+.user-list-wrapper::-webkit-scrollbar-thumb {
   background: #6649b8;
 }
 
@@ -255,6 +268,7 @@ html,
 
 .truncate {
   white-space: nowrap;
-  overflow: hidden;
+  overflow-x: hidden;
   text-overflow: ellipsis;
+  min-width: 2rem;
 }

@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import ChatMessage from "./ChatMessage";
 import User from "./User";
 import Loading from "./Loading";
-import { ReactComponent as EnterButton } from './enter.svg'
+import { ReactComponent as EnterButton } from "./enter.svg";
 
 /**
  * This is the ChatRoom Component

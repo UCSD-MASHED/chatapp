@@ -87,7 +87,7 @@ describe("Chat room messages and room change", () => {
     cy.contains("Chat Room");
     const message = messagesToSendFromLoginUser[0].message;
     cy.get("input[type='text']").type(message);
-    cy.get("button").contains("Send").click();
+    cy.get("button[title='Send']").click();
     // after clicking, message should not send
     cy.get("input[type='text']").should("have.value", message);
   });
@@ -110,7 +110,7 @@ describe("Chat room messages and room change", () => {
     const messageFromLoginUserToTestUser1 =
       messagesToSendFromLoginUser[0].message;
     cy.get("input[type='text']").type(messageFromLoginUserToTestUser1);
-    cy.get("button").contains("Send").click();
+    cy.get("button[title='Send']").click();
     cy.get("input[type='text']").should("have.value", "");
     cy.contains(messageFromLoginUserToTestUser1);
 
@@ -129,7 +129,7 @@ describe("Chat room messages and room change", () => {
     const messageFromLoginUserToTestUser2 =
       messagesToSendFromLoginUser[1].message;
     cy.get("input[type='text']").type(messageFromLoginUserToTestUser2);
-    cy.get("button").contains("Send").click();
+    cy.get("button[title='Send']").click();
     cy.get("input[type='text']").should("have.value", "");
     cy.contains(messageFromLoginUserToTestUser2);
   });

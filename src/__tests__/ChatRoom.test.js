@@ -204,7 +204,7 @@ test("Send message button click tries to update database", async () => {
   // Type out a message, then click send
   fireEvent.change(messageInput, { target: { value: testMessage } });
   await waitFor(() => screen.getByDisplayValue(testMessage));
-  const button = screen.getByText("Send");
+  const button = screen.getByTitle("Send");
   fireEvent.click(button);
   await waitFor(() => expect(firestoreMock.get).toBeCalledTimes(4));
   await waitFor(() => expect(firestoreMock.update).toBeCalledTimes(1));

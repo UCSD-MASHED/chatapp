@@ -15,14 +15,14 @@ class ChatInput extends React.Component {
     this.addEmoji = addEmoji.bind(this);
     this.toggleEmojiPicker = toggleEmojiPicker.bind(this);
     this.state = {
-      showEmoji: false,
+      showEmojiPicker: false,
     };
   }
 
   render() {
     return (
       <div className="chat-input">
-        {this.state.showEmoji ? (
+        {this.state.showEmojiPicker && (
           <EmojiPicker
             onClickOutside={() => this.toggleEmojiPicker()}
             title={"Pick your emoji"}
@@ -34,9 +34,9 @@ class ChatInput extends React.Component {
             showPreview={false}
             showSkinTones={false}
           />
-        ) : null}
+        )}
         <form onSubmit={this.props.handleSubmit}>
-          <div className="input-group chat-box ignore-react-onclickoutside">
+          <div className="input-group chat-box">
             <input
               className="form-control"
               type="text"
@@ -48,7 +48,7 @@ class ChatInput extends React.Component {
             <div className="input-group-append">
               <button
                 type="button"
-                className="btn btn-warning "
+                className="btn btn-warning ignore-react-onclickoutside"
                 id="show-emoji-yes"
                 onClick={() => this.toggleEmojiPicker()}
               >

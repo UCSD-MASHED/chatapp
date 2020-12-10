@@ -12,7 +12,7 @@ export default onClickOutside(EmojiPicker);
 
 export function toggleEmojiPicker() {
   this.setState({
-    showEmoji: !this.state.showEmoji,
+    showEmojiPicker: !this.state.showEmojiPicker,
   });
 }
 

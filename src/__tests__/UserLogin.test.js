@@ -40,7 +40,7 @@ beforeEach(() => {
 });
 
 test("Login page elements", () => {
-  const landingText = screen.getByText("TaterTalks");
+  const landingText = screen.getByText("TaterTalk");
   expect(landingText).toBeInTheDocument();
   const button = screen.getByText("Sign In");
   expect(button).toBeInTheDocument();

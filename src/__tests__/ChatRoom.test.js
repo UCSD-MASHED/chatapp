@@ -77,7 +77,7 @@ test("Can log out", async () => {
     screen.getByPlaceholderText("Potatoes can't talk... but you can!")
   );
 
-  const button = screen.getByText("Log out");
+  const button = screen.getByText("Log Out");
   fireEvent.click(button);
   await waitFor(() => expect(history.location.pathname).toEqual("/"));
 });

@@ -12,7 +12,7 @@ class LogOutButton extends React.Component {
         className="btn btn-warning btn-sm"
         onClick={() => this.props.logout()}
       >
-        Log out
+        Log Out
       </button>
     );
   }

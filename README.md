@@ -1,8 +1,8 @@
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/UCSD-MASHED/chatapp)
-[![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/UCSD-MASHED/chatapp)
-
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)](https://github.com/UCSD-MASHED/chatapp)
 <a href="https://codeclimate.com/github/UCSD-MASHED/chatapp/maintainability"><img src="https://api.codeclimate.com/v1/badges/3495656c5160e368951d/maintainability" /></a>
 [![Test Coverage](https://api.codeclimate.com/v1/badges/3495656c5160e368951d/test_coverage)](https://codeclimate.com/github/UCSD-MASHED/chatapp/test_coverage)
+[![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/UCSD-MASHED/chatapp)
+[![TaterTalk Cypress Test](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/xntes5&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/xntes5/runs)
 
 # Getting Started with Create React App
 

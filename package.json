@@ -54,7 +54,7 @@
     "build:dev": "env-cmd -f .env.dev yarn run build",
     "build:main": "env-cmd -f .env.main yarn run build",
     "cy:run": "yarn run cleannyc && yarn run cy:run:dev",
-    "cy:run:dev": "yarn run cleannyc && env-cmd -f .env.dev cypress run --browser chrome --headless",
+    "cy:run:dev": "yarn run cleannyc && env-cmd -f .env.dev cypress run --browser chrome --headless --record --key 47614646-0a12-4408-ae45-4117b3a255f0",
     "cy:open": "env-cmd -f .env.dev cypress open",
     "cleannyc": "rm -rf .nyc_output || true",
     "cleanreports": "rm -rf reports || true",

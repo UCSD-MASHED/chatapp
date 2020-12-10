@@ -1,18 +1,41 @@
 import React from "react";
 import { ReactComponent as EnterButton } from "../enter.svg";
+import { addEmoji, toggleEmojiPicker } from "../utils/emoji.js";
+import EmojiPicker from "../utils/emoji.js";
+import data from "emoji-mart/data/apple.json";
 
 /**
  * This is the ChatInput Component for the ChatRoom
  */
 class ChatInput extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.inputRef = React.createRef();
+    this.addEmoji = addEmoji.bind(this);
+    this.toggleEmojiPicker = toggleEmojiPicker.bind(this);
+    this.state = {
+      showEmojiPicker: false,
+    };
+  }
+
   render() {
     return (
       <div className="chat-input">
+        {this.state.showEmojiPicker && (
+          <EmojiPicker
+            onClickOutside={() => this.toggleEmojiPicker()}
+            title={"Pick your emoji"}
+            emoji={"point_up"}
+            data={data}
+            style={{ position: "absolute", bottom: "2.7rem", right: "0" }}
+            set="apple"
+            onSelect={this.addEmoji}
+            showPreview={false}
+            showSkinTones={false}
+          />
+        )}
         <form onSubmit={this.props.handleSubmit}>
-          {/* {this.state.showEmoji ? (
-                  <EmojiPicker onClickOutside={() => this.toggleEmojiPicker()} title={'Pick your emoji'} emoji={'point_up'} data={data} style={{ position: "absolute", bottom: "100px", right: "0" }} set="apple" onSelect={this.addEmoji} />
-              ) : null} */}
-
           <div className="input-group chat-box">
             <input
               className="form-control"
@@ -20,13 +43,14 @@ class ChatInput extends React.Component {
               value={this.props.message}
               onChange={this.props.handleChange}
               placeholder="Potatoes can't talk... but you can!"
+              ref={this.inputRef}
             />
             <div className="input-group-append">
-              {/* onClick={() => this.toggleEmojiPicker()}  */}
               <button
                 type="button"
-                className="btn btn-warning"
+                className="btn btn-warning ignore-react-onclickoutside"
                 id="show-emoji-yes"
+                onClick={() => this.toggleEmojiPicker()}
               >
                 {"😃"}
               </button>

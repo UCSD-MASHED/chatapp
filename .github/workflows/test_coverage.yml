@@ -41,7 +41,7 @@ jobs:
           headless: true
           start: yarn start
           wait-on: 'http://localhost:3000'
-          record: true
+          record: ${{ github.event_name == 'push' }}
         env:
           CYPRESS_APIKEY: "${{ secrets.FIREBASE_APIKEY_BETA }}"
           CYPRESS_AUTHDOMAIN: "${{ secrets.FIREBASE_AUTHDOMAIN_BETA }}"

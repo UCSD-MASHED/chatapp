@@ -41,6 +41,7 @@ jobs:
           headless: true
           start: yarn start
           wait-on: 'http://localhost:3000'
+          record: true
         env:
           CYPRESS_APIKEY: "${{ secrets.FIREBASE_APIKEY_BETA }}"
           CYPRESS_AUTHDOMAIN: "${{ secrets.FIREBASE_AUTHDOMAIN_BETA }}"
@@ -50,6 +51,8 @@ jobs:
           CYPRESS_MESSAGINGSENDERID: "${{ secrets.FIREBASE_MESSAGINGSENDERID_BETA }}"
           CYPRESS_APPID: "${{ secrets.FIREBASE_APPID_BETA }}"
           CYPRESS_TEST_UID: "${{ secrets.FIREBASE_TEST_UID_BETA }}"
+          CYPRESS_RECORD_KEY: "${{ secrets.CYPRESS_RECORD_KEY }}"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@v1
         if: failure()
         with:

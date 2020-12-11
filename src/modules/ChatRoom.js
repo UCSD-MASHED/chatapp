@@ -31,10 +31,10 @@ class ChatRoom extends React.Component {
     };
     this.dummy = createRef();
     this.handleChange = this.handleChange.bind(this);
-    this.handleChangeRoom = this.handleChangeRoom.bind(this);
     this.handleChangeSearch = this.handleChangeSearch.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.checkChatRoomExists = this.checkChatRoomExists.bind(this);
+    this.enterRoom = this.enterRoom.bind(this);
     this.logout = this.logout.bind(this);
   }
 
@@ -51,7 +51,7 @@ class ChatRoom extends React.Component {
         const participants = [username, firstUser.username].sort();
         const roomId = await this.checkChatRoomExists(participants);
         if (roomId) {
-          await this.handleChangeRoom(roomId, firstUser);
+          await this.enterRoom(roomId, firstUser);
         }
       }
       this.setState({ loading: false, users: users });
@@ -61,17 +61,6 @@ class ChatRoom extends React.Component {
   handleChange(event) {
     event.preventDefault();
     this.setState({ message: event.target.value });
-  }
-
-  async handleChangeRoom(roomId, otherUser) {
-    this.setState({
-      roomId: roomId,
-      roomName: otherUser.displayName,
-    });
-
-    await this.getInitMessages(roomId);
-
-    await this.getMessages(roomId);
   }
 
   handleChangeSearch(event) {
@@ -98,7 +87,7 @@ class ChatRoom extends React.Component {
   /**
    * Given a list of participants, check to see if this chat room already exists.
    * @param {string[]} participants - list of usernames for users in the room which may not exist
-   * @return {string|null} Room id of the chat room if found, otherwise null
+   * @return {string|null} room id of the chat room if found, otherwise null
    */
   async checkChatRoomExists(participants) {
     let roomId = await firebase
@@ -122,7 +111,7 @@ class ChatRoom extends React.Component {
    * Return whether or not the current user is in the current room
    * @param {string} username - username of the current user
    * @param {string} roomId - id of the chat room
-   * @return {boolean} True if the user is in the chat room, else false
+   * @return {boolean} true if the user is in the chat room, else false
    */
   async checkUserInRoom(username, roomId) {
     if (!roomId) {
@@ -137,6 +126,21 @@ class ChatRoom extends React.Component {
       .then((qs) => !qs.empty);
     return exist;
   } /* checkUserInRoom */
+
+  /**
+   * Enter the chat room with another user
+   * @param {string} roomId - id of the chat room
+   * @param {Object} otherUser - the other user to be chatted with
+   * @param {string} otherUser.displayName - displayed name of the other user
+   */
+  async enterRoom(roomId, otherUser) {
+    this.setState({
+      roomId: roomId,
+      roomName: otherUser.displayName,
+    });
+    await this.getInitMessages(roomId);
+    await this.getMessages(roomId);
+  }
 
   /**
    * Fetch the messages of the chat room
@@ -305,7 +309,7 @@ class ChatRoom extends React.Component {
           keyword={this.state.keyword}
           user={this.state.user}
           users={this.state.users}
-          handleChangeRoom={this.handleChangeRoom}
+          enterRoom={this.enterRoom}
           handleChangeSearch={this.handleChangeSearch}
           checkChatRoomExists={this.checkChatRoomExists}
         />

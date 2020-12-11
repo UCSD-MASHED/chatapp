@@ -20,6 +20,12 @@ class Login extends React.Component {
     this.incrementImgState = this.incrementImgState.bind(this);
   }
 
+  incrementImgState() {
+    this.setState({
+      imgState: this.state.imgState < 4 ? this.state.imgState + 1 : 0,
+    });
+  }
+
   componentDidMount() {
     this.unsubscribeAuthListener = firebase
       .auth()
@@ -80,7 +86,7 @@ class Login extends React.Component {
    * @param {string} googleUser.uid - The unique id of the google user
    * @param {string} googleUser.displayName - The displayed name of the
    *     google user
-   * @return {(user|undefined)} A user object if googleUser.uid is unique
+   * @return {(user|undefined)} a user object if googleUser.uid is unique
    *     in database; otherwise undefined
    */
   async getUser(googleUser) {
@@ -116,12 +122,6 @@ class Login extends React.Component {
         // console.log(err);
         toast.error(err);
       });
-  }
-
-  incrementImgState() {
-    this.setState({
-      imgState: this.state.imgState < 4 ? this.state.imgState + 1 : 0,
-    });
   }
 
   render() {

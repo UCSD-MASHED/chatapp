@@ -46,7 +46,7 @@ class CreateUser extends React.Component {
 
   /**
    * Handles username input change, update state accordingly.
-   * @param {Object} event - An Event Object
+   * @param {Object} event - an Event object
    */
   handleChange(event) {
     this.setState({ username: event.target.value });
@@ -57,7 +57,7 @@ class CreateUser extends React.Component {
    * is unique, if it is, it will then create the user in firestore with
    * the username and display a toast and redirect to Chat,
    * else it will display an error toast and remain in the page.
-   * @param {Object} event - An Event Object
+   * @param {Object} event - an Event object
    */
   handleSubmit(event) {
     event.preventDefault();
@@ -90,12 +90,12 @@ class CreateUser extends React.Component {
 
   /**
    * Create a user in database
-   * @param {Object} googleUser - The google user to be found in database
-   * @param {string} googleUser.uid - The unique id of the google user
-   * @param {string} googleUser.displayName - The displayed name of the
+   * @param {Object} googleUser - google user to be found in database
+   * @param {string} googleUser.uid - unique id of the google user
+   * @param {string} googleUser.displayName - displayed name of the
    *     google user
-   * @param {string} username - The username of the user
-   * @return {user|null} The newly created user if created successfully;
+   * @param {string} username - username of the user
+   * @return {user|null} newly created user if created successfully;
    *     otherwise null
    */
   async createUser(googleUser, username) {
@@ -125,8 +125,8 @@ class CreateUser extends React.Component {
 
   /**
    * Check if the current username is unique in database
-   * @param {string} username - The username to be checked in database
-   * @return {boolean} True if username is unique; otherwise False
+   * @param {string} username - the username to be checked in database
+   * @return {boolean} true if username is unique; otherwise False
    */
   async usernameIsUnique(username) {
     var res = await firebase

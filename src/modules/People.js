@@ -25,8 +25,8 @@ class People extends React.Component {
                 key={i}
                 targetUser={otherUser}
                 user={this.props.user}
-                handleChangeRoom={this.props.handleChangeRoom}
                 checkChatRoomExists={this.props.checkChatRoomExists}
+                enterRoom={this.props.enterRoom}
               />
             ))}
         </div>

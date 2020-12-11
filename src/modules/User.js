@@ -14,7 +14,7 @@ class User extends React.Component {
   /**
    * Create a new chat room for participants
    * @param {string[]} participants - list of usernames for users in the room
-   * @return {string} Room id of the newly created chat room
+   * @return {string} room id of the newly created chat room
    */
   async createRoom(participants) {
     let roomId = await firebase
@@ -42,8 +42,8 @@ class User extends React.Component {
       // get the new chat room id
       chatRoomId = roomId;
     }
-    // bind handleChangeRoom parameters
-    this.props.handleChangeRoom(chatRoomId, this.props.targetUser);
+    // bind enterRoom parameters
+    this.props.enterRoom(chatRoomId, this.props.targetUser);
   }
 
   /**

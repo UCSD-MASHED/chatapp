@@ -15,7 +15,7 @@ class People extends React.Component {
           placeholder="Search"
           aria-label="Search"
           value={this.props.keyword}
-          onChange={this.props.handleSearchChange}
+          onChange={this.props.handleChangeSearch}
           style={{ marginBottom: "1rem" }}
         />
         <div className="list-group">

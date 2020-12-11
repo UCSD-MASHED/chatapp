@@ -31,9 +31,9 @@ class ChatRoom extends React.Component {
     };
     this.dummy = createRef();
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleChangeRoom = this.handleChangeRoom.bind(this);
+    this.handleChangeSearch = this.handleChangeSearch.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.checkChatRoomExists = this.checkChatRoomExists.bind(this);
     this.logout = this.logout.bind(this);
   }
@@ -63,27 +63,6 @@ class ChatRoom extends React.Component {
     this.setState({ message: event.target.value });
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-    const message = this.state.message;
-    const username = this.state.user.username;
-    const roomId = this.state.roomId;
-    if (this.checkUserInRoom(username, roomId)) {
-      this.sendMessage(message, roomId, username);
-    }
-  }
-
-  handleSearchChange(event) {
-    event.preventDefault();
-    this.setState({ keyword: event.target.value }, () => {
-      this.searchPrefix(this.state.keyword, this.state.user.username).then(
-        (users) => {
-          this.setState({ users: users });
-        }
-      );
-    });
-  }
-
   async handleChangeRoom(roomId, otherUser) {
     this.setState({
       roomId: roomId,
@@ -94,6 +73,126 @@ class ChatRoom extends React.Component {
 
     await this.getMessages(roomId);
   }
+
+  handleChangeSearch(event) {
+    event.preventDefault();
+    this.setState({ keyword: event.target.value }, () => {
+      this.searchPrefix(this.state.keyword, this.state.user.username).then(
+        (users) => {
+          this.setState({ users: users });
+        }
+      );
+    });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const message = this.state.message;
+    const username = this.state.user.username;
+    const roomId = this.state.roomId;
+    if (this.checkUserInRoom(username, roomId)) {
+      this.sendMessage(message, roomId, username);
+    }
+  }
+
+  /**
+   * Given a list of participants, check to see if this chat room already exists.
+   * @param {string[]} participants - list of usernames for users in the room which may not exist
+   * @return {string|null} roomId - id of the chat room if found, otherwise null
+   */
+  async checkChatRoomExists(participants) {
+    let roomId = await firebase
+      .firestore()
+      .collection("rooms")
+      .where("participants", "==", participants)
+      .limit(1)
+      .get()
+      .then((qs) => {
+        if (!qs.empty) {
+          const room = qs.docs[0];
+          return room.id;
+        } else {
+          return null;
+        }
+      });
+    return roomId;
+  } /* checkChatRoomExists */
+
+  /**
+   * Return whether or not the current user is in the current room
+   * @param {string} username - username of the current user
+   * @param {string} roomId - id of the chat room
+   * @return {boolean} exist - true or false if the user is in the chat room
+   */
+  async checkUserInRoom(username, roomId) {
+    if (!roomId) {
+      return false;
+    }
+    var exist = await firebase
+      .firestore()
+      .collection("users")
+      .where("username", "==", username)
+      .where("roomIds", "array-contains", roomId)
+      .get()
+      .then((qs) => !qs.empty);
+    return exist;
+  } /* checkUserInRoom */
+
+  /**
+   * Fetch the messages of the chat room
+   * @param {string} roomId - id of the chat room
+   * @return {string[]} messages - list of strings of messages found
+   */
+  async getInitMessages(roomId) {
+    if (!roomId) {
+      return;
+    }
+    await firebase
+      .firestore()
+      .collection("rooms")
+      .doc(roomId)
+      .collection("messages")
+      .orderBy("timestamp")
+      .get()
+      .then((snapshot) => {
+        let msgs = [];
+        snapshot.forEach((doc) => {
+          msgs.push(doc.data());
+        });
+        this.setState({ messages: msgs });
+        this.scrollToBottom();
+      });
+  } /* getInitMessages */
+
+  /**
+   * Create a listener for a chat room to fetch messages upon updates to
+   * the database
+   * @param {string} roomId - id of the chat room
+   */
+  async getMessages(roomId) {
+    if (!roomId) {
+      return;
+    }
+    await firebase
+      .firestore()
+      .collection("rooms")
+      .doc(roomId)
+      .collection("messages")
+      .orderBy("timestamp")
+      .onSnapshot((snapshot) => {
+        // make sure server timestamp is generated
+        if (snapshot.metadata.hasPendingWrites) {
+          // skip, wait for next one
+          return;
+        }
+        var messages = [];
+        snapshot.forEach((doc) => {
+          messages.push(doc.data());
+        });
+        this.setState({ messages: messages });
+        this.scrollToBottom();
+      });
+  } /* getMessages */
 
   /**
    * Get all the users excluding the current user
@@ -114,7 +213,7 @@ class ChatRoom extends React.Component {
         return users;
       });
     return res;
-  }
+  } /* getUsers */
 
   /**
    * Returns list of users whose username has a longest prefix
@@ -139,50 +238,7 @@ class ChatRoom extends React.Component {
         return users;
       });
     return res;
-  }
-
-  /**
-   * Return whether or not the current user is in the current room
-   * @param {string} username - username of the current user
-   * @param {string} roomId - id of the chat room
-   * @return {boolean} exist - true or false if the user is in the chat room
-   */
-  async checkUserInRoom(username, roomId) {
-    if (!roomId) {
-      return false;
-    }
-    var exist = await firebase
-      .firestore()
-      .collection("users")
-      .where("username", "==", username)
-      .where("roomIds", "array-contains", roomId)
-      .get()
-      .then((qs) => !qs.empty);
-    return exist;
-  }
-
-  /**
-   * Given a list of participants, check to see if this chat room already exists.
-   * @param {string[]} participants - list of usernames for users in the room which may not exist
-   * @return {string|null} roomId - id of the chat room if found, otherwise null
-   */
-  async checkChatRoomExists(participants) {
-    let roomId = await firebase
-      .firestore()
-      .collection("rooms")
-      .where("participants", "==", participants)
-      .limit(1)
-      .get()
-      .then((qs) => {
-        if (!qs.empty) {
-          const room = qs.docs[0];
-          return room.id;
-        } else {
-          return null;
-        }
-      });
-    return roomId;
-  }
+  } /* searchPrefix */
 
   /**
    * Update user timestamp and append message to room of messages.
@@ -218,72 +274,7 @@ class ChatRoom extends React.Component {
       .add(newMessage);
 
     this.setState({ message: "" }); // set message bar text back to placeholder (empty)
-  }
-
-  /**
-   * Fetch the messages of the chat room
-   * @param {string} roomId - id of the chat room
-   * @return {string[]} messages - list of strings of messages found
-   */
-  async getInitMessages(roomId) {
-    if (!roomId) {
-      return;
-    }
-    await firebase
-      .firestore()
-      .collection("rooms")
-      .doc(roomId)
-      .collection("messages")
-      .orderBy("timestamp")
-      .get()
-      .then((snapshot) => {
-        let msgs = [];
-        snapshot.forEach((doc) => {
-          msgs.push(doc.data());
-        });
-        this.setState({ messages: msgs });
-        this.scrollToBottom();
-      });
-  }
-
-  /**
-   * Create a listener for a chat room to fetch messages upon updates to
-   * the database
-   * @param {string} roomId - id of the chat room
-   */
-  async getMessages(roomId) {
-    if (!roomId) {
-      return;
-    }
-    await firebase
-      .firestore()
-      .collection("rooms")
-      .doc(roomId)
-      .collection("messages")
-      .orderBy("timestamp")
-      .onSnapshot((snapshot) => {
-        // make sure server timestamp is generated
-        if (snapshot.metadata.hasPendingWrites) {
-          // skip, wait for next one
-          return;
-        }
-        var messages = [];
-        snapshot.forEach((doc) => {
-          messages.push(doc.data());
-        });
-        this.setState({ messages: messages });
-        this.scrollToBottom();
-      });
-  }
-
-  /**
-   * Helper function to scroll to the bottom of the chat room
-   */
-  scrollToBottom() {
-    if (this.dummy.current) {
-      this.dummy.current.scrollIntoView();
-    }
-  }
+  } /* sendMessage */
 
   /**
    * Logs current user out and returns to landing page
@@ -297,17 +288,26 @@ class ChatRoom extends React.Component {
       });
   }
 
+  /**
+   * Helper function to scroll to the bottom of the chat room
+   */
+  scrollToBottom() {
+    if (this.dummy.current) {
+      this.dummy.current.scrollIntoView();
+    }
+  }
+
   render() {
     return this.state.loading ? (
       <Loading />
     ) : (
       <div className="main">
         <People
+          keyword={this.state.keyword}
           user={this.state.user}
           users={this.state.users}
-          keyword={this.state.keyword}
-          handleSearchChange={this.handleSearchChange}
           handleChangeRoom={this.handleChangeRoom}
+          handleChangeSearch={this.handleChangeSearch}
           checkChatRoomExists={this.checkChatRoomExists}
         />
         <div className="chat-wrapper">

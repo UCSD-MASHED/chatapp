@@ -47,24 +47,6 @@ class Login extends React.Component {
     }
   }
 
-  loginWithGoogleUserAndRedirect(googleUser) {
-    this.getUser(googleUser)
-      .then((user) => {
-        // console.log(user);
-        if (user) {
-          // console.log("user exists, go to chat");
-          this.props.history.push("/chatRoom", { user });
-        } else {
-          // console.log("user does not exists, go to create user");
-          this.props.history.push("/createUser", { googleUser });
-        }
-      })
-      .catch((err) => {
-        // console.log(err);
-        toast.error(err);
-      });
-  }
-
   /**
    * Handles Sign in button click, opens a pop up to google sign in page
    * Once sign in is completed, we will get back the google user object.
@@ -99,7 +81,7 @@ class Login extends React.Component {
    * @param {string} googleUser.displayName - The displayed name of the
    *     google user
    * @return {(user|undefined)} A user object if googleUser.uid is unique
-   *     in database; otherwise return undefined
+   *     in database; otherwise undefined
    */
   async getUser(googleUser) {
     var res = await firebase
@@ -109,6 +91,31 @@ class Login extends React.Component {
       .get()
       .then((doc) => doc.data());
     return res;
+  }
+
+  /**
+   * Log in the google user and redirect to the chat room page if the user exists,
+   * otherwise, redirect to the user creation page
+   * @param {Object} googleUser - The google user to be logged in and redirected
+   * @param {string} googleUser.uid - The unique id of the google user
+   * @param {string} googleUser.displayName - The displayed name of the
+   */
+  loginWithGoogleUserAndRedirect(googleUser) {
+    this.getUser(googleUser)
+      .then((user) => {
+        // console.log(user);
+        if (user) {
+          // console.log("user exists, go to chat");
+          this.props.history.push("/chatRoom", { user });
+        } else {
+          // console.log("user does not exists, go to create user");
+          this.props.history.push("/createUser", { googleUser });
+        }
+      })
+      .catch((err) => {
+        // console.log(err);
+        toast.error(err);
+      });
   }
 
   incrementImgState() {

@@ -14,7 +14,7 @@ class User extends React.Component {
   /**
    * Create a new chat room for participants
    * @param {string[]} participants - list of usernames for users in the room
-   * @return {string} roomId - id of the newly created chat room
+   * @return {string} Room id of the newly created chat room
    */
   async createRoom(participants) {
     let roomId = await firebase
@@ -25,6 +25,25 @@ class User extends React.Component {
       })
       .then((roomRef) => roomRef.id);
     return roomId;
+  }
+
+  /**
+   * Find and open a chat room containing the list of participants
+   * given. If no chat room exists, create a new chat room with these
+   * participants. Will call the parent handler to switch to the found
+   * chat room.
+   * @param {string[]} participants - list of usernames for users in the room
+   */
+  async openChatRoom(participants) {
+    let chatRoomId = await this.props.checkChatRoomExists(participants);
+    if (!chatRoomId) {
+      const roomId = await this.createRoom(participants);
+      await this.setRoomId(participants, roomId);
+      // get the new chat room id
+      chatRoomId = roomId;
+    }
+    // bind handleChangeRoom parameters
+    this.props.handleChangeRoom(chatRoomId, this.props.targetUser);
   }
 
   /**
@@ -49,25 +68,6 @@ class User extends React.Component {
             });
         });
       });
-  }
-
-  /**
-   * Find and open a chat room containing the list of participants
-   * given. If no chat room exists, create a new chat room with these
-   * participants. Will call the parent handler to switch to the found
-   * chat room.
-   * @param {string[]} participants - list of usernames for users in the room
-   */
-  async openChatRoom(participants) {
-    let chatRoomId = await this.props.checkChatRoomExists(participants);
-    if (!chatRoomId) {
-      const roomId = await this.createRoom(participants);
-      await this.setRoomId(participants, roomId);
-      // get the new chat room id
-      chatRoomId = roomId;
-    }
-    // bind handleChangeRoom parameters
-    this.props.handleChangeRoom(chatRoomId, this.props.targetUser);
   }
 
   /**

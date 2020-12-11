@@ -35,7 +35,18 @@ class CreateUser extends React.Component {
   }
 
   /**
+   * Go back to sign-in page if not signed in
+   * (This can happen when the user types in the URL (/createUser) directly)
+   */
+  componentDidMount() {
+    if (!this.state.googleUser) {
+      this.props.history.replace("/");
+    }
+  }
+
+  /**
    * Handles username input change, update state accordingly.
+   * @param {Object} event - An Event Object
    */
   handleChange(event) {
     this.setState({ username: event.target.value });
@@ -78,32 +89,6 @@ class CreateUser extends React.Component {
   }
 
   /**
-   * Go back to sign-in page if not signed in
-   * (This can happen when the user types in the URL (/createUser) directly)
-   */
-  componentDidMount() {
-    if (!this.state.googleUser) {
-      this.props.history.replace("/");
-    }
-  }
-
-  /**
-   * Check if the current username is unique in database
-   * @param {string} username - The username to be checked in database
-   * @return {boolean} True if username is unique; otherwise False
-   */
-  async usernameIsUnique(username) {
-    var res = await firebase
-      .firestore()
-      .collection("users")
-      .where("username", "==", username)
-      .limit(1)
-      .get()
-      .then((querySnapshot) => querySnapshot.empty);
-    return res;
-  }
-
-  /**
    * Create a user in database
    * @param {Object} googleUser - The google user to be found in database
    * @param {string} googleUser.uid - The unique id of the google user
@@ -135,6 +120,22 @@ class CreateUser extends React.Component {
         console.log("An error occurs", err);
         return null;
       });
+    return res;
+  }
+
+  /**
+   * Check if the current username is unique in database
+   * @param {string} username - The username to be checked in database
+   * @return {boolean} True if username is unique; otherwise False
+   */
+  async usernameIsUnique(username) {
+    var res = await firebase
+      .firestore()
+      .collection("users")
+      .where("username", "==", username)
+      .limit(1)
+      .get()
+      .then((querySnapshot) => querySnapshot.empty);
     return res;
   }
 

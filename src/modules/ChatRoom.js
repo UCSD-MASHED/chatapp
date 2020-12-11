@@ -98,7 +98,7 @@ class ChatRoom extends React.Component {
   /**
    * Given a list of participants, check to see if this chat room already exists.
    * @param {string[]} participants - list of usernames for users in the room which may not exist
-   * @return {string|null} roomId - id of the chat room if found, otherwise null
+   * @return {string|null} Room id of the chat room if found, otherwise null
    */
   async checkChatRoomExists(participants) {
     let roomId = await firebase
@@ -122,7 +122,7 @@ class ChatRoom extends React.Component {
    * Return whether or not the current user is in the current room
    * @param {string} username - username of the current user
    * @param {string} roomId - id of the chat room
-   * @return {boolean} exist - true or false if the user is in the chat room
+   * @return {boolean} True if the user is in the chat room, else false
    */
   async checkUserInRoom(username, roomId) {
     if (!roomId) {
@@ -141,7 +141,6 @@ class ChatRoom extends React.Component {
   /**
    * Fetch the messages of the chat room
    * @param {string} roomId - id of the chat room
-   * @return {string[]} messages - list of strings of messages found
    */
   async getInitMessages(roomId) {
     if (!roomId) {

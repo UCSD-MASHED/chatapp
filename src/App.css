@@ -150,6 +150,9 @@ html,
 }
 
 .chat-header {
+  background-color: #282c34;
+  display: flex;
+  justify-content: center;
   padding: 0.8rem 0.6rem 0.8rem 0.6rem;
   border-bottom: 1px solid#54457e;
   height: 10%;

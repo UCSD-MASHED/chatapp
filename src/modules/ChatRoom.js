@@ -302,7 +302,7 @@ class ChatRoom extends React.Component {
       <Loading />
     ) : (
         <div style={{ height: "100%" }}>
-          <div className="main chat-header">
+          <div className="chat-header">
             <span className="chat-title">
               TaterTalk
               <span className="logout-btn">

@@ -51,7 +51,11 @@ class CreateUser extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     if (!/^[a-zA-Z0-9]+$/.test(this.state.username)) {
-      toast.error("Username is illegal.");
+      toast.error("Username is illegal, please only use alphabetic letters and numbers.");
+      return;
+    }
+    if (this.state.username.length > 20) {
+      toast.error("Username is too long, we only allow up to 20 characters.");
       return;
     }
     this.usernameIsUnique(this.state.username)

@@ -4,73 +4,154 @@
 [![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/UCSD-MASHED/chatapp)
 [![TaterTalk Cypress Test](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/xntes5&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/xntes5/runs)
 
-# Getting Started with Create React App
+- [TaterTalk](#tatertalk)
+  - [Architecture](#architecture)
+  - [Setup](#setup)
+    - [Environment files](#environment-files)
+      - [`.firebaserc`](#firebaserc)
+      - [`.env.dev`](#envdev)
+      - [`serviceAccount.json`](#serviceaccountjson)
+    - [Scripts](#scripts)
+      - [`yarn start`](#yarn-start)
+      - [`yarn test`](#yarn-test)
+      - [`yarn run cy:run`](#yarn-run-cyrun)
+      - [`yarn run cy:open`](#yarn-run-cyopen)
+  - [Code/JSDoc](#codejsdoc)
+  - [Testing](#testing)
+    - [Jest](#jest)
+    - [Cypress](#cypress)
+    - [Code Coverage](#code-coverage)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# TaterTalk
 
-## Available Scripts
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and utilizes [Firebase](https://firebase.google.com/).
 
-In the project directory, you can run:
+## Architecture
 
-### `yarn start`
+`TODO`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Setup
 
-The page will reload if you make edits.\
+This app is built on top of Firebase, it utilizes Firebase Authentication, Firestore and Hosting. In order to get started, you should 
+first create a Firebase app [here](https://firebase.google.com/).
+
+### Environment files
+
+In order to run this app in full capacity, you will also need to add your own configuration files as explained below.
+ 
+#### `.firebaserc`
+
+This is the Firebase configuration file which specifies the corresponding Firebase project id.
+
+Here is what it looks like:
+
+Since we have two branches `main` and `dev` for production and development environment in our GitHub repository, we also created two projects on Firebase console and linked them to `prod` and `dev` config respectively. 
+
+```json
+{
+  "projects": {
+    "default": "twotenchatapp",
+    "prod": "twotenchatapp",
+    "dev": "twotenchatapp-beta-a41e8"
+  }
+}
+```
+After creating your own Firebase app, you have to change the corresponding project id in this file.
+
+
+#### `.env.dev`
+This is our local environment credential file that stores the necessary ENV variables.
+
+This is what it should look like:
+
+```
+REACT_APP_APIKEY=...
+REACT_APP_AUTHDOMAIN=...
+REACT_APP_DATABASEURL=...
+REACT_APP_PROJECTID=...
+REACT_APP_STORAGEBUCKET=...
+REACT_APP_MESSAGINGSENDERID=...
+REACT_APP_APPID=1:...
+
+CYPRESS_APIKEY=...
+CYPRESS_AUTHDOMAIN=...
+CYPRESS_DATABASEURL=...
+CYPRESS_PROJECTID=...
+CYPRESS_STORAGEBUCKET=...
+CYPRESS_MESSAGINGSENDERID=...
+CYPRESS_APPID=1:...
+CYPRESS_TEST_UID=...
+```
+
+`*_APIKEY`, `*_AUTHDOMAIN`, `*_DATABASEURL`, `*_PROJECTID`, `*_STORAGEBUCKET`, `*_MESSAGINGSENDERID` and `*_APPID` are provided by the Firebase project you created.
+
+All the variables that start with `REACT_APP_` are imported by CRA in our web app, they are the credentials we need to initialize Firebase app using Firebase SDK.
+
+All the variables that start with `CYPRESS_` are imported by Cypress in test runs. We need them so that we can communicate with Firebase in our End to End environment.
+
+`CYPRESS_TEST_UID` is needed for `cypress-firebase` so that it can log in as a test user through Firebase Authentication. See more details [here](https://github.com/prescottprue/cypress-firebase#cylogin).
+
+#### `serviceAccount.json`
+
+This is a JSON configuration file that was generated in Firebase, you can follow this [link](https://firebase.google.com/docs/admin/setup#initialize-sdk) for instructions. We need this file so that our third-party plugin [cypress-firebase](https://github.com/prescottprue/cypress-firebase) can utilize the firebase-admin SDK to test Firebase project.
+
+
+### Scripts
+
+After setting up the environment files, you should install all the project dependencies by doing `yarn install`.
+
+Once the installation is done, you should be able to utilize the following commands:
+
+#### `yarn start`
+
+Runs the app on your local machine.
+Open http://localhost:3000 to view it in the browser.
+
+The page will reload if you make edits.
 You will also see any lint errors in the console.
 
-### `yarn test`
+#### `yarn test`
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+#### `yarn run cy:run`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Launches the Cypress test runner in command-line mode. See more details [here](https://docs.cypress.io/guides/guides/command-line.html#How-to-run-commands).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### `yarn run cy:open`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Launches the Cypress GUI test runner. See more details [here](https://docs.cypress.io/guides/getting-started/installing-cypress.html#Opening-Cypress).
 
-### `yarn eject`
+## Code/JSDoc
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+If you are interested in our implementation, we have a JSDoc document website hosted [here](https://ucsd-mashed.github.io/TaterTalkDoc/) that documents all of our code for this project.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Learn how to config JSDoc [here](https://jsdoc.app/about-configuring-jsdoc.html).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+For reference, you can look at our `jsdoc.json` in root directory for our own configuration of JSDoc.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Testing
 
-## Learn More
+### Jest
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+We use [Jest](https://jestjs.io/docs/en/tutorial-react), combined with [testing-library](https://testing-library.com/docs/react-testing-library/example-intro/) for unit testing.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The goal here is to have at least one test case per each unit (function) so that we can be confident that all functions should behave as expected.
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Cypress
 
-### Analyzing the Bundle Size
+For our E2E tests, we decided to go with [Cypress](https://docs.cypress.io/guides/overview/why-cypress.html#In-a-nutshell) because it's well-documented and provides good support for asynchronous tests and easy to setup.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Learn how to configure Cypress [here](https://docs.cypress.io/guides/references/configuration.html)
 
-### Making a Progressive Web App
+It's worth mentioning that since E2E tests require talking to the actual backend server (in our case, this is Firebase), we also need to setup environment variables so that Cypress can test Firebase related features. The detail configuration is covered [here](#envdev).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+For reference, you can look at our `cypress.json` in root directory for our own configuration of Cypress.
 
-### Advanced Configuration
+### Code Coverage
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+We combined both Jest and Cypress test coverages so that it truely reflects our comprehensive code coverage. If interested, please take a look at our [test coverage workflow](.github/workflows/test_coverage.yml).
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The combined coverage report is also hosted via GitHub Pages [here](https://ucsd-mashed.github.io/TaterTalkCoverage/).

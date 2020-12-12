@@ -32,20 +32,20 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Setup
 
-This app is built on top of Firebase, it utilizes Firebase Authentication, Firestore and Hosting. In order to get started, you should 
+This app is built on top of Firebase, it utilizes Firebase Authentication, Firestore and Hosting. In order to get started, you should
 first create a Firebase app [here](https://firebase.google.com/).
 
 ### Environment files
 
 In order to run this app in full capacity, you will also need to add your own configuration files as explained below.
- 
+
 #### `.firebaserc`
 
 This is the Firebase configuration file which specifies the corresponding Firebase project id.
 
 Here is what it looks like:
 
-Since we have two branches `main` and `dev` for production and development environment in our GitHub repository, we also created two projects on Firebase console and linked them to `prod` and `dev` config respectively. 
+Since we have two branches `main` and `dev` for production and development environment in our GitHub repository, we also created two projects on Firebase console and linked them to `prod` and `dev` config respectively.
 
 ```json
 {
@@ -56,10 +56,11 @@ Since we have two branches `main` and `dev` for production and development envir
   }
 }
 ```
+
 After creating your own Firebase app, you have to change the corresponding project id in this file.
 
-
 #### `.env.dev`
+
 This is our local environment credential file that stores the necessary ENV variables.
 
 This is what it should look like:
@@ -94,7 +95,6 @@ All the variables that start with `CYPRESS_` are imported by Cypress in test run
 #### `serviceAccount.json`
 
 This is a JSON configuration file that was generated in Firebase, you can follow this [link](https://firebase.google.com/docs/admin/setup#initialize-sdk) for instructions. We need this file so that our third-party plugin [cypress-firebase](https://github.com/prescottprue/cypress-firebase) can utilize the firebase-admin SDK to test Firebase project.
-
 
 ### Scripts
 
@@ -138,7 +138,6 @@ For reference, you can look at our `jsdoc.json` in root directory for our own co
 We use [Jest](https://jestjs.io/docs/en/tutorial-react), combined with [testing-library](https://testing-library.com/docs/react-testing-library/example-intro/) for unit testing.
 
 The goal here is to have at least one test case per each unit (function) so that we can be confident that all functions should behave as expected.
-
 
 ### Cypress
 

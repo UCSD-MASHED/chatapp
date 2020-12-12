@@ -301,39 +301,50 @@ class ChatRoom extends React.Component {
     return this.state.loading ? (
       <Loading />
     ) : (
-      <div className="main">
-        <People
-          user={this.state.user}
-          users={this.state.users}
-          keyword={this.state.keyword}
-          handleSearchChange={this.handleSearchChange}
-          handleChangeRoom={this.handleChangeRoom}
-          checkChatRoomExists={this.checkChatRoomExists}
-        />
-        <div className="chat-wrapper">
-          <LogOutButton logout={this.logout} />
-          <h3 className="truncate" data-testid="room-name">
-            {this.state.roomName}
-          </h3>
-          <div className="chat-messages">
-            {this.state.messages &&
-              this.state.messages.map((msg, i) => (
-                <ChatMessage
-                  key={i}
-                  message={msg}
-                  username={this.state.user.username}
-                />
-              ))}
-            <span ref={this.dummy}></span>
+        <div style={{ height: "100%" }}>
+          <div className="main chat-header">
+            <span className="chat-title">
+              TaterTalk
+              <span className="logout-btn">
+                <LogOutButton logout={this.logout} />
+              </span>
+            </span>
           </div>
-          <ChatInput
-            message={this.state.message}
-            handleChange={this.handleChange}
-            handleSubmit={this.handleSubmit}
-          />
+          <div className="main">
+            <People
+              user={this.state.user}
+              users={this.state.users}
+              keyword={this.state.keyword}
+              handleSearchChange={this.handleSearchChange}
+              handleChangeRoom={this.handleChangeRoom}
+              checkChatRoomExists={this.checkChatRoomExists}
+            />
+            <div className="chat-wrapper">
+              <div className="chat-person">
+                <h3 className="truncate" data-testid="room-name">
+                  {this.state.roomName}
+                </h3>
+              </div>
+              <div className="chat-messages">
+                {this.state.messages &&
+                  this.state.messages.map((msg, i) => (
+                    <ChatMessage
+                      key={i}
+                      message={msg}
+                      username={this.state.user.username}
+                    />
+                  ))}
+                <span ref={this.dummy}></span>
+              </div>
+              <ChatInput
+                message={this.state.message}
+                handleChange={this.handleChange}
+                handleSubmit={this.handleSubmit}
+              />
+            </div>
+          </div>
         </div>
-      </div>
-    );
+      );
   }
 }
 

@@ -130,7 +130,7 @@ html,
   background-color: #282c34;
   display: flex;
   justify-content: center;
-  height: 100%;
+  height: 90%;
 }
 
 .user-list-wrapper {
@@ -138,7 +138,8 @@ html,
   max-width: 25rem;
   min-width: 12rem;
   padding: 1rem 1.2rem 3rem 1.2rem;
-  box-shadow: 0rem 0rem 0.3rem 0.2rem rgba(160, 160, 161, 0.2);
+  border-right: 1px solid#54457e;
+  /* box-shadow: 0rem 0rem 0.3rem 0.2rem rgba(160, 160, 161, 0.2); */
   transition: all 0.3s;
   overflow-y: auto;
 }
@@ -148,15 +149,41 @@ html,
   color: white;
 }
 
+.chat-header {
+  padding: 0.8rem 0.6rem 0.8rem 0.6rem;
+  border-bottom: 1px solid#54457e;
+  height: 10%;
+}
+
+.chat-title {
+  width: 100%;
+  text-overflow: ellipsis;
+  font-size: 2.5rem;
+  text-align: left;
+  color: white;
+  padding-left: 1em;
+  display: flex;
+  align-items: center;
+}
+
+.logout-btn {
+  position: absolute;
+  right: 1%;
+}
+
 .chat-wrapper {
   flex: 1;
-  box-shadow: 0rem 0rem 0.3rem 0.2rem rgba(160, 160, 161, 0.2);
+  /* box-shadow: 0rem 0rem 0.3rem 0.2rem rgba(160, 160, 161, 0.2); */
   padding: 1rem 1.2rem 3rem 1.2rem;
   position: relative;
 }
 
 .chat-wrapper h3 {
   color: white;
+}
+
+.chat-person {
+  border-bottom: 1px solid#54457e;
 }
 
 .chat-input {

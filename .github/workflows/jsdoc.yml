@@ -4,7 +4,6 @@ name: JSDoc Generation and Deployment
     branches:
       - main
       - dev
-      - dy-formatCodeStyle
   pull_request:
     branches:
       - main

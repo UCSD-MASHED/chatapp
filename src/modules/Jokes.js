@@ -37,7 +37,16 @@ const ansFadeOut = classNames({
   "fade-in": false,
 });
 
+/**
+ * This is the Jokes Component used to render jokes and answers images.
+ */
 class Jokes extends React.Component {
+
+  /**
+   * Helper function to display images
+   * @param {string[]} images - list of image names
+   * @param {boolean} isJoke - true if the images are joke images, false if answer images
+   */
   displayImgs(images, isJoke) {
     return images.map((imgPath, index) => (
       <img
@@ -55,7 +64,7 @@ class Jokes extends React.Component {
         alt={isJoke ? "joke" : "ans"}
       />
     ));
-  }
+  } /* displayImgs */
 
   render() {
     return (

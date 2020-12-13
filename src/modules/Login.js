@@ -6,7 +6,8 @@ import Loading from "./Loading";
 import Jokes from "./Jokes";
 
 /**
- * This is the Login Component
+ * This is the Login Component used to render the log in page and handle user
+ * actions such as log in with google account.
  */
 class Login extends React.Component {
   constructor(props) {
@@ -18,12 +19,6 @@ class Login extends React.Component {
     };
     this.handleGoogleSignIn = this.handleGoogleSignIn.bind(this);
     this.incrementImgState = this.incrementImgState.bind(this);
-  }
-
-  incrementImgState() {
-    this.setState({
-      imgState: this.state.imgState < 4 ? this.state.imgState + 1 : 0,
-    });
   }
 
   componentDidMount() {
@@ -78,7 +73,7 @@ class Login extends React.Component {
       .catch((err) => {
         console.log(err);
       });
-  }
+  } /* handleGoogleSignIn */
 
   /**
    * Get the user from googleUser
@@ -94,7 +89,16 @@ class Login extends React.Component {
       .get()
       .then((doc) => doc.data());
     return res;
-  }
+  } /* getUser */
+
+  /**
+   * Loops through all {@link Jokes} images
+   */
+  incrementImgState() {
+    this.setState({
+      imgState: this.state.imgState < 4 ? this.state.imgState + 1 : 0,
+    });
+  } /* incrementImgState */
 
   /**
    * Log in the google user and redirect to the chat room page if the user exists,
@@ -117,7 +121,7 @@ class Login extends React.Component {
         // console.log(err);
         toast.error(err);
       });
-  }
+  } /* loginWithGoogleUserAndRedirect */
 
   render() {
     return this.state.loading ? (

@@ -5,7 +5,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { withRouter } from "react-router-dom";
 
 /**
- * This is the CreateUser Component
+ * This is the CreateUser Component used to reader the user creation page
+ * and handle user actions such as entering the username and create a new user
+ * in the user creation page.
  */
 class CreateUser extends React.Component {
   constructor(props) {
@@ -34,10 +36,6 @@ class CreateUser extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  /**
-   * Go back to sign-in page if not signed in
-   * (This can happen when the user types in the URL (/createUser) directly)
-   */
   componentDidMount() {
     if (!this.state.googleUser) {
       this.props.history.replace("/");
@@ -50,7 +48,7 @@ class CreateUser extends React.Component {
    */
   handleChange(event) {
     this.setState({ username: event.target.value });
-  }
+  } /* handleChange */
 
   /**
    * Handles Submit button click, it will first check if the username
@@ -86,7 +84,7 @@ class CreateUser extends React.Component {
         }
       })
       .catch((err) => console.log(err));
-  }
+  } /* handleSubmit */
 
   /**
    * Create a user in database
@@ -118,7 +116,7 @@ class CreateUser extends React.Component {
         return null;
       });
     return res;
-  }
+  } /* createUser */
 
   /**
    * Check if the current username is unique in database
@@ -134,7 +132,7 @@ class CreateUser extends React.Component {
       .get()
       .then((querySnapshot) => querySnapshot.empty);
     return res;
-  }
+  } /* usernameIsUnique */
 
   render() {
     return (

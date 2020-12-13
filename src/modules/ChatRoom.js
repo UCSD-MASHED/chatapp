@@ -8,7 +8,9 @@ import ChatInput from "./ChatInput";
 import Loading from "./Loading";
 
 /**
- * This is the ChatRoom Component
+ * This is the ChatRoom Component used to render the chat room and handle user
+ * actions such as starting a chat with another user and search user by username
+ * in the chat room page.
  */
 class ChatRoom extends React.Component {
   constructor(props) {
@@ -58,11 +60,19 @@ class ChatRoom extends React.Component {
     }
   }
 
+  /**
+   * Handles message input change, updates state accordingly.
+   * @param {Object} event - an Event object
+   */
   handleChangeInput(event) {
     event.preventDefault();
     this.setState({ message: event.target.value });
-  }
+  } /* handleChangeInput */
 
+  /**
+   * Handles search input change, triggers {@link ChatRoom#searchPrefix} search on input change
+   * @param {Object} event - an Event object
+   */
   handleChangeSearch(event) {
     event.preventDefault();
     this.setState({ keyword: event.target.value }, () => {
@@ -72,8 +82,12 @@ class ChatRoom extends React.Component {
         }
       );
     });
-  }
+  } /* handleChangeSearch */
 
+  /**
+   * Handles message submit, triggers {@link ChatRoom#sendMessage}
+   * @param {Object} event - an Event object
+   */
   handleSubmit(event) {
     event.preventDefault();
     const message = this.state.message;
@@ -82,7 +96,7 @@ class ChatRoom extends React.Component {
     if (this.checkUserInRoom(username, roomId)) {
       this.sendMessage(message, roomId, username);
     }
-  }
+  } /* handleSubmit */
 
   /**
    * Given a list of participants, check to see if this chat room already exists.
@@ -139,7 +153,7 @@ class ChatRoom extends React.Component {
     });
     await this.getInitMessages(roomId);
     await this.getMessages(roomId);
-  }
+  } /* enterRoom */
 
   /**
    * Fetch the list of [message]{@link _Message} of the chat room
@@ -288,7 +302,7 @@ class ChatRoom extends React.Component {
       .then(() => {
         this.props.history.replace("/");
       });
-  }
+  } /* logout */
 
   /**
    * Helper function to scroll to the bottom of the chat room
@@ -297,7 +311,7 @@ class ChatRoom extends React.Component {
     if (this.dummy.current) {
       this.dummy.current.scrollIntoView();
     }
-  }
+  } /* scrollToBottom */
 
   render() {
     return this.state.loading ? (

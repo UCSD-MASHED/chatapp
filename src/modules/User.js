@@ -3,7 +3,8 @@ import { withRouter } from "react-router-dom";
 import firebase from "firebase/app";
 
 /**
- * This is the User Component
+ * This is the User Component used to handle the user actions in the user list
+ * such as starting a chat with another user.
  */
 class User extends React.Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class User extends React.Component {
       })
       .then((roomRef) => roomRef.id);
     return roomId;
-  }
+  } /* createRoom */
 
   /**
    * Find and open a chat room containing the list of participants
@@ -44,7 +45,7 @@ class User extends React.Component {
     }
     // bind enterRoom parameters
     this.props.enterRoom(chatRoomId, this.props.targetUser.displayName);
-  }
+  } /* openChatRoom */
 
   /**
    * Set the roomId to the lists of each user in this chat room
@@ -68,7 +69,7 @@ class User extends React.Component {
             });
         });
       });
-  }
+  } /* setRoomId */
 
   /**
    * Open a chat room given two participants
@@ -78,7 +79,7 @@ class User extends React.Component {
   startPrivateChat(targetUsername, username) {
     let participants = [targetUsername, username].sort();
     this.openChatRoom(participants);
-  }
+  } /* startPrivateChat */
 
   render() {
     return (

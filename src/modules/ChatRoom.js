@@ -130,7 +130,7 @@ class ChatRoom extends React.Component {
   /**
    * Enter the chat room with another user
    * @param {string} roomId - id of the chat room
-   * @param {Object} otherUser - the other user to be chatted with
+   * @param {User} otherUser - the other user to be chatted with
    * @param {string} otherUser.displayName - displayed name of the other user
    */
   async enterRoom(roomId, otherUser) {

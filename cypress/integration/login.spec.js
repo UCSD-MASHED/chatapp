@@ -33,7 +33,9 @@ describe("Can create a new user", () => {
     // need return to pass lint
     return cy.fixture("loginUser").then((loginUser) => {
       // reduce the chance of it being not unique
-      cy.get("input").type(loginUser.username + Math.floor(Date.now() / 1000));
+      var time = Math.floor(Date.now() / 1000).toString();
+      // truncate timestamp length to meet username length limit
+      cy.get("input").type(loginUser.username + time.substr(time.length - 6));
       cy.get("button").click();
       cy.contains("People");
     });

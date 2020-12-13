@@ -30,7 +30,7 @@ class ChatRoom extends React.Component {
       loading: true,
     };
     this.dummy = createRef();
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChangeInput = this.handleChangeInput.bind(this);
     this.handleChangeSearch = this.handleChangeSearch.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.checkChatRoomExists = this.checkChatRoomExists.bind(this);
@@ -51,14 +51,14 @@ class ChatRoom extends React.Component {
         const participants = [username, firstUser.username].sort();
         const roomId = await this.checkChatRoomExists(participants);
         if (roomId) {
-          await this.enterRoom(roomId, firstUser);
+          await this.enterRoom(roomId, firstUser.displayName);
         }
       }
       this.setState({ loading: false, users: users });
     }
   }
 
-  handleChange(event) {
+  handleChangeInput(event) {
     event.preventDefault();
     this.setState({ message: event.target.value });
   }
@@ -110,7 +110,7 @@ class ChatRoom extends React.Component {
   /**
    * Return whether or not the current user is in the current room
    * @param {string} username - username of the current user
-   * @param {string} roomId - id of the chat room
+   * @param {_Room.roomId} roomId - id of the [room]{@link _Room}
    * @return {boolean} true if the user is in the chat room, else false
    */
   async checkUserInRoom(username, roomId) {
@@ -130,13 +130,12 @@ class ChatRoom extends React.Component {
   /**
    * Enter the chat room with another user
    * @param {string} roomId - id of the chat room
-   * @param {User} otherUser - the other user to be chatted with
-   * @param {string} otherUser.displayName - displayed name of the other user
+   * @param {string} roomName - displayed name of the other user
    */
-  async enterRoom(roomId, otherUser) {
+  async enterRoom(roomId, roomName) {
     this.setState({
       roomId: roomId,
-      roomName: otherUser.displayName,
+      roomName: roomName,
     });
     await this.getInitMessages(roomId);
     await this.getMessages(roomId);
@@ -200,7 +199,7 @@ class ChatRoom extends React.Component {
   /**
    * Get all the users excluding the current user
    * @param {string} username - The username of the current user
-   * @return {user[]} list of the users excluding the current user
+   * @return {_User[]} list of the users excluding the current user
    */
   async getUsers(username) {
     var res = await firebase
@@ -223,7 +222,7 @@ class ChatRoom extends React.Component {
    * match of the input keyword
    * @param {string} username - username of the current user
    * @param {string} keyword - prefix of username to search for
-   * @return {user[]} list of users whose username matches keyword
+   * @return {_User[]} list of users whose username matches keyword
    */
   async searchPrefix(keyword, username) {
     var res = await firebase
@@ -331,7 +330,7 @@ class ChatRoom extends React.Component {
           </div>
           <ChatInput
             message={this.state.message}
-            handleChange={this.handleChange}
+            handleChange={this.handleChangeInput}
             handleSubmit={this.handleSubmit}
           />
         </div>

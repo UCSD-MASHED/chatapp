@@ -90,12 +90,12 @@ class CreateUser extends React.Component {
 
   /**
    * Create a user in database
-   * @param {GoogleUser} googleUser - google user to be found in database
+   * @param {_GoogleUser} googleUser - google user to be found in database
    * @param {string} googleUser.uid - unique id of the google user
    * @param {string} googleUser.displayName - displayed name of the
    *     google user
    * @param {string} username - username of the user
-   * @return {user|null} newly created user if created successfully;
+   * @return {_User|null} newly created user if created successfully;
    *     otherwise null
    */
   async createUser(googleUser, username) {

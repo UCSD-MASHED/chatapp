@@ -4,7 +4,6 @@ import firebase from "firebase/app";
 
 /**
  * This is the User Component
- * @class
  */
 class User extends React.Component {
   constructor(props) {
@@ -44,7 +43,7 @@ class User extends React.Component {
       chatRoomId = roomId;
     }
     // bind enterRoom parameters
-    this.props.enterRoom(chatRoomId, this.props.targetUser);
+    this.props.enterRoom(chatRoomId, this.props.targetUser.displayName);
   }
 
   /**

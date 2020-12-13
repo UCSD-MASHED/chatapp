@@ -130,7 +130,7 @@ html,
   background-color: #282c34;
   display: flex;
   justify-content: center;
-  height: 90%;
+  height: calc(100% - 60px);
 }
 
 .user-list-wrapper {
@@ -155,7 +155,7 @@ html,
   justify-content: center;
   padding: 0.8rem 0.6rem 0.8rem 0.6rem;
   border-bottom: 1px solid#54457e;
-  height: 10%;
+  height: 60px;
 }
 
 .chat-title {

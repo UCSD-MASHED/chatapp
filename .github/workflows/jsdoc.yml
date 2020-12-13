@@ -4,11 +4,11 @@ name: JSDoc Generation and Deployment
     branches:
       - main
       - dev
+      - dy-formatCodeStyle
   pull_request:
     branches:
       - main
       - dev
-      - dy-formatCodeStyle
 jobs:
   run-jsdoc:
     name: Run JSDoc

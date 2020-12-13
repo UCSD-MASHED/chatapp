@@ -4,6 +4,7 @@ import firebase from "firebase/app";
 
 /**
  * This is the User Component
+ * @class
  */
 class User extends React.Component {
   constructor(props) {

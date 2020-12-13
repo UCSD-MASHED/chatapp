@@ -181,7 +181,7 @@ class ChatRoom extends React.Component {
   } /* getInitMessages */
 
   /**
-   * Create a listener for a chat room to fetch [messages]{@link _Message} 
+   * Create a listener for a chat room to fetch [messages]{@link _Message}
    * upon updates to the database
    * @param {string} roomId - id of the [room]{@link _Room}
    */

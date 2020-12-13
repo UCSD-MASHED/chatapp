@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 
-const images = [
+const landingImages = [
   "/landing_illustration_0.png",
   "/landing_illustration_1.png",
   "/landing_illustration_2.png",
@@ -25,7 +25,7 @@ const fadeOut = classNames({
 });
 
 class Landing extends React.Component {
-  displayImgs(imgState) {
+  displayImgs(images, imgState) {
     return images.map((imgPath, index) => (
       <img
         key={index}
@@ -37,7 +37,7 @@ class Landing extends React.Component {
   }
 
   render() {
-    return <span>{this.displayImgs(this.props.imgState)}</span>;
+    return <span>{this.displayImgs(landingImages, this.props.imgState)}</span>;
   }
 }
 export default Landing;

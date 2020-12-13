@@ -41,7 +41,6 @@ const ansFadeOut = classNames({
  * This is the Jokes Component used to render jokes and answers images.
  */
 class Jokes extends React.Component {
-
   /**
    * Helper function to display images
    * @param {string[]} images - list of image names

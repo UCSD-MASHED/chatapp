@@ -14,7 +14,7 @@ class Login extends React.Component {
 
     this.state = {
       loading: true,
-      imgState: 0,
+      imgState: 4,
     };
     this.handleGoogleSignIn = this.handleGoogleSignIn.bind(this);
     this.incrementImgState = this.incrementImgState.bind(this);
@@ -121,35 +121,35 @@ class Login extends React.Component {
     return this.state.loading ? (
       <Loading />
     ) : (
-      <div className="auth-wrapper">
-        <div className="signin-wrapper">
-          <span className="landing-left-wrapper">
-            <div className="landing-text">
-              <h1>TaterTalk</h1>
-              <br></br>
-              <p>Presented by Team Mashed</p>
-              <br></br>
-              <button
-                style={{ padding: "1.5vh 8vw", fontSize: "1.5rem" }}
-                onClick={this.handleGoogleSignIn}
-                className="btn btn-primary btn-sm"
-              >
-                Sign In
+        <div className="auth-wrapper">
+          <div className="signin-wrapper">
+            <span className="landing-left-wrapper">
+              <div className="landing-text">
+                <h1>TaterTalk</h1>
+                <br></br>
+                <p>Presented by Team Mashed</p>
+                <br></br>
+                <button
+                  style={{ padding: "1.5vh 8vw", fontSize: "1.5rem" }}
+                  onClick={this.handleGoogleSignIn}
+                  className="btn btn-primary btn-sm"
+                >
+                  Sign In
               </button>
-            </div>
-          </span>
-          <span className="landing-right-wrapper">
-            <img
-              className="landing-img d-none d-md-block"
-              alt="illustration"
-              src={process.env.PUBLIC_URL + "/landing_illustration_base.png"}
-            />
-            <Landing imgState={this.state.imgState} />
-          </span>
+              </div>
+            </span>
+            <span className="landing-right-wrapper">
+              <img
+                className="landing-img d-none d-md-block"
+                alt="illustration"
+                src={process.env.PUBLIC_URL + "/landing_illustration_base.png"}
+              />
+              <Landing imgState={this.state.imgState} />
+            </span>
+          </div>
+          <ToastContainer />
         </div>
-        <ToastContainer />
-      </div>
-    );
+      );
   }
 }
 

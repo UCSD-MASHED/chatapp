@@ -25,11 +25,11 @@ const fadeOut = classNames({
 });
 
 class Landing extends React.Component {
-  displayImgs() {
+  displayImgs(imgState) {
     return images.map((imgPath, index) => (
       <img
         key={index}
-        className={index === this.props.imgState ? fadeIn : fadeOut}
+        className={index === imgState ? fadeIn : fadeOut}
         src={process.env.PUBLIC_URL + imgPath}
         alt={"illustration"}
       />
@@ -37,7 +37,7 @@ class Landing extends React.Component {
   }
 
   render() {
-    return <span>{this.displayImgs()}</span>;
+    return <span>{this.displayImgs(this.props.imgState)}</span>;
   }
 }
 export default Landing;

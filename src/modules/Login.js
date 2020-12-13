@@ -3,7 +3,7 @@ import firebase from "firebase/app";
 import { withRouter } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Loading from "./Loading";
-import Jokes from "./Jokes";
+import Landing from "./Landing";
 
 /**
  * This is the Login Component
@@ -140,12 +140,12 @@ class Login extends React.Component {
             </span>
             <span className="landing-right-wrapper">
               <img
-                className="landing-img"
+                className="landing-img d-none d-md-block"
                 alt="illustration"
-                src={process.env.PUBLIC_URL + "/landing_illustration.png"}
+                src={process.env.PUBLIC_URL + "/landing_illustration_base.png"}
               />
+              <Landing imgState={this.state.imgState} />
             </span>
-            <Jokes imgState={this.state.imgState} />
           </div>
           <ToastContainer />
         </div>

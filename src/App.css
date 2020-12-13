@@ -96,25 +96,10 @@ html,
 
 .landing-img {
   top: 20%;
-  right: 8%;
+  right: 5%;
   position: absolute;
   max-width: 50%;
   max-height: 60%;
-}
-
-.joke-img {
-  top: 18%;
-  right: 24%;
-  position: absolute;
-  max-width: 15%;
-  max-height: 15%;
-}
-.ans-img {
-  top: 30%;
-  right: 36%;
-  position: absolute;
-  max-width: 15%;
-  max-height: 15%;
 }
 
 .fade-out {
@@ -130,7 +115,7 @@ html,
   background-color: #282c34;
   display: flex;
   justify-content: center;
-  height: calc(100% - 60px);
+  height: calc(100% - 4rem);
 }
 
 .user-list-wrapper {
@@ -155,7 +140,7 @@ html,
   justify-content: center;
   padding: 0.8rem 0.6rem 0.8rem 0.6rem;
   border-bottom: 1px solid#54457e;
-  height: 60px;
+  height: 4rem;
 }
 
 .chat-title {

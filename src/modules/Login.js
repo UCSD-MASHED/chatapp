@@ -82,7 +82,7 @@ class Login extends React.Component {
 
   /**
    * Get the user from googleUser
-   * @param {Object} googleUser - The google user to be found in database
+   * @param {GoogleUser} googleUser - The google user to be found in database
    * @param {string} googleUser.uid - The unique id of the google user
    * @param {string} googleUser.displayName - The displayed name of the
    *     google user
@@ -102,7 +102,7 @@ class Login extends React.Component {
   /**
    * Log in the google user and redirect to the chat room page if the user exists,
    * otherwise, redirect to the user creation page
-   * @param {Object} googleUser - The google user to be logged in and redirected
+   * @param {GoogleUser} googleUser - The google user to be logged in and redirected
    * @param {string} googleUser.uid - The unique id of the google user
    * @param {string} googleUser.displayName - The displayed name of the
    */

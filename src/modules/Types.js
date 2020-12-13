@@ -31,5 +31,3 @@
  * @property {list} roomIds - a list of ids of the rooms the user participates in
  * @property {boolean} online - if the user is online
  */
-
-exports.unused = {};

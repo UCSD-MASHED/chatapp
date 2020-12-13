@@ -122,7 +122,7 @@ html,
   width: 20vw;
   max-width: 25rem;
   min-width: 12rem;
-  padding: 1rem 1.2rem 3rem 1.2rem;
+  padding: 1rem 1.2rem 0rem 1.2rem;
   border-right: 1px solid#54457e;
   /* box-shadow: 0rem 0rem 0.3rem 0.2rem rgba(160, 160, 161, 0.2); */
   transition: all 0.3s;
@@ -218,7 +218,7 @@ html,
 .user-list {
   float: left;
   width: 20vw;
-  height: 100vh;
+  height: 100%;
 }
 
 .user p {

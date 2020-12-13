@@ -82,12 +82,9 @@ class Login extends React.Component {
 
   /**
    * Get the user from googleUser
-   * @param {_GoogleUser} googleUser - The google user to be found in database
-   * @param {string} googleUser.uid - The unique id of the google user
-   * @param {string} googleUser.displayName - The displayed name of the
-   *     google user
-   * @return {_User|undefined} a user object if googleUser.uid is unique
-   *     in database; otherwise undefined
+   * @param {_GoogleUser} googleUser - google user to be found in database
+   * @return {_User|undefined} [user]{@link _User} if googleUser.uid is 
+   *     unique in database; otherwise undefined
    */
   async getUser(googleUser) {
     var res = await firebase
@@ -102,9 +99,7 @@ class Login extends React.Component {
   /**
    * Log in the google user and redirect to the chat room page if the user exists,
    * otherwise, redirect to the user creation page
-   * @param {_GoogleUser} googleUser - The google user to be logged in and redirected
-   * @param {string} googleUser.uid - The unique id of the google user
-   * @param {string} googleUser.displayName - The displayed name of the
+   * @param {_GoogleUser} googleUser - google user to be logged in and redirected
    */
   loginWithGoogleUserAndRedirect(googleUser) {
     this.getUser(googleUser)

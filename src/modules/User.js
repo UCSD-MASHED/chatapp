@@ -14,7 +14,7 @@ class User extends React.Component {
   /**
    * Create a new chat room for participants
    * @param {string[]} participants - list of usernames for users in the room
-   * @return {string} room id of the newly created chat room
+   * @return {string} id of the newly created chat [room]{@link _Room}
    */
   async createRoom(participants) {
     let roomId = await firebase
@@ -32,7 +32,7 @@ class User extends React.Component {
    * given. If no chat room exists, create a new chat room with these
    * participants. Will call the parent handler to switch to the found
    * chat room.
-   * @param {string[]} participants - list of usernames for users in the room
+   * @param {string[]} participants - list of usernames for users in the chat room
    */
   async openChatRoom(participants) {
     let chatRoomId = await this.props.checkChatRoomExists(participants);
@@ -47,8 +47,8 @@ class User extends React.Component {
   }
 
   /**
-   * Set the roomId to the lists of each user in this room
-   * @param {string} roomId - id of the chat room
+   * Set the roomId to the lists of each user in this chat room
+   * @param {string} roomId - id of the [room]{@link _Room}
    * @param {string[]} participants - list of usernames for users in the room
    */
   async setRoomId(participants, roomId) {
@@ -71,9 +71,9 @@ class User extends React.Component {
   }
 
   /**
-   * Open a chat room given a list of participants
-   * @param {string[]} targetUsername - username of the target user
-   * @param {string[]} username - username of the current user
+   * Open a chat room given two participants
+   * @param {string} targetUsername - username of the target [user]{@link _User}
+   * @param {string} username - username of the current [user]{@link _User}
    */
   startPrivateChat(targetUsername, username) {
     let participants = [targetUsername, username].sort();

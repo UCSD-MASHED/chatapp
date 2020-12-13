@@ -87,7 +87,7 @@ class ChatRoom extends React.Component {
   /**
    * Given a list of participants, check to see if this chat room already exists.
    * @param {string[]} participants - list of usernames for users in the room which may not exist
-   * @return {string|null} room id of the chat room if found, otherwise null
+   * @return {string|null} room id of the [room]{@link _Room} if found, otherwise null
    */
   async checkChatRoomExists(participants) {
     let roomId = await firebase
@@ -109,9 +109,9 @@ class ChatRoom extends React.Component {
 
   /**
    * Return whether or not the current user is in the current room
-   * @param {string} username - username of the current user
-   * @param {_Room.roomId} roomId - id of the [room]{@link _Room}
-   * @return {boolean} true if the user is in the chat room, else false
+   * @param {string} username - username of the current [user]{@link _User}
+   * @param {string} roomId - id of the [room]{@link _Room}
+   * @return {boolean} true if the [user]{@link _User} is in the [room]{@link _Room}, else false
    */
   async checkUserInRoom(username, roomId) {
     if (!roomId) {
@@ -129,8 +129,8 @@ class ChatRoom extends React.Component {
 
   /**
    * Enter the chat room with another user
-   * @param {string} roomId - id of the chat room
-   * @param {string} roomName - displayed name of the other user
+   * @param {string} roomId - id of the [room]{@link _Room}
+   * @param {string} roomName - displayed name of the other [user]{@link _User}
    */
   async enterRoom(roomId, roomName) {
     this.setState({
@@ -142,8 +142,8 @@ class ChatRoom extends React.Component {
   }
 
   /**
-   * Fetch the messages of the chat room
-   * @param {string} roomId - id of the chat room
+   * Fetch the list of [message]{@link _Message} of the chat room
+   * @param {string} roomId - id of the [room]{@link _Room}
    */
   async getInitMessages(roomId) {
     if (!roomId) {
@@ -167,9 +167,9 @@ class ChatRoom extends React.Component {
   } /* getInitMessages */
 
   /**
-   * Create a listener for a chat room to fetch messages upon updates to
-   * the database
-   * @param {string} roomId - id of the chat room
+   * Create a listener for a chat room to fetch [messages]{@link _Message} 
+   * upon updates to the database
+   * @param {string} roomId - id of the [room]{@link _Room}
    */
   async getMessages(roomId) {
     if (!roomId) {
@@ -198,8 +198,8 @@ class ChatRoom extends React.Component {
 
   /**
    * Get all the users excluding the current user
-   * @param {string} username - The username of the current user
-   * @return {_User[]} list of the users excluding the current user
+   * @param {string} username - username of the current [user]{@link _User}
+   * @return {_User[]} list of the users excluding the current [user]{@link _User}
    */
   async getUsers(username) {
     var res = await firebase
@@ -220,7 +220,7 @@ class ChatRoom extends React.Component {
   /**
    * Returns list of users whose username has a longest prefix
    * match of the input keyword
-   * @param {string} username - username of the current user
+   * @param {string} username - username of the current [user]{@link _User}
    * @param {string} keyword - prefix of username to search for
    * @return {_User[]} list of users whose username matches keyword
    */
@@ -243,10 +243,10 @@ class ChatRoom extends React.Component {
   } /* searchPrefix */
 
   /**
-   * Update user timestamp and append message to room of messages.
+   * Update user timestamp and append [message]{@link _Message} to room of messages.
    * @param {string} message - message to be sent
-   * @param {string} roomId - id of the chat room
-   * @param {string} username - username of the current user
+   * @param {string} roomId - id of the [room]{@link _Room}
+   * @param {string} username - username of the current [user]{@link _User}
    */
   async sendMessage(message, roomId, username) {
     if (!roomId) {

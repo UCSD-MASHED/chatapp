@@ -56,8 +56,8 @@ class CreateUser extends React.Component {
       );
       return;
     }
-    if (this.state.username.length > 20) {
-      toast.error("Username is too long, we only allow up to 20 characters.");
+    if (this.state.username.length > 25) {
+      toast.error("Username is too long, we only allow up to 25 characters.");
       return;
     }
     this.usernameIsUnique(this.state.username)

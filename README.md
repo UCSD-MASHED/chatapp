@@ -27,7 +27,7 @@
 
 # TaterTalk
 
-This is a chat web application that allows users to register/login with Google and  provides 1 on 1 private chatting functionality.
+This is a chat web application that allows users to register/login with Google and provides 1 on 1 private chatting functionality.
 
 ## Architecture
 
@@ -40,14 +40,16 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Welcome aboard! Below are the steps you need to take to get up and running, as well as relevant resources to consult.
 
 ### Steps you should take
+
 1. Install [node](https://nodejs.dev/learn/how-to-install-nodejs).
 2. Install [yarn](https://classic.yarnpkg.com/en/docs/install/).
 3. Clone this repository.
-4. The team should have provided you with two files: [`.env.dev`](#envdev) and [`serviceAccount.json`](#serviceaccountjson) . Add both of these files to the root level of the repository. 
+4. The team should have provided you with two files: [`.env.dev`](#envdev) and [`serviceAccount.json`](#serviceaccountjson) . Add both of these files to the root level of the repository.
 5. Run `yarn install` to install our project's dependencies.
 6. Start the local server by doing `yarn start` and explore!
 
 You're all set! You can visit the [Scripts](#Scripts) section to learn more about other useful commands if you are interested.
+
 ### Resources for next steps
 
 `TODO`

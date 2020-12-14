@@ -107,7 +107,7 @@ CYPRESS_APPID=1:...
 CYPRESS_TEST_UID=...
 ```
 
-`*_APIKEY`, `*_AUTHDOMAIN`, `*_DATABASEURL`, `*_PROJECTID`, `*_STORAGEBUCKET`, `*_MESSAGINGSENDERID` and `*_APPID` are provided by the Firebase project you created. They are used to [initialize the Firebase app](https://firebase.google.com/docs/web/setup#add-sdks-initialize) using the Firebase SDK. You can find more about them [here](https://support.google.com/firebase/answer/7015592).
+`*_APIKEY`, `*_AUTHDOMAIN`, `*_DATABASEURL`, `*_PROJECTID`, `*_STORAGEBUCKET`, `*_MESSAGINGSENDERID` and `*_APPID` are provided by the Firebase project you created. They are used to [initialize the Firebase app](https://firebase.google.com/docs/web/setup#add-sdks-initialize) using the Firebase SDK. You can read more about it in [here](https://support.google.com/firebase/answer/7015592) as well.
 
 All the variables that start with `REACT_APP_` are imported by CRA in our web app, they are the credentials we need to initialize Firebase app using Firebase SDK.
 
@@ -166,7 +166,7 @@ The goal here is to have at least one test case per each unit (function) so that
 
 For our E2E tests, we decided to go with [Cypress](https://docs.cypress.io/guides/overview/why-cypress.html#In-a-nutshell) because it's well-documented and provides good support for asynchronous tests and easy to setup.
 
-Learn how to configure Cypress [here](https://docs.cypress.io/guides/references/configuration.html)
+Learn how to configure Cypress [here](https://docs.cypress.io/guides/references/configuration.html).
 
 It's worth mentioning that since E2E tests require talking to the actual backend server (in our case, this is Firebase), we also need to setup environment variables so that Cypress can test Firebase related features. The detail configuration is covered [here](#envdev).
 

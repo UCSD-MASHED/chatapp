@@ -7,7 +7,7 @@ import Jokes from "./Jokes";
 
 /**
  * This is the Login Component used to render the log in page and handle user
- * actions such as log in with google account.
+ * actions such as log in with Google account.
  */
 class Login extends React.Component {
   constructor(props) {
@@ -49,8 +49,8 @@ class Login extends React.Component {
   }
 
   /**
-   * Handles Sign in button click, opens a pop up to google sign in page
-   * Once sign in is completed, we will get back the google user object.
+   * Handles Sign in button click, opens a pop up to Google sign in page
+   * Once sign in is completed, we will get back the Google user object.
    * We will use the uid to distinguish each user. If the user is new,
    * we will take them to CreateUser to ask them fill in a unique username,
    * else we will take them to Chat.
@@ -77,7 +77,7 @@ class Login extends React.Component {
 
   /**
    * Get the user from googleUser
-   * @param {_GoogleUser} googleUser - google user to be found in database
+   * @param {_GoogleUser} googleUser - Google user to be found in database
    * @return {_User|undefined} [user]{@link _User} if googleUser.uid is
    *     unique in database; otherwise undefined
    */
@@ -101,9 +101,9 @@ class Login extends React.Component {
   } /* incrementImgState */
 
   /**
-   * Log in the google user and redirect to the chat room page if the user exists,
+   * Log in the Google user and redirect to the chat room page if the user exists,
    * otherwise, redirect to the user creation page
-   * @param {_GoogleUser} googleUser - google user to be logged in and redirected
+   * @param {_GoogleUser} googleUser - Google user to be logged in and redirected
    */
   loginWithGoogleUserAndRedirect(googleUser) {
     this.getUser(googleUser)

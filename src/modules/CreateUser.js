@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 
 /**
  * This is the CreateUser Component used to reader the user creation page
- * and handle user actions such as entering the username and create a new user
+ * and handle user actions such as entering the username and creating a new user
  * in the user creation page.
  */
 class CreateUser extends React.Component {
@@ -94,7 +94,7 @@ class CreateUser extends React.Component {
 
   /**
    * Create a user in database
-   * @param {_GoogleUser} googleUser - google user to be found in database
+   * @param {_GoogleUser} googleUser - Google user to be found in database
    * @param {string} username - username of the [user]{@link _User}
    * @return {_User|null} newly created [user]{@link _User} if created successfully;
    *     otherwise null

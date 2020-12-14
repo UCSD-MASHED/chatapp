@@ -14,7 +14,7 @@ class User extends React.Component {
 
   /**
    * Create a new chat room for participants
-   * @param {string[]} participants - list of usernames for users in the room
+   * @param {string[]} participants - list of usernames for [users]{@link _User} in a [room]{@link _Room}
    * @return {string} id of the newly created chat [room]{@link _Room}
    */
   async createRoom(participants) {
@@ -33,7 +33,7 @@ class User extends React.Component {
    * given. If no chat room exists, create a new chat room with these
    * participants. Will call the parent handler to switch to the found
    * chat room.
-   * @param {string[]} participants - list of usernames for users in the chat room
+   * @param {string[]} participants - list of usernames for [users]{@link _User} in a [room]{@link _Room}
    */
   async openChatRoom(participants) {
     let chatRoomId = await this.props.checkChatRoomExists(participants);
@@ -50,7 +50,7 @@ class User extends React.Component {
   /**
    * Set the roomId to the lists of each user in this chat room
    * @param {string} roomId - id of the [room]{@link _Room}
-   * @param {string[]} participants - list of usernames for users in the room
+   * @param {string[]} participants - list of usernames for [users]{@link _User} in the [room]{@link _Room}
    */
   async setRoomId(participants, roomId) {
     await firebase

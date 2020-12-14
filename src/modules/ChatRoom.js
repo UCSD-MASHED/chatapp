@@ -9,8 +9,9 @@ import Loading from "./Loading";
 
 /**
  * This is the ChatRoom Component used to render the chat room and handle user
- * actions such as starting a chat with another user and search user by username
- * in the chat room page.
+ * actions such as sending messages, searching for users to chat with, and starting
+ * new chats. A ChatRoom houses all of a users private chats, not just one chat
+ * with another user.
  */
 class ChatRoom extends React.Component {
   constructor(props) {
@@ -70,7 +71,7 @@ class ChatRoom extends React.Component {
   } /* handleChangeInput */
 
   /**
-   * Handles search input change, triggers {@link ChatRoom#searchPrefix} search on input change
+   * Handles user search input change, triggers {@link ChatRoom#searchPrefix} search on input change
    * @param {Object} event - an Event object
    */
   handleChangeSearch(event) {
@@ -100,7 +101,7 @@ class ChatRoom extends React.Component {
 
   /**
    * Given a list of participants, check to see if this chat room already exists.
-   * @param {string[]} participants - list of usernames for users in the room which may not exist
+   * @param {string[]} participants - list of usernames for [users]{@link _User} in the [room]{@link _Room} which may not exist
    * @return {string|null} room id of the [room]{@link _Room} if found, otherwise null
    */
   async checkChatRoomExists(participants) {
@@ -125,7 +126,7 @@ class ChatRoom extends React.Component {
    * Return whether or not the current user is in the current room
    * @param {string} username - username of the current [user]{@link _User}
    * @param {string} roomId - id of the [room]{@link _Room}
-   * @return {boolean} true if the [user]{@link _User} is in the [room]{@link _Room}, else false
+   * @return {boolean} true if the current [user]{@link _User} is in the [room]{@link _Room}, else false
    */
   async checkUserInRoom(username, roomId) {
     if (!roomId) {
@@ -156,7 +157,7 @@ class ChatRoom extends React.Component {
   } /* enterRoom */
 
   /**
-   * Fetch the list of [message]{@link _Message} of the chat room
+   * Fetch the list of [messages]{@link _Message} of the chat room
    * @param {string} roomId - id of the [room]{@link _Room}
    */
   async getInitMessages(roomId) {
@@ -181,8 +182,7 @@ class ChatRoom extends React.Component {
   } /* getInitMessages */
 
   /**
-   * Create a listener for a chat room to fetch [messages]{@link _Message}
-   * upon updates to the database
+   * Append a new [message]{@link _Message} sent by the current user to the list of messages in a room
    * @param {string} roomId - id of the [room]{@link _Room}
    */
   async getMessages(roomId) {

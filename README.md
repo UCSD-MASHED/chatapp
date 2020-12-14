@@ -6,6 +6,9 @@
 
 - [TaterTalk](#tatertalk)
   - [Architecture](#architecture)
+  - [New to our team? (Onboarding)](#new-to-our-team-onboarding)
+    - [Steps you should take](#steps-you-should-take)
+    - [Resources for next steps](#resources-for-next-steps)
   - [Setup](#setup)
     - [Environment files](#environment-files)
       - [`.firebaserc`](#firebaserc)
@@ -24,16 +27,34 @@
 
 # TaterTalk
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and utilizes [Firebase](https://firebase.google.com/).
+This is a chat web application that allows users to register/login with Google and  provides 1 on 1 private chatting functionality.
 
 ## Architecture
 
 `TODO`
 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and utilizes [Firebase](https://firebase.google.com/), more specifically, it relies on Firebase Authentication, Firestore and Hosting.
+
+## New to our team? (Onboarding)
+
+Welcome aboard! Below are the steps you need to take to get up and running, as well as relevant resources to consult.
+
+### Steps you should take
+1. Install [node](https://nodejs.dev/learn/how-to-install-nodejs).
+2. Install [yarn](https://classic.yarnpkg.com/en/docs/install/).
+3. Clone this repository.
+4. The team should have provided you with two files: [`.env.dev`](#envdev) and [`serviceAccount.json`](#serviceaccountjson) . Add both of these files to the root level of the repository. 
+5. Run `yarn install` to install our project's dependencies.
+6. Start the local server by doing `yarn start` and explore!
+
+You're all set! You can visit the [Scripts](#Scripts) section to learn more about other useful commands if you are interested.
+### Resources for next steps
+
+`TODO`
+
 ## Setup
 
-This app is built on top of Firebase, it utilizes Firebase Authentication, Firestore and Hosting. In order to get started, you should
-first create a Firebase app [here](https://firebase.google.com/).
+If you are not part of the team and would like to create an app of your own, you should first create a Firebase app [here](https://firebase.google.com/).
 
 ### Environment files
 
@@ -84,7 +105,7 @@ CYPRESS_APPID=1:...
 CYPRESS_TEST_UID=...
 ```
 
-`*_APIKEY`, `*_AUTHDOMAIN`, `*_DATABASEURL`, `*_PROJECTID`, `*_STORAGEBUCKET`, `*_MESSAGINGSENDERID` and `*_APPID` are provided by the Firebase project you created.
+`*_APIKEY`, `*_AUTHDOMAIN`, `*_DATABASEURL`, `*_PROJECTID`, `*_STORAGEBUCKET`, `*_MESSAGINGSENDERID` and `*_APPID` are provided by the Firebase project you created. They are used to [initialize the Firebase app](https://firebase.google.com/docs/web/setup#add-sdks-initialize) using the Firebase SDK. You can find more about them [here](https://support.google.com/firebase/answer/7015592).
 
 All the variables that start with `REACT_APP_` are imported by CRA in our web app, they are the credentials we need to initialize Firebase app using Firebase SDK.
 

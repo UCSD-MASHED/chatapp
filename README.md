@@ -109,9 +109,9 @@ CYPRESS_TEST_UID=...
 
 `*_APIKEY`, `*_AUTHDOMAIN`, `*_DATABASEURL`, `*_PROJECTID`, `*_STORAGEBUCKET`, `*_MESSAGINGSENDERID` and `*_APPID` are provided by the Firebase project you created. They are used to [initialize the Firebase app](https://firebase.google.com/docs/web/setup#add-sdks-initialize) using the Firebase SDK. You can read more about it in [here](https://support.google.com/firebase/answer/7015592) as well.
 
-All the variables that start with `REACT_APP_` are imported by CRA in our web app, they are the credentials we need to initialize Firebase app using Firebase SDK.
+We prepend `REACT_APP_` to the environment variables introduced above so that they are imported by CRA automatically.
 
-All the variables that start with `CYPRESS_` are imported by Cypress in test runs. We need them so that we can communicate with Firebase in our End to End environment.
+We also prepend `CYPRESS_` to the same environment variables so that they are imported by Cypress in test runs. We need them so that we can communicate with Firebase in our End to End environment.
 
 `CYPRESS_TEST_UID` is needed for `cypress-firebase` so that it can log in as a test user through Firebase Authentication. See more details [here](https://github.com/prescottprue/cypress-firebase#cylogin).
 

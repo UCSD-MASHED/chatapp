@@ -9,17 +9,18 @@
   - [New to our team? (Onboarding)](#new-to-our-team-onboarding)
     - [Steps you should take](#steps-you-should-take)
     - [Resources for next steps](#resources-for-next-steps)
-  - [Setup](#setup)
+  - [Looking instead to extend our project as your own?](#looking-instead-to-extend-our-project-as-your-own)
+    - [Setup](#setup)
     - [Environment files](#environment-files)
       - [`.firebaserc`](#firebaserc)
       - [`.env.dev`](#envdev)
       - [`serviceAccount.json`](#serviceaccountjson)
-    - [Scripts](#scripts)
-      - [`yarn start`](#yarn-start)
-      - [`yarn test`](#yarn-test)
-      - [`yarn run cy:run`](#yarn-run-cyrun)
-      - [`yarn run cy:open`](#yarn-run-cyopen)
-  - [Code/JSDoc](#codejsdoc)
+  - [Scripts](#scripts)
+    - [`yarn start`](#yarn-start)
+    - [`yarn test`](#yarn-test)
+    - [`yarn run cy:run`](#yarn-run-cyrun)
+    - [`yarn run cy:open`](#yarn-run-cyopen)
+  - [Code and JS Doc Documentation](#code-and-js-doc-documentation)
   - [Testing](#testing)
     - [Jest](#jest)
     - [Cypress](#cypress)
@@ -54,7 +55,9 @@ You're all set! You can visit the [Scripts](#Scripts) section to learn more abou
 
 `TODO`
 
-## Setup
+## Looking instead to extend our project as your own?
+
+### Setup
 
 If you are not part of the team and would like to create an app of your own, you should first create a Firebase app [here](https://firebase.google.com/).
 
@@ -68,7 +71,9 @@ This is the Firebase configuration file which specifies the corresponding Fireba
 
 Here is what it looks like:
 
-Since we have two branches `main` and `dev` for production and development environment in our GitHub repository, we also created two projects on Firebase console and linked them to `prod` and `dev` config respectively.
+Since we have two branches `main` and `dev` for production and development environments in our GitHub repository, we also created two projects on Firebase console and linked them to `prod` and `dev` config respectively.
+
+However, you don't have to create two apps since you may just want to deploy only one branch, and then you can ignore all the instructions related to the development environment and `dev` branch.
 
 ```json
 {
@@ -117,15 +122,13 @@ We also prepend `CYPRESS_` to the same environment variables so that they are im
 
 #### `serviceAccount.json`
 
-This is a JSON configuration file that was generated in Firebase, you can follow this [link](https://firebase.google.com/docs/admin/setup#initialize-sdk) for instructions. We need this file so that our third-party plugin [cypress-firebase](https://github.com/prescottprue/cypress-firebase) can utilize the firebase-admin SDK to test Firebase project.
+This is a JSON configuration file that was generated in Firebase. You can follow this [link](https://firebase.google.com/docs/admin/setup#initialize-sdk) for instructions. We need this file so that our third-party plugin [cypress-firebase](https://github.com/prescottprue/cypress-firebase) can utilize the firebase-admin SDK to test the Firebase project.
 
-### Scripts
+After setting up the environment files, you should install all the project dependencies by doing `yarn install`. Once the installation is done, you should be able to utilize the commands in the Scripts section below.
 
-After setting up the environment files, you should install all the project dependencies by doing `yarn install`.
+## Scripts
 
-Once the installation is done, you should be able to utilize the following commands:
-
-#### `yarn start`
+### `yarn start`
 
 Runs the app on your local machine.
 Open http://localhost:3000 to view it in the browser.
@@ -133,47 +136,47 @@ Open http://localhost:3000 to view it in the browser.
 The page will reload if you make edits.
 You will also see any lint errors in the console.
 
-#### `yarn test`
+### `yarn test`
 
-Launches the test runner in the interactive watch mode.\
+Launches the unit test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-#### `yarn run cy:run`
+### `yarn run cy:run`
 
 Launches the Cypress test runner in command-line mode. See more details [here](https://docs.cypress.io/guides/guides/command-line.html#How-to-run-commands).
 
-#### `yarn run cy:open`
+### `yarn run cy:open`
 
 Launches the Cypress GUI test runner. See more details [here](https://docs.cypress.io/guides/getting-started/installing-cypress.html#Opening-Cypress).
 
-## Code/JSDoc
+## Code and JS Doc Documentation
 
 If you are interested in our implementation, we have a JSDoc document website hosted [here](https://ucsd-mashed.github.io/TaterTalkDoc/) that documents all of our code for this project.
 
-Learn how to config JSDoc [here](https://jsdoc.app/about-configuring-jsdoc.html).
+Learn how to configure JSDoc [here](https://jsdoc.app/about-configuring-jsdoc.html).
 
-For reference, you can look at our `jsdoc.json` in root directory for our own configuration of JSDoc.
+For reference, you can look at our `jsdoc.json` in the root directory for our own configuration of JSDoc.
 
 ## Testing
 
 ### Jest
 
-We use [Jest](https://jestjs.io/docs/en/tutorial-react), combined with [testing-library](https://testing-library.com/docs/react-testing-library/example-intro/) for unit testing.
+We use [Jest](https://jestjs.io/docs/en/tutorial-react), combined with [react-testing-library](https://testing-library.com/docs/react-testing-library/example-intro/) for unit testing.
 
 The goal here is to have at least one test case per each unit (function) so that we can be confident that all functions should behave as expected.
 
 ### Cypress
 
-For our E2E tests, we decided to go with [Cypress](https://docs.cypress.io/guides/overview/why-cypress.html#In-a-nutshell) because it's well-documented and provides good support for asynchronous tests and easy to setup.
+For our E2E tests, we decided to go with [Cypress](https://docs.cypress.io/guides/overview/why-cypress.html#In-a-nutshell) because it's well-documented and provides good support for asynchronous tests and is easy to setup.
 
 Learn how to configure Cypress [here](https://docs.cypress.io/guides/references/configuration.html).
 
-It's worth mentioning that since E2E tests require talking to the actual backend server (in our case, this is Firebase), we also need to setup environment variables so that Cypress can test Firebase related features. The detail configuration is covered [here](#envdev).
+It's worth mentioning that since E2E tests require talking to the actual backend server (in our case, this is Firebase), we also need to setup environment variables so that Cypress can test Firebase related features. The detailed configuration is covered [here](#envdev).
 
-For reference, you can look at our `cypress.json` in root directory for our own configuration of Cypress.
+For reference, you can look at our `cypress.json` in the root directory for our own configuration of Cypress.
 
 ### Code Coverage
 
-We combined both Jest and Cypress test coverages so that it truely reflects our comprehensive code coverage. If interested, please take a look at our [test coverage workflow](.github/workflows/test_coverage.yml).
+We combined both Jest and Cypress test coverages so that it truly reflects our comprehensive code coverage. If interested, please take a look at our [test coverage workflow](.github/workflows/test_coverage.yml).
 
 The combined coverage report is also hosted via GitHub Pages [here](https://ucsd-mashed.github.io/TaterTalkCoverage/).

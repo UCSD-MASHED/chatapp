@@ -8,6 +8,7 @@ import Jokes from "./Jokes";
 /**
  * This is the Login Component used to render the log in page and handle user
  * actions such as log in with Google account.
+ * @hideconstructor
  */
 class Login extends React.Component {
   constructor(props) {

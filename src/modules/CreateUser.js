@@ -8,6 +8,7 @@ import { withRouter } from "react-router-dom";
  * This is the CreateUser Component used to reader the user creation page
  * and handle user actions such as entering the username and creating a new user
  * in the user creation page.
+ * @hideconstructor
  */
 class CreateUser extends React.Component {
   constructor(props) {

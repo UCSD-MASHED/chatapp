@@ -6,6 +6,7 @@ import data from "emoji-mart/data/apple.json";
 
 /**
  * This is the ChatInput Component used to render the chat input box.
+ * @hideconstructor
  */
 class ChatInput extends React.Component {
   constructor(props) {

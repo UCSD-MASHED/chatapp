@@ -12,6 +12,7 @@ import Loading from "./Loading";
  * actions such as sending messages, searching for users to chat with, and starting
  * new chats. A ChatRoom houses all of a users private chats, not just one chat
  * with another user.
+ * @hideconstructor
  */
 class ChatRoom extends React.Component {
   constructor(props) {

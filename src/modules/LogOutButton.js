@@ -2,6 +2,7 @@ import React from "react";
 
 /**
  * This is the LogOutButton Component used to render the log button.
+ * @hideconstructor
  */
 class LogOutButton extends React.Component {
   render() {

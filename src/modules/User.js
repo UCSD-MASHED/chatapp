@@ -5,6 +5,7 @@ import firebase from "firebase/app";
 /**
  * This is the User Component used to handle the user actions in the user list
  * such as starting a chat with another user.
+ * @hideconstructor
  */
 class User extends React.Component {
   constructor(props) {

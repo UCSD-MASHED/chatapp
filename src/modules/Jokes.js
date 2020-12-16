@@ -26,6 +26,7 @@ const fadeOut = classNames({
 
 /**
  * This is the Jokes Component used to render jokes and answers images.
+ * @hideconstructor
  */
 class Jokes extends React.Component {
   /**

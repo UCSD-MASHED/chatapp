@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 
 /**
  * This is the ChatMessage Component used to render chat messages in chat page.
+ * @hideconstructor
  */
 class ChatMessage extends React.Component {
   getTime(timestamp) {

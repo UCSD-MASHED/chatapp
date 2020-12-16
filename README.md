@@ -81,7 +81,7 @@ Since we have two branches `main` and `dev` for production and development envir
 }
 ```
 
-After creating your own Firebase app, you have to change the corresponding project id in this file. If you are only creating one Firebase app, you can remove `prod` and `dev` fields and only keep `default` field.  
+After creating your own Firebase app, you have to change the corresponding project id in this file. If you are only creating one Firebase app, you can remove `prod` and `dev` fields and only keep `default` field.
 
 #### `.env.dev`
 

@@ -31,7 +31,7 @@ class Jokes extends React.Component {
   /**
    * Helper function to display images
    * @param {string[]} images - list of images
-   * @param {boolean} imgState - true if the image should fade in; false if the image should fade out
+   * @param {int} imgState - an integer indicator used for cycling through each of the images
    */
   displayImgs(images, imgState) {
     return images.map((imgPath, index) => (

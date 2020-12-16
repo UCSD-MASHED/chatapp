@@ -3,7 +3,9 @@ import { withRouter } from "react-router-dom";
 import firebase from "firebase/app";
 
 /**
- * This is the User Component
+ * This is the User Component used to handle the user actions in the user list
+ * such as starting a chat with another user.
+ * @hideconstructor
  */
 class User extends React.Component {
   constructor(props) {
@@ -13,8 +15,8 @@ class User extends React.Component {
 
   /**
    * Create a new chat room for participants
-   * @param {string[]} participants - list of usernames for users in the room
-   * @return {string} roomId - id of the newly created chat room
+   * @param {string[]} participants - list of usernames for [users]{@link _User} in a [room]{@link _Room}
+   * @return {string} id of the newly created chat [room]{@link _Room}
    */
   async createRoom(participants) {
     let roomId = await firebase
@@ -25,12 +27,31 @@ class User extends React.Component {
       })
       .then((roomRef) => roomRef.id);
     return roomId;
-  }
+  } /* createRoom */
 
   /**
-   * Set the roomId to the lists of each user in this room
-   * @param {string} roomId - id of the chat room
-   * @param {string[]} participants - list of usernames for users in the room
+   * Find and open a chat room containing the list of participants
+   * given. If no chat room exists, create a new chat room with these
+   * participants. Will call the parent handler to switch to the found
+   * chat room.
+   * @param {string[]} participants - list of usernames for [users]{@link _User} in a [room]{@link _Room}
+   */
+  async openChatRoom(participants) {
+    let chatRoomId = await this.props.checkChatRoomExists(participants);
+    if (!chatRoomId) {
+      const roomId = await this.createRoom(participants);
+      await this.setRoomId(participants, roomId);
+      // get the new chat room id
+      chatRoomId = roomId;
+    }
+    // bind enterRoom parameters
+    this.props.enterRoom(chatRoomId, this.props.targetUser.displayName);
+  } /* openChatRoom */
+
+  /**
+   * Set the roomId to the lists of each user in this chat room
+   * @param {string} roomId - id of the [room]{@link _Room}
+   * @param {string[]} participants - list of usernames for [users]{@link _User} in the [room]{@link _Room}
    */
   async setRoomId(participants, roomId) {
     await firebase
@@ -49,36 +70,17 @@ class User extends React.Component {
             });
         });
       });
-  }
+  } /* setRoomId */
 
   /**
-   * Find and open a chat room containing the list of participants
-   * given. If no chat room exists, create a new chat room with these
-   * participants. Will call the parent handler to switch to the found
-   * chat room.
-   * @param {string[]} participants - list of usernames for users in the room
-   */
-  async openChatRoom(participants) {
-    let chatRoomId = await this.props.checkChatRoomExists(participants);
-    if (!chatRoomId) {
-      const roomId = await this.createRoom(participants);
-      await this.setRoomId(participants, roomId);
-      // get the new chat room id
-      chatRoomId = roomId;
-    }
-    // bind handleChangeRoom parameters
-    this.props.handleChangeRoom(chatRoomId, this.props.targetUser);
-  }
-
-  /**
-   * Open a chat room given a list of participants
-   * @param {string[]} targetUsername - username of the target user
-   * @param {string[]} username - username of the current user
+   * Open a chat room given two participants
+   * @param {string} targetUsername - username of the target [user]{@link _User}
+   * @param {string} username - username of the current [user]{@link _User}
    */
   startPrivateChat(targetUsername, username) {
     let participants = [targetUsername, username].sort();
     this.openChatRoom(participants);
-  }
+  } /* startPrivateChat */
 
   render() {
     return (

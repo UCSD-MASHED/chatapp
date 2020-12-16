@@ -3,6 +3,7 @@ import User from "./User";
 
 /**
  * This is the People Component used to render the list of users except current user
+ * @hideconstructor
  */
 class People extends React.Component {
   render() {
@@ -15,7 +16,7 @@ class People extends React.Component {
           placeholder="Search"
           aria-label="Search"
           value={this.props.keyword}
-          onChange={this.props.handleSearchChange}
+          onChange={this.props.handleChangeSearch}
           style={{ marginBottom: "1rem" }}
         />
         <div className="list-group">
@@ -25,8 +26,8 @@ class People extends React.Component {
                 key={i}
                 targetUser={otherUser}
                 user={this.props.user}
-                handleChangeRoom={this.props.handleChangeRoom}
                 checkChatRoomExists={this.props.checkChatRoomExists}
+                enterRoom={this.props.enterRoom}
               />
             ))}
         </div>

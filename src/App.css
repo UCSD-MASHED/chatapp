@@ -94,9 +94,23 @@ html,
   height: 100%;
 }
 
+.tatertalk-login {
+  position: absolute;
+  top: -0.75rem;
+  left: -4.5rem;
+  max-width: 5.5rem;
+  max-height: 5.5rem;
+}
+
+.tatertalk-chatroom {
+  max-width: 140%;
+  max-height: 140%;
+  padding-right: 20px;
+}
+
 .landing-img {
-  top: 20%;
-  right: 5%;
+  top: 7rem;
+  right: 3rem;
   position: absolute;
   max-width: 50%;
   max-height: 60%;
@@ -149,7 +163,7 @@ html,
   font-size: 2.5rem;
   text-align: left;
   color: white;
-  padding-left: 1em;
+  padding-left: 0.4em;
   display: flex;
   align-items: center;
 }

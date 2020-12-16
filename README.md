@@ -6,15 +6,15 @@
 
 - [TaterTalk](#tatertalk)
   - [Architecture](#architecture)
-  - [New to our team? (Onboarding)](#new-to-our-team-onboarding)
+  - [Get Started](#get-started)
     - [Steps you should take](#steps-you-should-take)
     - [Resources for next steps](#resources-for-next-steps)
-  - [Looking instead to extend our project as your own?](#looking-instead-to-extend-our-project-as-your-own)
-    - [Setup](#setup)
+  - [Configurations](#configurations)
     - [Environment files](#environment-files)
       - [`.firebaserc`](#firebaserc)
       - [`.env.dev`](#envdev)
       - [`serviceAccount.json`](#serviceaccountjson)
+    - [Workflow Setup](#workflow-setup)
   - [Scripts](#scripts)
     - [`yarn start`](#yarn-start)
     - [`yarn test`](#yarn-test)
@@ -26,7 +26,7 @@
     - [Cypress](#cypress)
     - [Code Coverage](#code-coverage)
 
-# TaterTalk
+# [TaterTalk](https://twotenchatapp.web.app/)
 
 This is a chat web application that allows users to register/login with Google and provides 1 on 1 private chatting functionality.
 
@@ -36,7 +36,7 @@ This is a chat web application that allows users to register/login with Google a
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and utilizes [Firebase](https://firebase.google.com/), more specifically, it relies on Firebase Authentication, Firestore and Hosting.
 
-## New to our team? (Onboarding)
+## Get Started
 
 Welcome aboard! Below are the steps you need to take to get up and running, as well as relevant resources to consult.
 
@@ -45,7 +45,7 @@ Welcome aboard! Below are the steps you need to take to get up and running, as w
 1. Install [node](https://nodejs.dev/learn/how-to-install-nodejs).
 2. Install [yarn](https://classic.yarnpkg.com/en/docs/install/).
 3. Clone this repository.
-4. The team should have provided you with two files: [`.env.dev`](#envdev) and [`serviceAccount.json`](#serviceaccountjson) . Add both of these files to the root level of the repository.
+4. If you are part of the team, we should have provided you with two files: [`.env.dev`](#envdev) and [`serviceAccount.json`](#serviceaccountjson) . Add both of these files to the root level of the repository. If you are not part of the team, please follow [Configurations](#configurations) section on how to configure these files.
 5. Run `yarn install` to install our project's dependencies.
 6. Start the local server by doing `yarn start` and explore!
 
@@ -55,11 +55,9 @@ You're all set! You can visit the [Scripts](#Scripts) section to learn more abou
 
 `TODO`
 
-## Looking instead to extend our project as your own?
+## Configurations
 
-### Setup
-
-If you are not part of the team and would like to create an app of your own, you should first create a Firebase app [here](https://firebase.google.com/).
+If you are not part of the team and would like to extend this app on your own, you should first create a Firebase app [here](https://firebase.google.com/). It's worth mentioning that we created two Firebase apps for our `main` and `dev` branches respectively. If you don't need it, you only need to create one Firebase app.
 
 ### Environment files
 
@@ -71,9 +69,7 @@ This is the Firebase configuration file which specifies the corresponding Fireba
 
 Here is what it looks like:
 
-Since we have two branches `main` and `dev` for production and development environments in our GitHub repository, we also created two projects on Firebase console and linked them to `prod` and `dev` config respectively.
-
-However, you don't have to create two apps since you may just want to deploy only one branch, and then you can ignore all the instructions related to the development environment and `dev` branch.
+Since we have two branches `main` and `dev` for production and development environments in our GitHub repository, we also created two apps on Firebase console and linked them to `prod` and `dev` config respectively.
 
 ```json
 {
@@ -85,7 +81,7 @@ However, you don't have to create two apps since you may just want to deploy onl
 }
 ```
 
-After creating your own Firebase app, you have to change the corresponding project id in this file.
+After creating your own Firebase app, you have to change the corresponding project id in this file. If you are only creating one Firebase app, you can remove `prod` and `dev` fields and only keep `default` field.  
 
 #### `.env.dev`
 
@@ -124,7 +120,15 @@ We also prepend `CYPRESS_` to the same environment variables so that they are im
 
 This is a JSON configuration file that was generated in Firebase. You can follow this [link](https://firebase.google.com/docs/admin/setup#initialize-sdk) for instructions. We need this file so that our third-party plugin [cypress-firebase](https://github.com/prescottprue/cypress-firebase) can utilize the firebase-admin SDK to test the Firebase project.
 
-After setting up the environment files, you should install all the project dependencies by doing `yarn install`. Once the installation is done, you should be able to utilize the commands in the Scripts section below.
+### Workflow Setup
+
+We have several GitHub Actions [workflows](.github/workflows) configured in our repo. These workflows build, run, test, and deploy our project. In addition, they are configured to preview and deploy pull requests and merges into our dev branch to a second Firebase application - a "beta" app that we use as our development application. In addition to our workflows deploying to this beta app, they also deploy our JS Doc documentation, Jest coverage report, and Code climate report. Because our workflows are configured to work with this beta app and other resources, this means that our workflow files will not work for your project out-of-the-box.
+
+If you would like to use our workflow setup as a template, you will need to set up Jest coverage, Code Climate, JS Doc, and a secondary "beta" app for your porject. For more information on how to do this, see the relevant sections and links at the end of this document.
+
+If you would not like to use our workflow setup or would like to adapt it, be sure to update these files according to your desired workflows.
+
+After setting up the environment files and your own workflow files, you should install all the project dependencies by doing `yarn install`. Once the installation is done, you should be able to utilize the commands in the Scripts section below.
 
 ## Scripts
 

@@ -20,7 +20,7 @@
     - [`yarn test`](#yarn-test)
     - [`yarn run cy:run`](#yarn-run-cyrun)
     - [`yarn run cy:open`](#yarn-run-cyopen)
-  - [Code and JS Doc Documentation](#code-and-js-doc-documentation)
+  - [Code and JSDoc Documentation](#code-and-jsdoc-documentation)
   - [Testing](#testing)
     - [Jest](#jest)
     - [Cypress](#cypress)
@@ -122,9 +122,9 @@ This is a JSON configuration file that was generated in Firebase. You can follow
 
 ### Workflow Setup
 
-We have several GitHub Actions [workflows](.github/workflows) configured in our repo. These workflows build, run, test, and deploy our project. In addition, they are configured to preview and deploy pull requests and merges into our dev branch to a second Firebase application - a "beta" app that we use as our development application. In addition to our workflows deploying to this beta app, they also deploy our JS Doc documentation, Jest coverage report, and Code climate report. Because our workflows are configured to work with this beta app and other resources, this means that our workflow files will not work for your project out-of-the-box.
+We have several GitHub Actions [workflows](.github/workflows) configured in our repo. These workflows build, run, test, and deploy our project. In addition, they are configured to preview and deploy pull requests and merges into our dev branch to a second Firebase application - a "beta" app that we use as our development application. In addition to our workflows deploying to this beta app, they also deploy our JSDoc documentation, Jest coverage report, and Code climate report. Because our workflows are configured to work with this beta app and other resources, this means that our workflow files will not work for your project out-of-the-box.
 
-If you would like to use our workflow setup as a template, you will need to set up Jest coverage, Code Climate, JS Doc, and a secondary "beta" app for your porject. For more information on how to do this, see the relevant sections and links at the end of this document.
+If you would like to use our workflow setup as a template, you will need to set up Jest coverage, Code Climate, JSDoc, and a secondary "beta" app for your porject. For more information on how to do this, see the relevant sections and links at the end of this document.
 
 If you would not like to use our workflow setup or would like to adapt it, be sure to update these files according to your desired workflows.
 
@@ -153,7 +153,7 @@ Launches the Cypress test runner in command-line mode. See more details [here](h
 
 Launches the Cypress GUI test runner. See more details [here](https://docs.cypress.io/guides/getting-started/installing-cypress.html#Opening-Cypress).
 
-## Code and JS Doc Documentation
+## Code and JSDoc Documentation
 
 If you are interested in our implementation, we have a JSDoc document website hosted [here](https://ucsd-mashed.github.io/TaterTalkDoc/) that documents all of our code for this project.
 

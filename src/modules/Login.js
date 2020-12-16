@@ -15,7 +15,7 @@ class Login extends React.Component {
 
     this.state = {
       loading: true,
-      imgState: 0,
+      imgState: 4,
     };
     this.handleGoogleSignIn = this.handleGoogleSignIn.bind(this);
     this.incrementImgState = this.incrementImgState.bind(this);
@@ -131,12 +131,20 @@ class Login extends React.Component {
         <div className="signin-wrapper">
           <span className="landing-left-wrapper">
             <div className="landing-text">
-              <h1>TaterTalk</h1>
-              <br></br>
-              <p>Presented by Team Mashed</p>
-              <br></br>
+              <div>
+                <img
+                  className="tatertalk-login d-none d-lg-inline"
+                  alt="icon"
+                  src={process.env.PUBLIC_URL + "/tatertalk_icon.png"}
+                />
+                <span>
+                  <h1 style={{ display: "inline" }}>TaterTalk</h1>
+                  <br></br>
+                  <p>Presented by Team Mashed</p>
+                </span>
+              </div>
               <button
-                style={{ width: "20vw", height: "8vh", fontSize: "3vh" }}
+                style={{ padding: "1.5vh 8vw", fontSize: "1.5rem" }}
                 onClick={this.handleGoogleSignIn}
                 className="btn btn-primary btn-sm"
               >
@@ -146,12 +154,12 @@ class Login extends React.Component {
           </span>
           <span className="landing-right-wrapper">
             <img
-              className="landing-img"
+              className="landing-img d-none d-md-block"
               alt="illustration"
-              src={process.env.PUBLIC_URL + "/landing_illustration.png"}
+              src={process.env.PUBLIC_URL + "/landing_illustration_base.png"}
             />
+            <Jokes imgState={this.state.imgState} />
           </span>
-          <Jokes imgState={this.state.imgState} />
         </div>
         <ToastContainer />
       </div>

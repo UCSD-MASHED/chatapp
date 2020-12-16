@@ -24,7 +24,7 @@ const fadeOut = classNames({
   "fade-in": false,
 });
 
-class Landing extends React.Component {
+class Jokes extends React.Component {
   displayImgs(images, imgState) {
     return images.map((imgPath, index) => (
       <img
@@ -40,4 +40,4 @@ class Landing extends React.Component {
     return <span>{this.displayImgs(landingImages, this.props.imgState)}</span>;
   }
 }
-export default Landing;
+export default Jokes;

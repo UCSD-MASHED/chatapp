@@ -304,7 +304,12 @@ class ChatRoom extends React.Component {
       <div style={{ height: "100%" }}>
         <div className="chat-header">
           <span className="chat-title">
-            TaterTalk
+            <img
+              className="tatertalk-chatroom"
+              alt="icon"
+              src={process.env.PUBLIC_URL + "/tatertalk_icon.png"}
+            />
+            <span>TaterTalk</span>
             <span className="logout-btn">
               <LogOutButton logout={this.logout} />
             </span>

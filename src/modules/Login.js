@@ -3,7 +3,7 @@ import firebase from "firebase/app";
 import { withRouter } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Loading from "./Loading";
-import Landing from "./Landing";
+import Jokes from "./Jokes";
 
 /**
  * This is the Login Component
@@ -125,10 +125,18 @@ class Login extends React.Component {
         <div className="signin-wrapper">
           <span className="landing-left-wrapper">
             <div className="landing-text">
-              <h1>TaterTalk</h1>
-              <br></br>
-              <p>Presented by Team Mashed</p>
-              <br></br>
+              <div>
+                <img
+                  className="tatertalk-login d-none d-lg-inline"
+                  alt="icon"
+                  src={process.env.PUBLIC_URL + "/tatertalk_icon.png"}
+                />
+                <span>
+                  <h1 style={{ display: "inline" }}>TaterTalk</h1>
+                  <br></br>
+                  <p>Presented by Team Mashed</p>
+                </span>
+              </div>
               <button
                 style={{ padding: "1.5vh 8vw", fontSize: "1.5rem" }}
                 onClick={this.handleGoogleSignIn}
@@ -144,7 +152,7 @@ class Login extends React.Component {
               alt="illustration"
               src={process.env.PUBLIC_URL + "/landing_illustration_base.png"}
             />
-            <Landing imgState={this.state.imgState} />
+            <Jokes imgState={this.state.imgState} />
           </span>
         </div>
         <ToastContainer />

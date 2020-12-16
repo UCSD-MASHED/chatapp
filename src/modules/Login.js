@@ -3,7 +3,7 @@ import firebase from "firebase/app";
 import { withRouter } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Loading from "./Loading";
-import Landing from "./Landing";
+import Jokes from "./Jokes";
 
 /**
  * This is the Login Component
@@ -144,7 +144,7 @@ class Login extends React.Component {
               alt="illustration"
               src={process.env.PUBLIC_URL + "/landing_illustration_base.png"}
             />
-            <Landing imgState={this.state.imgState} />
+            <Jokes imgState={this.state.imgState} />
           </span>
         </div>
         <ToastContainer />

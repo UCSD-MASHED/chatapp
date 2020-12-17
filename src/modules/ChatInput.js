@@ -5,7 +5,8 @@ import EmojiPicker from "../utils/emoji.js";
 import data from "emoji-mart/data/apple.json";
 
 /**
- * This is the ChatInput Component for the ChatRoom
+ * This is the ChatInput Component used to render the chat input box.
+ * @hideconstructor
  */
 class ChatInput extends React.Component {
   constructor(props) {

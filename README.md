@@ -8,7 +8,6 @@
   - [Architecture](#architecture)
   - [Get Started](#get-started)
     - [Steps you should take](#steps-you-should-take)
-    - [Resources for next steps](#resources-for-next-steps)
   - [Configurations](#configurations)
     - [Environment files](#environment-files)
       - [`.firebaserc`](#firebaserc)
@@ -32,9 +31,13 @@ This is a chat web application that allows users to register/login with Google a
 
 ## Architecture
 
-`TODO`
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and utilizes [Firebase](https://firebase.google.com/), more specifically, it relies on Firebase Authentication, Firestore and Hosting.
+
+![Architecture Diagram](./artifacts/ArchitectureDiagram.png)
+
+The diagram below shows a view of the main components of our codebase, what they do and how they interact with each other.
+
+![Component View Diagram](./artifacts/ViewDiagram.png)
 
 ## Get Started
 
@@ -50,10 +53,6 @@ Welcome aboard! Below are the steps you need to take to get up and running, as w
 6. Start the local server by doing `yarn start` and explore!
 
 You're all set! You can visit the [Scripts](#Scripts) section to learn more about other useful commands if you are interested.
-
-### Resources for next steps
-
-`TODO`
 
 ## Configurations
 

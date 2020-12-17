@@ -315,7 +315,7 @@ class ChatRoom extends React.Component {
   } /* scrollToBottom */
 
   render() {
-    const roomIsEmpty = (this.state.roomId === null);
+    const roomIsEmpty = this.state.roomId === null;
 
     return this.state.loading ? (
       <Loading />

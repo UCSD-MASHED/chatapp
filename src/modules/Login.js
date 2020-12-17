@@ -27,7 +27,7 @@ class Login extends React.Component {
    * for whether or not the current user is currently signed in to our app.
    */
   componentDidMount() {
-    this.authListener = firebase.auth().onAuthStateChanged((user) => {
+    this.unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // User is signed in
         var googleUser = {
@@ -46,7 +46,7 @@ class Login extends React.Component {
   } /* componentDidMount */
 
   componentWillUnmount() {
-    this.authListener();
+    this.unsubscribeAuthListener();
     if (this.timer) {
       clearInterval(this.timer);
     }

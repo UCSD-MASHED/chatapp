@@ -199,7 +199,7 @@ All of our artifacts can be found inside the [artifacts](./artifacts/) directory
 - [Screen Sequence Diagrams](./artifacts/ScreenSequenceDiagrams.pdf)
 - [Use Cases](./artifacts/UseCases.pdf)
 - [User Stories](./artifacts/UserStories.pdf)
-- [Wireframes](./artifacts/Wireframes/)
+- [Wireframes](./artifacts/wireframes/)
 
 ## Maintenance
 

@@ -348,7 +348,7 @@ class ChatRoom extends React.Component {
               </h3>
             </div>
             <div className="chat-messages">
-              {this.state.roomId ? (
+              {this.state.roomId === null ? (
                 <div className="empty-chatroom">
                   <h2> Don't be a couch potato... </h2>
                   <h2> Click on a user to start a tateriffic talk! </h2>
@@ -365,7 +365,7 @@ class ChatRoom extends React.Component {
               <span ref={this.dummy}></span>
             </div>
             <ChatInput
-              disable={this.state.roomId}
+              disable={this.state.roomId === null}
               message={this.state.message}
               handleChange={this.handleChangeInput}
               handleSubmit={this.handleSubmit}

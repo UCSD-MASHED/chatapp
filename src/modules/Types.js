@@ -27,7 +27,7 @@
  * @type {Object}
  * @property {string} userId - the uid of the [Google user]{@link _GoogleUser}
  * @property {string} displayName - the displayed name of the user
- * @property {string} username - the username of the user
- * @property {list} roomIds - the list of [rooms]{@link _Room} the user belongs to
  * @property {boolean} online - if the user is online
+ * @property {list} roomIds - the list of [rooms]{@link _Room} the user belongs to
+ * @property {string} username - the username of the user
  */

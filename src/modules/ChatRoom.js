@@ -318,50 +318,51 @@ class ChatRoom extends React.Component {
     return this.state.loading ? (
       <Loading />
     ) : (
-      <div style={{ height: "100%" }}>
-        <div className="chat-header">
-          <span className="chat-title">
-            <img
-              className="tatertalk-chatroom"
-              alt="icon"
-              src={process.env.PUBLIC_URL + "/tatertalk_icon.png"}
-            />
-            <span>TaterTalk</span>
-            <span className="logout-btn">
-              <LogOutButton logout={this.logout} />
+        <div style={{ height: "100%" }}>
+          <div className="chat-header">
+            <span className="chat-title">
+              <img
+                className="tatertalk-chatroom"
+                alt="icon"
+                src={process.env.PUBLIC_URL + "/tatertalk_icon.png"}
+              />
+              <span>TaterTalk</span>
+              <span className="logout-btn">
+                <LogOutButton logout={this.logout} />
+              </span>
             </span>
-          </span>
-        </div>
-        <div className="main">
-          <People
-            keyword={this.state.keyword}
-            user={this.state.user}
-            users={this.state.users}
-            enterRoom={this.enterRoom}
-            handleChangeSearch={this.handleChangeSearch}
-            checkChatRoomExists={this.checkChatRoomExists}
-          />
-          <div className="chat-wrapper">
-            <div className="chat-person">
-              <h3 className="truncate" data-testid="room-name">
-                {this.state.roomName}
-              </h3>
-              <div className="chat-messages">
-                {this.state.roomName === "Chat Room" ? (
-                  <div className="empty-chatroom">
-                    <h2> Don't be a couch potato... </h2>
-                    <h2> Click on a user to start a tateriffic talk! </h2>
-                  </div>
-                ) : (
-                    this.state.messages.map((msg, i) => (
-                      <ChatMessage
-                        key={i}
-                        message={msg}
-                        username={this.state.user.username}
-                      />
-                    ))
-                  )}
-                <span ref={this.dummy}></span>
+          </div>
+          <div className="main">
+            <People
+              keyword={this.state.keyword}
+              user={this.state.user}
+              users={this.state.users}
+              enterRoom={this.enterRoom}
+              handleChangeSearch={this.handleChangeSearch}
+              checkChatRoomExists={this.checkChatRoomExists}
+            />
+            <div className="chat-wrapper">
+              <div className="chat-person">
+                <h3 className="truncate" data-testid="room-name">
+                  {this.state.roomName}
+                </h3>
+                <div className="chat-messages">
+                  {this.state.roomName === "Chat Room" ? (
+                    <div className="empty-chatroom">
+                      <h2> Don't be a couch potato... </h2>
+                      <h2> Click on a user to start a tateriffic talk! </h2>
+                    </div>
+                  ) : (
+                      this.state.messages.map((msg, i) => (
+                        <ChatMessage
+                          key={i}
+                          message={msg}
+                          username={this.state.user.username}
+                        />
+                      ))
+                    )}
+                  <span ref={this.dummy}></span>
+                </div>
               </div>
               <ChatInput
                 message={this.state.message}
@@ -371,8 +372,7 @@ class ChatRoom extends React.Component {
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
   }
 }
 

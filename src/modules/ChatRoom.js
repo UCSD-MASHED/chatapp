@@ -334,11 +334,11 @@ class ChatRoom extends React.Component {
           </div>
           <div className="main">
             <People
+              keyword={this.state.keyword}
               user={this.state.user}
               users={this.state.users}
-              keyword={this.state.keyword}
-              handleSearchChange={this.handleSearchChange}
-              handleChangeRoom={this.handleChangeRoom}
+              enterRoom={this.enterRoom}
+              handleChangeSearch={this.handleChangeSearch}
               checkChatRoomExists={this.checkChatRoomExists}
             />
             <div className="chat-wrapper">
@@ -366,7 +366,7 @@ class ChatRoom extends React.Component {
               </div>
               <ChatInput
                 message={this.state.message}
-                handleChange={this.handleChange}
+                handleChange={this.handleChangeInput}
                 handleSubmit={this.handleSubmit}
               />
             </div>

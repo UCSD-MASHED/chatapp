@@ -265,7 +265,7 @@ class ChatRoom extends React.Component {
   } /* searchPrefix */
 
   /**
-   * Update user timestamp and append [message]{@link _Message} to room of messages.
+   * Append [message]{@link _Message} to room of messages.
    * @param {string} message - message to be sent
    * @param {string} roomId - id of the [room]{@link _Room}
    * @param {string} username - username of the current [user]{@link _User}

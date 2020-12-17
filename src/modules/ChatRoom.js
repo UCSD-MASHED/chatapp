@@ -318,61 +318,61 @@ class ChatRoom extends React.Component {
     return this.state.loading ? (
       <Loading />
     ) : (
-        <div style={{ height: "100%" }}>
-          <div className="chat-header">
-            <span className="chat-title">
-              <img
-                className="tatertalk-chatroom"
-                alt="icon"
-                src={process.env.PUBLIC_URL + "/tatertalk_icon.png"}
-              />
-              <span>TaterTalk</span>
-              <span className="logout-btn">
-                <LogOutButton logout={this.logout} />
-              </span>
+      <div style={{ height: "100%" }}>
+        <div className="chat-header">
+          <span className="chat-title">
+            <img
+              className="tatertalk-chatroom"
+              alt="icon"
+              src={process.env.PUBLIC_URL + "/tatertalk_icon.png"}
+            />
+            <span>TaterTalk</span>
+            <span className="logout-btn">
+              <LogOutButton logout={this.logout} />
             </span>
-          </div>
-          <div className="main">
-            <People
-              keyword={this.state.keyword}
-              user={this.state.user}
-              users={this.state.users}
-              enterRoom={this.enterRoom}
-              handleChangeSearch={this.handleChangeSearch}
-              checkChatRoomExists={this.checkChatRoomExists}
-            />
-            <div className="chat-wrapper">
-              <div className="chat-person">
-                <h3 className="truncate" data-testid="room-name">
-                  {this.state.roomName}
-                </h3>
-              </div>
-            </div>
-            <div className="chat-messages">
-              {this.state.messages.length > 0 ? (
-                this.state.messages.map((msg, i) => (
-                  <ChatMessage
-                    key={i}
-                    message={msg}
-                    username={this.state.user.username}
-                  />
-                ))
-              ) : (
-                  <div className="empty-chatroom">
-                    <h2> Don't be a couch potato... </h2>
-                    <h2> Click on a user to start a tateriffic talk! </h2>
-                  </div>
-                )}
-              <span ref={this.dummy}></span>
-            </div>
-            <ChatInput
-              message={this.state.message}
-              handleChange={this.handleChangeInput}
-              handleSubmit={this.handleSubmit}
-            />
-          </div>
+          </span>
         </div>
-      );
+        <div className="main">
+          <People
+            keyword={this.state.keyword}
+            user={this.state.user}
+            users={this.state.users}
+            enterRoom={this.enterRoom}
+            handleChangeSearch={this.handleChangeSearch}
+            checkChatRoomExists={this.checkChatRoomExists}
+          />
+          <div className="chat-wrapper">
+            <div className="chat-person">
+              <h3 className="truncate" data-testid="room-name">
+                {this.state.roomName}
+              </h3>
+            </div>
+          </div>
+          <div className="chat-messages">
+            {this.state.messages.length > 0 ? (
+              this.state.messages.map((msg, i) => (
+                <ChatMessage
+                  key={i}
+                  message={msg}
+                  username={this.state.user.username}
+                />
+              ))
+            ) : (
+              <div className="empty-chatroom">
+                <h2> Don't be a couch potato... </h2>
+                <h2> Click on a user to start a tateriffic talk! </h2>
+              </div>
+            )}
+            <span ref={this.dummy}></span>
+          </div>
+          <ChatInput
+            message={this.state.message}
+            handleChange={this.handleChangeInput}
+            handleSubmit={this.handleSubmit}
+          />
+        </div>
+      </div>
+    );
   }
 }
 

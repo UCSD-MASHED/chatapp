@@ -298,8 +298,6 @@ class ChatRoom extends React.Component {
   }
 
   render() {
-    console.log(this.state.messages)
-
     return this.state.loading ? (
       <Loading />
     ) : (

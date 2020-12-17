@@ -27,19 +27,21 @@ class Login extends React.Component {
    * for whether or not the current user is currently signed in to our app.
    */
   componentDidMount() {
-    this.unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        // User is signed in
-        var googleUser = {
-          uid: user.uid,
-          displayName: user.displayName,
-        };
-        this.loginWithGoogleUserAndRedirect(googleUser);
-      } else {
-        // Not signed in
-        this.setState({ loading: false });
-      }
-    });
+    this.unsubscribeAuthListener = firebase
+      .auth()
+      .onAuthStateChanged((user) => {
+        if (user) {
+          // User is signed in
+          var googleUser = {
+            uid: user.uid,
+            displayName: user.displayName,
+          };
+          this.loginWithGoogleUserAndRedirect(googleUser);
+        } else {
+          // Not signed in
+          this.setState({ loading: false });
+        }
+      });
 
     // for cycling through potato jokes on login page
     this.timer = setInterval(this.incrementImgState, 6000);

@@ -45,6 +45,8 @@ class ChatInput extends React.Component {
               onChange={this.props.handleChange}
               placeholder="Potatoes can't talk... but you can!"
               ref={this.inputRef}
+              style={{ backgroundColor: this.props.disable ? "#AEAEAE" : "white" }}
+              disabled={this.props.disable}
             />
             <div className="input-group-append">
               <button

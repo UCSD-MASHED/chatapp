@@ -8,7 +8,6 @@
   - [Architecture](#architecture)
   - [Get Started](#get-started)
     - [Steps you should take](#steps-you-should-take)
-    - [Resources for next steps](#resources-for-next-steps)
   - [Configurations](#configurations)
     - [Environment files](#environment-files)
       - [`.firebaserc`](#firebaserc)
@@ -54,10 +53,6 @@ Welcome aboard! Below are the steps you need to take to get up and running, as w
 6. Start the local server by doing `yarn start` and explore!
 
 You're all set! You can visit the [Scripts](#Scripts) section to learn more about other useful commands if you are interested.
-
-### Resources for next steps
-
-`TODO`
 
 ## Configurations
 

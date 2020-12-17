@@ -3,10 +3,12 @@ import firebase from "firebase/app";
 import { withRouter } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Loading from "./Loading";
-import Landing from "./Landing";
+import Jokes from "./Jokes";
 
 /**
- * This is the Login Component
+ * This is the Login Component used to render the log in page and handle user
+ * actions such as log in with Google account.
+ * @hideconstructor
  */
 class Login extends React.Component {
   constructor(props) {
@@ -47,27 +49,9 @@ class Login extends React.Component {
     }
   }
 
-  loginWithGoogleUserAndRedirect(googleUser) {
-    this.getUser(googleUser)
-      .then((user) => {
-        // console.log(user);
-        if (user) {
-          // console.log("user exists, go to chat");
-          this.props.history.push("/chatRoom", { user });
-        } else {
-          // console.log("user does not exists, go to create user");
-          this.props.history.push("/createUser", { googleUser });
-        }
-      })
-      .catch((err) => {
-        // console.log(err);
-        toast.error(err);
-      });
-  }
-
   /**
-   * Handles Sign in button click, opens a pop up to google sign in page
-   * Once sign in is completed, we will get back the google user object.
+   * Handles Sign in button click, opens a pop up to Google sign in page
+   * Once sign in is completed, we will get back the Google user object.
    * We will use the uid to distinguish each user. If the user is new,
    * we will take them to CreateUser to ask them fill in a unique username,
    * else we will take them to Chat.
@@ -90,16 +74,13 @@ class Login extends React.Component {
       .catch((err) => {
         console.log(err);
       });
-  }
+  } /* handleGoogleSignIn */
 
   /**
    * Get the user from googleUser
-   * @param {Object} googleUser - The google user to be found in database
-   * @param {string} googleUser.uid - The unique id of the google user
-   * @param {string} googleUser.displayName - The displayed name of the
-   *     google user
-   * @return {(user|undefined)} A user object if googleUser.uid is unique
-   *     in database; otherwise return undefined
+   * @param {_GoogleUser} googleUser - Google user to be found in database
+   * @return {_User|undefined} [user]{@link _User} if googleUser.uid is
+   *     unique in database; otherwise undefined
    */
   async getUser(googleUser) {
     var res = await firebase
@@ -109,13 +90,39 @@ class Login extends React.Component {
       .get()
       .then((doc) => doc.data());
     return res;
-  }
+  } /* getUser */
 
+  /**
+   * Loops through all {@link Jokes} images
+   */
   incrementImgState() {
     this.setState({
       imgState: this.state.imgState < 4 ? this.state.imgState + 1 : 0,
     });
-  }
+  } /* incrementImgState */
+
+  /**
+   * Log in the Google user and redirect to the chat room page if the user exists,
+   * otherwise, redirect to the user creation page
+   * @param {_GoogleUser} googleUser - Google user to be logged in and redirected
+   */
+  loginWithGoogleUserAndRedirect(googleUser) {
+    this.getUser(googleUser)
+      .then((user) => {
+        // console.log(user);
+        if (user) {
+          // console.log("user exists, go to chat");
+          this.props.history.push("/chatRoom", { user });
+        } else {
+          // console.log("user does not exists, go to create user");
+          this.props.history.push("/createUser", { googleUser });
+        }
+      })
+      .catch((err) => {
+        // console.log(err);
+        toast.error(err);
+      });
+  } /* loginWithGoogleUserAndRedirect */
 
   render() {
     return this.state.loading ? (
@@ -152,7 +159,7 @@ class Login extends React.Component {
               alt="illustration"
               src={process.env.PUBLIC_URL + "/landing_illustration_base.png"}
             />
-            <Landing imgState={this.state.imgState} />
+            <Jokes imgState={this.state.imgState} />
           </span>
         </div>
         <ToastContainer />

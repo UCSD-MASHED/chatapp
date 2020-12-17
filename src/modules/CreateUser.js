@@ -5,7 +5,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { withRouter } from "react-router-dom";
 
 /**
- * This is the CreateUser Component
+ * This is the CreateUser Component used to reader the user creation page
+ * and handle user actions such as entering the username and creating a new user
+ * in the user creation page.
+ * @hideconstructor
  */
 class CreateUser extends React.Component {
   constructor(props) {
@@ -34,19 +37,26 @@ class CreateUser extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    if (!this.state.googleUser) {
+      this.props.history.replace("/");
+    }
+  }
+
   /**
    * Handles username input change, update state accordingly.
+   * @param {Object} event - an Event object
    */
   handleChange(event) {
     this.setState({ username: event.target.value });
-  }
+  } /* handleChange */
 
   /**
    * Handles Submit button click, it will first check if the username
    * is unique, if it is, it will then create the user in firestore with
    * the username and display a toast and redirect to Chat,
    * else it will display an error toast and remain in the page.
-   * @param {Object} event - An Event Object
+   * @param {Object} event - an Event object
    */
   handleSubmit(event) {
     event.preventDefault();
@@ -81,42 +91,13 @@ class CreateUser extends React.Component {
         }
       })
       .catch((err) => console.log(err));
-  }
-
-  /**
-   * Go back to sign-in page if not signed in
-   * (This can happen when the user types in the URL (/createUser) directly)
-   */
-  componentDidMount() {
-    if (!this.state.googleUser) {
-      this.props.history.replace("/");
-    }
-  }
-
-  /**
-   * Check if the current username is unique in database
-   * @param {string} username - The username to be checked in database
-   * @return {boolean} True if username is unique; otherwise False
-   */
-  async usernameIsUnique(username) {
-    var res = await firebase
-      .firestore()
-      .collection("users")
-      .where("username", "==", username)
-      .limit(1)
-      .get()
-      .then((querySnapshot) => querySnapshot.empty);
-    return res;
-  }
+  } /* handleSubmit */
 
   /**
    * Create a user in database
-   * @param {Object} googleUser - The google user to be found in database
-   * @param {string} googleUser.uid - The unique id of the google user
-   * @param {string} googleUser.displayName - The displayed name of the
-   *     google user
-   * @param {string} username - The username of the user
-   * @return {user|null} The newly created user if created successfully;
+   * @param {_GoogleUser} googleUser - Google user to be found in database
+   * @param {string} username - username of the [user]{@link _User}
+   * @return {_User|null} newly created [user]{@link _User} if created successfully;
    *     otherwise null
    */
   async createUser(googleUser, username) {
@@ -142,7 +123,23 @@ class CreateUser extends React.Component {
         return null;
       });
     return res;
-  }
+  } /* createUser */
+
+  /**
+   * Check if the current username is unique in database
+   * @param {string} username - username to be checked in database
+   * @return {boolean} true if username is unique; otherwise False
+   */
+  async usernameIsUnique(username) {
+    var res = await firebase
+      .firestore()
+      .collection("users")
+      .where("username", "==", username)
+      .limit(1)
+      .get()
+      .then((querySnapshot) => querySnapshot.empty);
+    return res;
+  } /* usernameIsUnique */
 
   render() {
     return (

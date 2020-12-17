@@ -370,9 +370,32 @@ class ChatRoom extends React.Component {
                 handleSubmit={this.handleSubmit}
               />
             </div>
+            <div className="chat-messages">
+              {this.state.messages.length > 0 ? (
+                this.state.messages.map((msg, i) => (
+                  <ChatMessage
+                    key={i}
+                    message={msg}
+                    username={this.state.user.username}
+                  />
+                ))
+              ) : (
+                <div className="empty-chatroom">
+                  <h2> Don't be a couch potato... </h2>
+                  <h2> Click on a user to start a tateriffic talk! </h2>
+                </div>
+              )}
+              <span ref={this.dummy}></span>
+            </div>
+            <ChatInput
+              message={this.state.message}
+              handleChange={this.handleChange}
+              handleSubmit={this.handleSubmit}
+            />
           </div>
         </div>
-      );
+      </div>
+    );
   }
 }
 

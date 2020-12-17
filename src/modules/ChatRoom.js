@@ -380,11 +380,11 @@ class ChatRoom extends React.Component {
                   />
                 ))
               ) : (
-                <div className="empty-chatroom">
-                  <h2> Don't be a couch potato... </h2>
-                  <h2> Click on a user to start a tateriffic talk! </h2>
-                </div>
-              )}
+                  <div className="empty-chatroom">
+                    <h2> Don't be a couch potato... </h2>
+                    <h2> Click on a user to start a tateriffic talk! </h2>
+                  </div>
+                )}
               <span ref={this.dummy}></span>
             </div>
             <ChatInput
@@ -394,8 +394,7 @@ class ChatRoom extends React.Component {
             />
           </div>
         </div>
-      </div>
-    );
+      );
   }
 }
 

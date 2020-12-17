@@ -275,14 +275,6 @@ class ChatRoom extends React.Component {
       username: username,
     };
 
-    var timestampObj = {};
-    timestampObj[username] = timestamp;
-    await firebase
-      .firestore()
-      .collection("rooms")
-      .doc(roomId)
-      .update(timestampObj);
-
     await firebase
       .firestore()
       .collection("rooms")
@@ -315,6 +307,8 @@ class ChatRoom extends React.Component {
   } /* scrollToBottom */
 
   render() {
+    const roomIsEmpty = this.state.roomId === null;
+
     return this.state.loading ? (
       <Loading />
     ) : (
@@ -348,17 +342,24 @@ class ChatRoom extends React.Component {
               </h3>
             </div>
             <div className="chat-messages">
-              {this.state.messages &&
+              {roomIsEmpty ? (
+                <div className="empty-chatroom">
+                  <h2> Don't be a couch potato... </h2>
+                  <h2> Click on a user to start a tateriffic talk! </h2>
+                </div>
+              ) : (
                 this.state.messages.map((msg, i) => (
                   <ChatMessage
                     key={i}
                     message={msg}
                     username={this.state.user.username}
                   />
-                ))}
+                ))
+              )}
               <span ref={this.dummy}></span>
             </div>
             <ChatInput
+              disable={roomIsEmpty}
               message={this.state.message}
               handleChange={this.handleChangeInput}
               handleSubmit={this.handleSubmit}

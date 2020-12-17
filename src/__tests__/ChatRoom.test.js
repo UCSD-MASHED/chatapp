@@ -207,10 +207,6 @@ test("Send message button click tries to update database", async () => {
   const button = screen.getByTitle("Send");
   fireEvent.click(button);
   await waitFor(() => expect(firestoreMock.get).toBeCalledTimes(4));
-  await waitFor(() => expect(firestoreMock.update).toBeCalledTimes(1));
-  expect(firestoreMock.update).toHaveBeenCalledWith({
-    [user.username]: testTime,
-  });
   await waitFor(() => expect(firestoreMock.add).toBeCalledTimes(1));
   expect(firestoreMock.add).toHaveBeenCalledWith(messageDocData);
   // Check that message form clears

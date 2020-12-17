@@ -275,14 +275,6 @@ class ChatRoom extends React.Component {
       username: username,
     };
 
-    var timestampObj = {};
-    timestampObj[username] = timestamp;
-    await firebase
-      .firestore()
-      .collection("rooms")
-      .doc(roomId)
-      .update(timestampObj);
-
     await firebase
       .firestore()
       .collection("rooms")

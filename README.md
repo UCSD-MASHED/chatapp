@@ -32,9 +32,13 @@ This is a chat web application that allows users to register/login with Google a
 
 ## Architecture
 
-`TODO`
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and utilizes [Firebase](https://firebase.google.com/), more specifically, it relies on Firebase Authentication, Firestore and Hosting.
+
+![Architecture Diagram](./artifacts/ArchitectureDiagram.png)
+
+The diagram below shows a view of the main components of our codebase, what they do and how they interact with each other.
+
+![Component View Diagram](./artifacts/ViewDiagram.png)
 
 ## Get Started
 

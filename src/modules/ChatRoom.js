@@ -42,7 +42,6 @@ class ChatRoom extends React.Component {
     this.logout = this.logout.bind(this);
   }
 
-
   /**
    * This sets up the state and rendering of the ChatRoom after insertion into
    * the DOM tree. It first retrieves all users for rendering the user list. If

@@ -10,7 +10,7 @@ class ChatMessage extends React.Component {
    * Converts UTC seconds to PST date and time
    * @param {int} timestamp - number of seconds in UTC time
    * @return {string} PST date and time
-  */
+   */
   getTime(timestamp) {
     timestamp = timestamp * 1000;
     const date = new Date(timestamp);

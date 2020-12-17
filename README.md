@@ -191,7 +191,6 @@ The combined coverage report is also hosted via GitHub Pages [here](https://ucsd
 
 All of our artifacts can be found inside the [artifacts](./artifacts/) directory. You can refer to them to get an inside look at the design process we followed to build our app.
 
-- [wireframes](./artifacts/wireframes/)
 - [Architecture Diagram](./artifacts/ArchitectureDiagram.png)
 - [Contributing Guidelines](./artifacts/ContributingGuidelines.pdf)
 - [Database Schema](./artifacts/DatabaseSchema.pdf)
@@ -200,6 +199,7 @@ All of our artifacts can be found inside the [artifacts](./artifacts/) directory
 - [Screen Sequence Diagrams](./artifacts/ScreenSequenceDiagrams.pdf)
 - [Use Cases](./artifacts/UseCases.pdf)
 - [User Stories](./artifacts/UserStories.pdf)
+- [wireframes](./artifacts/wireframes/)
 
 ## Maintenance
 

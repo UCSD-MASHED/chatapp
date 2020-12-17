@@ -55,7 +55,7 @@ Welcome aboard! Below are the steps you need to take to get up and running, as w
 5. Run `yarn install` to install our project's dependencies.
 6. Start the local server by doing `yarn start` and explore!
 
-You're all set! You can visit the [Scripts](#Scripts) section to learn more about other useful commands if you are interested.
+You're all set! You can visit the [Scripts](#Scripts) section to learn more about other useful commands if you are interested. Be sure to checkout out the sections below, where you can find out more about our design, specifications, documentation, and testing. If you are joining our team, this is also where you will find our [Contributing Guidelines](./artifacts/ContributingGuidelines.pdf).
 
 ## Configurations
 
@@ -199,7 +199,7 @@ All of our artifacts can be found inside the [artifacts](./artifacts/) directory
 - [Screen Sequence Diagrams](./artifacts/ScreenSequenceDiagrams.pdf)
 - [Use Cases](./artifacts/UseCases.pdf)
 - [User Stories](./artifacts/UserStories.pdf)
-- [wireframes](./artifacts/wireframes/)
+- [Wireframes](./artifacts/wireframes/)
 
 ## Maintenance
 

@@ -45,7 +45,7 @@ class User extends React.Component {
       chatRoomId = roomId;
     }
     // bind enterRoom parameters
-    this.props.enterRoom(chatRoomId, this.props.targetUser.displayName);
+    await this.props.enterRoom(chatRoomId, this.props.targetUser.displayName);
   } /* openChatRoom */
 
   /**

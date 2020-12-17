@@ -3,26 +3,76 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
+    "bootstrap": "^4.5.3",
+    "classnames": "^2.2.6",
+    "dotenv": "^8.2.0",
+    "emoji-mart": "^3.0.0",
+    "env-cmd": "^10.1.0",
+    "firebase": "^8.0.2",
+    "npm": "^7.0.10",
     "react": "^17.0.1",
+    "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1",
+    "react-onclickoutside": "^6.9.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
+    "react-toastify": "^6.1.0",
     "typescript": "^4.0.5",
     "web-vitals": "^0.2.4"
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/modules/*.{js,jsx,ts,tsx}"
+    ],
+    "coverageReporters": [
+      "json",
+      "html",
+      "text",
+      "lcov"
+    ]
+  },
+  "nyc": {
+    "include": [
+      "src/modules/*.{js,jsx,ts,tsx}"
+    ],
+    "exclude": [
+      "src/*.{js,jsx,ts,tsx}"
+    ],
+    "report-dir": "cypress-coverage",
+    "reporter": [
+      "json",
+      "html",
+      "text",
+      "lcov"
+    ]
+  },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "env-cmd -f .env.dev react-scripts -r @cypress/instrument-cra start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "env-cmd -f .env.dev react-scripts test --runInBand --detectOpenHandles --watchAll=false",
+    "eject": "react-scripts eject",
+    "build:dev": "env-cmd -f .env.dev yarn run build",
+    "build:main": "env-cmd -f .env.main yarn run build",
+    "cy:run": "yarn run cleannyc && yarn run cy:run:dev",
+    "cy:run:dev": "yarn run cleannyc && env-cmd -f .env.dev cypress run --browser chrome --headless",
+    "cy:open": "env-cmd -f .env.dev cypress open",
+    "cleannyc": "rm -rf .nyc_output || true",
+    "cleanreports": "rm -rf reports || true",
+    "clean": "yarn run cleannyc && yarn run cleanreports",
+    "combinereports": "yarn run clean && yarn run report:combined",
+    "precopy:reports": "mkdir reports",
+    "copy:reports": "cp cypress-coverage/coverage-final.json reports/from-cypress.json && cp jest-coverage/coverage-final.json reports/from-jest.json",
+    "precombine:reports": "yarn run copy:reports && mkdir .nyc_output",
+    "combine:reports": "npx nyc merge reports && mv coverage.json .nyc_output/out.json",
+    "prereport:combined": "yarn run combine:reports",
+    "report:combined": "npx nyc report --reporter html --reporter lcov --reporter text --report-dir coverage"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest",
-      "eslint:recommended"
+      "eslint:recommended",
+      "plugin:cypress/recommended"
     ]
   },
   "browserslist": {
@@ -38,6 +88,17 @@
     ]
   },
   "devDependencies": {
+    "@cypress/code-coverage": "^3.8.5",
+    "@cypress/instrument-cra": "^1.4.0",
+    "@testing-library/jest-dom": "^5.11.6",
+    "@testing-library/react": "^11.2.2",
+    "better-docs": "^2.3.2",
+    "cypress": "^6.0.1",
+    "cypress-firebase": "^1.5.0",
+    "eslint": "^7.14.0",
+    "eslint-plugin-cypress": "^2.11.2",
+    "firebase-admin": "^9.4.1",
+    "jsdoc": "^3.6.6",
     "prettier": "^2.1.2"
   }
 }

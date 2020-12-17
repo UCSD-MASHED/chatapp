@@ -1,0 +1,6 @@
+{
+  "username": "cypressLoginUser",
+  "displayName": "Cypress Login User",
+  "online": false,
+  "roomIds": ["abcdefgh", "stuvwxyz"]
+}

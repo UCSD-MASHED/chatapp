@@ -1,0 +1,21 @@
+{
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc", "closure"]
+  },
+  "source": {
+    "includePattern": ".+\\.js(doc|x)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "plugins": ["plugins/markdown", "node_modules/better-docs/component"],
+  "templates": {
+    "better-docs": {
+      "name": "TaterTalk Documentation"
+    }
+  },
+  "opts": {
+    "destination": "out",
+    "recurse": true,
+    "template": "node_modules/better-docs"
+  }
+}

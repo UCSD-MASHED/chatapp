@@ -353,14 +353,14 @@ class ChatRoom extends React.Component {
                     <h2> Click on a user to start a tateriffic talk! </h2>
                   </div>
                 ) : (
-                    this.state.messages.map((msg, i) => (
-                      <ChatMessage
-                        key={i}
-                        message={msg}
-                        username={this.state.user.username}
-                      />
-                    ))
-                  )}
+                  this.state.messages.map((msg, i) => (
+                    <ChatMessage
+                      key={i}
+                      message={msg}
+                      username={this.state.user.username}
+                    />
+                  ))
+                )}
                 <span ref={this.dummy}></span>
               </div>
               <ChatInput

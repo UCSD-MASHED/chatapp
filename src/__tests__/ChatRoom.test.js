@@ -29,9 +29,7 @@ beforeEach(() => {
     orderBy: jest.fn().mockReturnThis(),
     limit: jest.fn().mockReturnThis(),
     get: null,
-    onSnapshot: jest
-      .fn()
-      .mockImplementation(() => jest.fn().mockReturnThis()),
+    onSnapshot: jest.fn().mockImplementation(() => jest.fn().mockReturnThis()),
     add: jest.fn().mockReturnThis(),
     update: jest.fn().mockReturnThis(),
     where: jest.fn().mockReturnThis(),

@@ -85,11 +85,7 @@ describe("Chat room messages and room change", () => {
 
   it("Can't send message to non-existent room", () => {
     cy.contains("Chat Room");
-    const message = messagesToSendFromLoginUser[0].message;
-    cy.get("input[type='text']").type(message);
-    cy.get("button[title='Send']").click();
-    // after clicking, message should not send
-    cy.get("input[type='text']").should("have.value", message);
+    cy.get("input[type='text']").should("be.disabled");
   });
 
   it("Load and exchange messages with two different users", () => {

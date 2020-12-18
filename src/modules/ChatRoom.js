@@ -32,6 +32,7 @@ class ChatRoom extends React.Component {
       roomName: "Chat Room",
       roomId: null,
       loading: true,
+      listener: null,
     };
     this.dummy = createRef();
     this.handleChangeInput = this.handleChangeInput.bind(this);
@@ -51,6 +52,9 @@ class ChatRoom extends React.Component {
    * not accept messages.
    */
   async componentDidMount() {
+    if (this.state.listener) {
+      this.state.listener();
+    }
     if (!this.state.user) {
       this.props.history.replace("/");
     } else {
@@ -198,7 +202,7 @@ class ChatRoom extends React.Component {
     if (!roomId) {
       return;
     }
-    await firebase
+    this.state.listener = await firebase
       .firestore()
       .collection("rooms")
       .doc(roomId)
@@ -319,62 +323,62 @@ class ChatRoom extends React.Component {
     return this.state.loading ? (
       <Loading />
     ) : (
-      <div style={{ height: "100%" }}>
-        <div className="chat-header">
-          <span className="chat-title">
-            <img
-              className="tatertalk-chatroom"
-              alt="icon"
-              src={process.env.PUBLIC_URL + "/tatertalk_icon.png"}
-            />
-            <span>TaterTalk</span>
-            <span className="logout-btn">
-              <LogOutButton logout={this.logout} />
+        <div style={{ height: "100%" }}>
+          <div className="chat-header">
+            <span className="chat-title">
+              <img
+                className="tatertalk-chatroom"
+                alt="icon"
+                src={process.env.PUBLIC_URL + "/tatertalk_icon.png"}
+              />
+              <span>TaterTalk</span>
+              <span className="logout-btn">
+                <LogOutButton logout={this.logout} />
+              </span>
             </span>
-          </span>
-        </div>
-        <div className="main">
-          <People
-            keyword={this.state.keyword}
-            user={this.state.user}
-            users={this.state.users}
-            enterRoom={this.enterRoom}
-            handleChangeSearch={this.handleChangeSearch}
-            checkChatRoomExists={this.checkChatRoomExists}
-          />
-          <div className="chat-wrapper">
-            <div className="chat-person">
-              <h3 className="truncate" data-testid="room-name">
-                {this.state.roomName}
-              </h3>
-            </div>
-            <div className="chat-messages">
-              {roomIsEmpty ? (
-                <div className="empty-chatroom">
-                  <h2> Don't be a couch potato... </h2>
-                  <h2> Click on a user to start a tateriffic talk! </h2>
-                </div>
-              ) : (
-                this.state.messages.map((msg, i) => (
-                  <ChatMessage
-                    key={i}
-                    message={msg}
-                    username={this.state.user.username}
-                  />
-                ))
-              )}
-              <span ref={this.dummy}></span>
-            </div>
-            <ChatInput
-              disable={roomIsEmpty}
-              message={this.state.message}
-              handleChange={this.handleChangeInput}
-              handleSubmit={this.handleSubmit}
+          </div>
+          <div className="main">
+            <People
+              keyword={this.state.keyword}
+              user={this.state.user}
+              users={this.state.users}
+              enterRoom={this.enterRoom}
+              handleChangeSearch={this.handleChangeSearch}
+              checkChatRoomExists={this.checkChatRoomExists}
             />
+            <div className="chat-wrapper">
+              <div className="chat-person">
+                <h3 className="truncate" data-testid="room-name">
+                  {this.state.roomName}
+                </h3>
+              </div>
+              <div className="chat-messages">
+                {roomIsEmpty ? (
+                  <div className="empty-chatroom">
+                    <h2> Don't be a couch potato... </h2>
+                    <h2> Click on a user to start a tateriffic talk! </h2>
+                  </div>
+                ) : (
+                    this.state.messages.map((msg, i) => (
+                      <ChatMessage
+                        key={i}
+                        message={msg}
+                        username={this.state.user.username}
+                      />
+                    ))
+                  )}
+                <span ref={this.dummy}></span>
+              </div>
+              <ChatInput
+                disable={roomIsEmpty}
+                message={this.state.message}
+                handleChange={this.handleChangeInput}
+                handleSubmit={this.handleSubmit}
+              />
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
   }
 }
 

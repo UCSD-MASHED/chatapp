@@ -45,11 +45,11 @@ class User extends React.Component {
       chatRoomId = roomId;
     }
     // bind enterRoom parameters
-    await this.props.enterRoom(chatRoomId, this.props.targetUser.displayName);
+    this.props.enterRoom(chatRoomId, this.props.targetUser.displayName);
   } /* openChatRoom */
 
   /**
-   * Set the roomId to the list of each user in this chat room
+   * Set the roomId to the lists of each user in this chat room
    * @param {string} roomId - id of the [room]{@link _Room}
    * @param {string[]} participants - list of usernames for [users]{@link _User} in the [room]{@link _Room}
    */

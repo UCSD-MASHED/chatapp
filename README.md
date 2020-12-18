@@ -31,7 +31,7 @@
 
 This is a chat web application that allows users to register and login with Google and provides 1 on 1 private chatting functionality.
 
-If you want to view our final presentation video, go [here](https://youtu.be/4UvggtiydeU). You can access all final presentation materials in the [final_presentation](./final_presentation/) directory. If you want to read our retrospection blog, go [here](https://ucsd-mashed.github.io/).
+If you want to view our final presentation video, go [here](https://youtu.be/6lIzYT-fGmo). You can access all final presentation materials in the [final_presentation](./final_presentation/) directory. If you want to read our retrospection blog, go [here](https://ucsd-mashed.github.io/).
 
 ## Architecture
 

@@ -6,8 +6,8 @@ import Loading from "./Loading";
 import Jokes from "./Jokes";
 
 /**
- * This is the Login Component used to render the login page and handle user
- * actions such as logging in with a Google account.
+ * This is the Login Component used to render the log in page and handle user
+ * actions such as log in with Google account.
  * @hideconstructor
  */
 class Login extends React.Component {
@@ -22,20 +22,16 @@ class Login extends React.Component {
     this.incrementImgState = this.incrementImgState.bind(this);
   }
 
-  /**
-   * After the component is inserted into the DOM tree, this creates an observer
-   * for whether or not the current user is currently signed in to our app.
-   */
   componentDidMount() {
     this.unsubscribeAuthListener = firebase
       .auth()
       .onAuthStateChanged((user) => {
         if (user) {
-          // User is signed in
           var googleUser = {
             uid: user.uid,
             displayName: user.displayName,
           };
+          // User is signed in
           this.loginWithGoogleUserAndRedirect(googleUser);
         } else {
           // Not signed in
@@ -43,20 +39,15 @@ class Login extends React.Component {
         }
       });
 
-    // for cycling through potato jokes on login page
     this.timer = setInterval(this.incrementImgState, 6000);
-  } /* componentDidMount */
+  }
 
-  /**
-   * Before the component is removed from the DOM tree, this unsubscribes the
-   * Firebase Auth listener and clears the login page jokes shuffling timer
-   */
   componentWillUnmount() {
     this.unsubscribeAuthListener();
     if (this.timer) {
       clearInterval(this.timer);
     }
-  } /* componentWillUnmount */
+  }
 
   /**
    * Handles Sign in button click, opens a pop up to Google sign in page
@@ -77,6 +68,7 @@ class Login extends React.Component {
           uid: res.user.uid,
           displayName: res.user.displayName,
         };
+        // console.log(googleUser);
         this.loginWithGoogleUserAndRedirect(googleUser);
       })
       .catch((err) => {
@@ -85,7 +77,7 @@ class Login extends React.Component {
   } /* handleGoogleSignIn */
 
   /**
-   * Get the user corresponding to a Google user
+   * Get the user from googleUser
    * @param {_GoogleUser} googleUser - Google user to be found in database
    * @return {_User|undefined} [user]{@link _User} if googleUser.uid is
    *     unique in database; otherwise undefined
@@ -117,15 +109,17 @@ class Login extends React.Component {
   loginWithGoogleUserAndRedirect(googleUser) {
     this.getUser(googleUser)
       .then((user) => {
+        // console.log(user);
         if (user) {
-          // User exists, go to chat room page
+          // console.log("user exists, go to chat");
           this.props.history.push("/chatRoom", { user });
         } else {
-          // User does not exist, go to createUser page
+          // console.log("user does not exists, go to create user");
           this.props.history.push("/createUser", { googleUser });
         }
       })
       .catch((err) => {
+        // console.log(err);
         toast.error(err);
       });
   } /* loginWithGoogleUserAndRedirect */

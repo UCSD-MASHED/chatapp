@@ -42,14 +42,6 @@ class ChatRoom extends React.Component {
     this.logout = this.logout.bind(this);
   }
 
-  /**
-   * This sets up the state and rendering of the ChatRoom after insertion into
-   * the DOM tree. It first retrieves all users for rendering the user list. If
-   * the current user has an open chat with the first user, they will be dropped
-   * into that chat and the existing messages with that user will be rendered.
-   * Otherwise, the current user will be placed in an anonymous chat that does
-   * not accept messages.
-   */
   async componentDidMount() {
     if (!this.state.user) {
       this.props.history.replace("/");
@@ -68,7 +60,7 @@ class ChatRoom extends React.Component {
       }
       this.setState({ loading: false, users: users });
     }
-  } /* componentDidMount */
+  }
 
   /**
    * Handles message input change, updates state accordingly.
@@ -241,7 +233,8 @@ class ChatRoom extends React.Component {
   } /* getUsers */
 
   /**
-   * Returns the list of users whose username is prefixed with the input keyword
+   * Returns list of users whose username has a longest prefix
+   * match of the input keyword
    * @param {string} username - username of the current [user]{@link _User}
    * @param {string} keyword - prefix of username to search for
    * @return {_User[]} list of users whose username matches keyword
@@ -265,7 +258,7 @@ class ChatRoom extends React.Component {
   } /* searchPrefix */
 
   /**
-   * Append [message]{@link _Message} to room of messages.
+   * Update user timestamp and append [message]{@link _Message} to room of messages.
    * @param {string} message - message to be sent
    * @param {string} roomId - id of the [room]{@link _Room}
    * @param {string} username - username of the current [user]{@link _User}
@@ -281,6 +274,14 @@ class ChatRoom extends React.Component {
       timestamp: timestamp,
       username: username,
     };
+
+    var timestampObj = {};
+    timestampObj[username] = timestamp;
+    await firebase
+      .firestore()
+      .collection("rooms")
+      .doc(roomId)
+      .update(timestampObj);
 
     await firebase
       .firestore()
@@ -314,8 +315,6 @@ class ChatRoom extends React.Component {
   } /* scrollToBottom */
 
   render() {
-    const roomIsEmpty = this.state.roomId === null;
-
     return this.state.loading ? (
       <Loading />
     ) : (
@@ -349,24 +348,17 @@ class ChatRoom extends React.Component {
               </h3>
             </div>
             <div className="chat-messages">
-              {roomIsEmpty ? (
-                <div className="empty-chatroom">
-                  <h2> Don't be a couch potato... </h2>
-                  <h2> Click on a user to start a tateriffic talk! </h2>
-                </div>
-              ) : (
+              {this.state.messages &&
                 this.state.messages.map((msg, i) => (
                   <ChatMessage
                     key={i}
                     message={msg}
                     username={this.state.user.username}
                   />
-                ))
-              )}
+                ))}
               <span ref={this.dummy}></span>
             </div>
             <ChatInput
-              disable={roomIsEmpty}
               message={this.state.message}
               handleChange={this.handleChangeInput}
               handleSubmit={this.handleSubmit}

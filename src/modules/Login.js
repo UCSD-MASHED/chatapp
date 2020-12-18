@@ -47,12 +47,16 @@ class Login extends React.Component {
     this.timer = setInterval(this.incrementImgState, 6000);
   } /* componentDidMount */
 
+  /**
+   * Before the component is removed from the DOM tree, this unsubscribes the
+   * Firebase Auth listener and clears the login page jokes shuffling timer
+   */
   componentWillUnmount() {
     this.unsubscribeAuthListener();
     if (this.timer) {
       clearInterval(this.timer);
     }
-  }
+  } /* componentWillUnmount */
 
   /**
    * Handles Sign in button click, opens a pop up to Google sign in page

@@ -4,35 +4,38 @@
 [![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/UCSD-MASHED/chatapp)
 [![TaterTalk Cypress Test](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/xntes5&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/xntes5/runs)
 
-- [Architecture](#architecture)
-- [Get Started](#get-started)
-  - [Steps you should take](#steps-you-should-take)
-- [Configurations](#configurations)
-  - [Environment files](#environment-files)
-    - [`.firebaserc`](#firebaserc)
-    - [`.env.dev`](#envdev)
-    - [`serviceAccount.json`](#serviceaccountjson)
-  - [Workflow Setup](#workflow-setup)
-- [Scripts](#scripts)
-  - [`yarn start`](#yarn-start)
-  - [`yarn test`](#yarn-test)
-  - [`yarn run cy:run`](#yarn-run-cyrun)
-  - [`yarn run cy:open`](#yarn-run-cyopen)
-- [Code and JSDoc Documentation](#code-and-jsdoc-documentation)
-- [Testing](#testing)
-  - [Jest](#jest)
-  - [Cypress](#cypress)
-  - [Code Coverage](#code-coverage)
-- [Artifacts](#artifacts)
-- [Maintenance](#maintenance)
+- [TaterTalk](#tatertalk)
+  - [Architecture](#architecture)
+  - [Get Started](#get-started)
+    - [Steps you should take](#steps-you-should-take)
+  - [Configurations](#configurations)
+    - [Environment files](#environment-files)
+      - [`.firebaserc`](#firebaserc)
+      - [`.env.dev`](#envdev)
+      - [`serviceAccount.json`](#serviceaccountjson)
+    - [Workflow Setup](#workflow-setup)
+  - [Scripts](#scripts)
+    - [`yarn start`](#yarn-start)
+    - [`yarn test`](#yarn-test)
+    - [`yarn run cy:run`](#yarn-run-cyrun)
+    - [`yarn run cy:open`](#yarn-run-cyopen)
+  - [Code and JSDoc Documentation](#code-and-jsdoc-documentation)
+  - [Testing](#testing)
+    - [Jest](#jest)
+    - [Cypress](#cypress)
+    - [Code Coverage](#code-coverage)
+  - [Artifacts](#artifacts)
+  - [Maintenance](#maintenance)
 
 # [TaterTalk](https://twotenchatapp.web.app/)
 
-This is a chat web application that allows users to register/login with Google and provides 1 on 1 private chatting functionality.
+This is a chat web application that allows users to register and login with Google and provides 1 on 1 private chatting functionality.
+
+If you want to view our final presentation video, go [here](https://youtu.be/4UvggtiydeU). You can access all final presentation materials in the [final_presentation](./final_presentation/) directory. If you want to read our retrospection blog, go [here](https://ucsd-mashed.github.io/).
 
 ## Architecture
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and utilizes [Firebase](https://firebase.google.com/), more specifically, it relies on Firebase Authentication, Firestore and Hosting.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and utilizes [Firebase](https://firebase.google.com/). More specifically, it relies on Firebase Authentication, Firestore and Hosting.
 
 ![Architecture Diagram](./artifacts/ArchitectureDiagram.png)
 
@@ -55,11 +58,11 @@ Welcome aboard! Below are the steps you need to take to get up and running, as w
 5. Run `yarn install` to install our project's dependencies.
 6. Start the local server by doing `yarn start` and explore!
 
-You're all set! You can visit the [Scripts](#Scripts) section to learn more about other useful commands if you are interested. Be sure to checkout out the sections below, where you can find out more about our design, specifications, documentation, and testing. If you are joining our team, this is also where you will find our [Contributing Guidelines](./artifacts/ContributingGuidelines.pdf).
+You're all set! You can visit the [Scripts](#Scripts) section to learn more about other useful commands if you are interested. Be sure to check out the sections below, where you can find out more about our design, specifications, documentation, and testing. If you are joining our team, this is also where you will find our [Contributing Guidelines](./artifacts/ContributingGuidelines.pdf).
 
 ## Configurations
 
-If you are not part of the team and would like to extend this app on your own, you should first create a Firebase app [here](https://firebase.google.com/). It's worth mentioning that we created two Firebase apps for our `main` and `dev` branches respectively. If you don't need both, you only need to create one Firebase app. A good reason to have two Firebase apps is to separate the production environment from the development environment, so that you have one more barrier of defense against having the production build potentially fail.
+If you are not part of the team and would like to extend this app on your own, you should first create a Firebase app [here](https://firebase.google.com/). It's worth mentioning that we created two Firebase apps for our `main` and `dev` branches respectively. If you don't need both, you only need to create one Firebase app. A good reason to have two Firebase apps is to separate the production environment from the development environment so that you have one more barrier of defense against having the production build potentially fail.
 
 ### Environment files
 
@@ -71,7 +74,7 @@ This is the Firebase configuration file which specifies the corresponding Fireba
 
 Here is what it looks like:
 
-Since we have two branches `main` and `dev` for production and development environments in our GitHub repository, we also created two apps on Firebase console and linked them to `prod` and `dev` config respectively.
+As we have a `main` branch for production and a `dev` branch for developing, we also have a corresponding production and "beta" Firebase app, and we configure these two separately:
 
 ```json
 {
@@ -83,7 +86,7 @@ Since we have two branches `main` and `dev` for production and development envir
 }
 ```
 
-After creating your own Firebase app, you have to change the corresponding project id in this file. If you are only creating one Firebase app, you can remove `prod` and `dev` fields and only keep `default` field.
+After creating your own Firebase app, you have to change the corresponding project id in this file. If you are only creating one Firebase app, you can remove the `prod` and `dev` fields and only keep `default` field.
 
 #### `.env.dev`
 
@@ -199,7 +202,7 @@ All of our artifacts can be found inside the [artifacts](./artifacts/) directory
 - [Screen Sequence Diagrams](./artifacts/ScreenSequenceDiagrams.pdf)
 - [Use Cases](./artifacts/UseCases.pdf)
 - [User Stories](./artifacts/UserStories.pdf)
-- [Wireframes](./artifacts/Wireframes/)
+- [Wireframes](./artifacts/wireframes/)
 
 ## Maintenance
 

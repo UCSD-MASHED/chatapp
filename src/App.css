@@ -148,6 +148,15 @@ html,
   color: white;
 }
 
+.empty-chatroom {
+  color: white;
+  height: 60%;
+  width: 100%;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+}
+
 .chat-header {
   background-color: #28292c;
   display: flex;

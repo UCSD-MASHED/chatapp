@@ -8,7 +8,6 @@
   - [Architecture](#architecture)
   - [Get Started](#get-started)
     - [Steps you should take](#steps-you-should-take)
-    - [Resources for next steps](#resources-for-next-steps)
   - [Configurations](#configurations)
     - [Environment files](#environment-files)
       - [`.firebaserc`](#firebaserc)
@@ -25,16 +24,26 @@
     - [Jest](#jest)
     - [Cypress](#cypress)
     - [Code Coverage](#code-coverage)
+  - [Artifacts](#artifacts)
+  - [Maintenance](#maintenance)
 
 # [TaterTalk](https://twotenchatapp.web.app/)
 
-This is a chat web application that allows users to register/login with Google and provides 1 on 1 private chatting functionality.
+This is a chat web application that allows users to register and login with Google and provides 1 on 1 private chatting functionality.
+
+If you want to view our final presentation video, go [here](https://youtu.be/4UvggtiydeU). You can access all final presentation materials in the [final_presentation](./final_presentation/) directory. If you want to read our retrospection blog, go [here](https://ucsd-mashed.github.io/).
 
 ## Architecture
 
-`TODO`
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and utilizes [Firebase](https://firebase.google.com/). More specifically, it relies on Firebase Authentication, Firestore and Hosting.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and utilizes [Firebase](https://firebase.google.com/), more specifically, it relies on Firebase Authentication, Firestore and Hosting.
+![Architecture Diagram](./artifacts/ArchitectureDiagram.png)
+
+The diagram below shows a view of the main components of our codebase, what they do and how they interact with each other.
+
+![Component View Diagram](./artifacts/ViewDiagram.png)
+
+If you are looking for a more detailed outline of the functions inside each component, you can consult our [Component Function Diagram](./artifacts/FunctionDiagram.png). In addition, inside the [artifacts](./artifacts/) directory, you can find all of our documentation.
 
 ## Get Started
 
@@ -45,19 +54,15 @@ Welcome aboard! Below are the steps you need to take to get up and running, as w
 1. Install [node](https://nodejs.dev/learn/how-to-install-nodejs).
 2. Install [yarn](https://classic.yarnpkg.com/en/docs/install/).
 3. Clone this repository.
-4. If you are part of the team, we should have provided you with two files: [`.env.dev`](#envdev) and [`serviceAccount.json`](#serviceaccountjson) . Add both of these files to the root level of the repository. If you are not part of the team, please follow [Configurations](#configurations) section on how to configure these files.
+4. If you are part of the team, we should have provided you with two files: [`.env.dev`](#envdev) and [`serviceAccount.json`](#serviceaccountjson) . Add both of these files to the root level of the local repository. If you are not part of the team, please follow the [Configurations](#configurations) section on how to configure these files.
 5. Run `yarn install` to install our project's dependencies.
 6. Start the local server by doing `yarn start` and explore!
 
-You're all set! You can visit the [Scripts](#Scripts) section to learn more about other useful commands if you are interested.
-
-### Resources for next steps
-
-`TODO`
+You're all set! You can visit the [Scripts](#Scripts) section to learn more about other useful commands if you are interested. Be sure to check out the sections below, where you can find out more about our design, specifications, documentation, and testing. If you are joining our team, this is also where you will find our [Contributing Guidelines](./artifacts/ContributingGuidelines.pdf).
 
 ## Configurations
 
-If you are not part of the team and would like to extend this app on your own, you should first create a Firebase app [here](https://firebase.google.com/). It's worth mentioning that we created two Firebase apps for our `main` and `dev` branches respectively. If you don't need it, you only need to create one Firebase app.
+If you are not part of the team and would like to extend this app on your own, you should first create a Firebase app [here](https://firebase.google.com/). It's worth mentioning that we created two Firebase apps for our `main` and `dev` branches respectively. If you don't need both, you only need to create one Firebase app. A good reason to have two Firebase apps is to separate the production environment from the development environment so that you have one more barrier of defense against having the production build potentially fail.
 
 ### Environment files
 
@@ -69,7 +74,7 @@ This is the Firebase configuration file which specifies the corresponding Fireba
 
 Here is what it looks like:
 
-Since we have two branches `main` and `dev` for production and development environments in our GitHub repository, we also created two apps on Firebase console and linked them to `prod` and `dev` config respectively.
+As we have a `main` branch for production and a `dev` branch for developing, we also have a corresponding production and "beta" Firebase app, and we configure these two separately:
 
 ```json
 {
@@ -81,7 +86,7 @@ Since we have two branches `main` and `dev` for production and development envir
 }
 ```
 
-After creating your own Firebase app, you have to change the corresponding project id in this file. If you are only creating one Firebase app, you can remove `prod` and `dev` fields and only keep `default` field.
+After creating your own Firebase app, you have to change the corresponding project id in this file. If you are only creating one Firebase app, you can remove the `prod` and `dev` fields and only keep `default` field.
 
 #### `.env.dev`
 
@@ -124,7 +129,7 @@ This is a JSON configuration file that was generated in Firebase. You can follow
 
 We have several GitHub Actions [workflows](.github/workflows) configured in our repo. These workflows build, run, test, and deploy our project. In addition, they are configured to preview and deploy pull requests and merges into our dev branch to a second Firebase application - a "beta" app that we use as our development application. In addition to our workflows deploying to this beta app, they also deploy our JSDoc documentation, Jest coverage report, and Code climate report. Because our workflows are configured to work with this beta app and other resources, this means that our workflow files will not work for your project out-of-the-box.
 
-If you would like to use our workflow setup as a template, you will need to set up Jest coverage, Code Climate, JSDoc, and a secondary "beta" app for your porject. For more information on how to do this, see the relevant sections and links at the end of this document.
+If you would like to use our workflow setup as a template, you will need to set up Jest coverage, Code Climate, JSDoc, and a secondary "beta" app for your project. For more information on how to do this, see the relevant sections and links at the end of this document.
 
 If you would not like to use our workflow setup or would like to adapt it, be sure to update these files according to your desired workflows.
 
@@ -184,3 +189,28 @@ For reference, you can look at our `cypress.json` in the root directory for our 
 We combined both Jest and Cypress test coverages so that it truly reflects our comprehensive code coverage. If interested, please take a look at our [test coverage workflow](.github/workflows/test_coverage.yml).
 
 The combined coverage report is also hosted via GitHub Pages [here](https://ucsd-mashed.github.io/TaterTalkCoverage/).
+
+## Artifacts
+
+All of our artifacts can be found inside the [artifacts](./artifacts/) directory. You can refer to them to get an inside look at the design process we followed to build our app.
+
+- [Architecture Diagram](./artifacts/ArchitectureDiagram.png)
+- [Contributing Guidelines](./artifacts/ContributingGuidelines.pdf)
+- [Database Schema](./artifacts/DatabaseSchema.pdf)
+- [Component Function Diagram](./artifacts/FunctionDiagram.png)
+- [Component View Diagram](./artifacts/ViewDiagram.png)
+- [Screen Sequence Diagrams](./artifacts/ScreenSequenceDiagrams.pdf)
+- [Use Cases](./artifacts/UseCases.pdf)
+- [User Stories](./artifacts/UserStories.pdf)
+- [Wireframes](./artifacts/wireframes/)
+
+## Maintenance
+
+This project was developed by a group of UC San Diego Computer Science graduate students as part of CSE 210. These same people are responsible for the maintenance of the project.
+
+- Edward Chen
+- Jiayou (Jason) Guo
+- Alex Macedo
+- Alberto Nencioni
+- Dian Yu
+- Chang Zhou

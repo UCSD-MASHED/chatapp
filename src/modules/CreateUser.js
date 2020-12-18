@@ -37,11 +37,16 @@ class CreateUser extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  /**
+   * If a user reached the createUser page by manually typing the URL, this
+   * function ensures that upon the component being inserted into the DOM tree,
+   * the user will be redirected to the login page.
+   */
   componentDidMount() {
     if (!this.state.googleUser) {
       this.props.history.replace("/");
     }
-  }
+  } /* componentDidMount */
 
   /**
    * Handles username input change, update state accordingly.
@@ -76,7 +81,7 @@ class CreateUser extends React.Component {
           this.createUser(this.state.googleUser, this.state.username)
             .then((user) => {
               if (user) {
-                // console.log("Go to chat");
+                // User created, go to chat room page
                 toast.success("User is created successfully.");
                 this.props.history.push("/chatRoom", { user });
               } else {
@@ -104,8 +109,6 @@ class CreateUser extends React.Component {
     var user = {
       username: username,
       displayName: googleUser.displayName,
-      // blockIds: [],
-      // friendIds: [],
       online: false,
       roomIds: [],
     };
@@ -115,7 +118,6 @@ class CreateUser extends React.Component {
       .doc(googleUser.uid)
       .set(user)
       .then(() => {
-        // console.log("Create user successfully");
         return user;
       })
       .catch((err) => {
@@ -128,7 +130,7 @@ class CreateUser extends React.Component {
   /**
    * Check if the current username is unique in database
    * @param {string} username - username to be checked in database
-   * @return {boolean} true if username is unique; otherwise False
+   * @return {boolean} true if username is unique; otherwise false
    */
   async usernameIsUnique(username) {
     var res = await firebase

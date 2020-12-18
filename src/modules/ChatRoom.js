@@ -157,6 +157,9 @@ class ChatRoom extends React.Component {
    * @param {string} roomName - displayed name of the other [user]{@link _User}
    */
   async enterRoom(roomId, roomName) {
+    if (this.unsubscribeMessages) {
+      this.unsubscribeMessages();
+    }
     this.setState({
       roomId: roomId,
       roomName: roomName,
@@ -198,7 +201,7 @@ class ChatRoom extends React.Component {
     if (!roomId) {
       return;
     }
-    await firebase
+    this.unsubscribeMessages = await firebase
       .firestore()
       .collection("rooms")
       .doc(roomId)

@@ -42,6 +42,14 @@ class ChatRoom extends React.Component {
     this.logout = this.logout.bind(this);
   }
 
+  /**
+   * This sets up the state and rendering of the ChatRoom after insertion into
+   * the DOM tree. It first retrieves all users for rendering the user list. If
+   * the current user has an open chat with the first user, they will be dropped
+   * into that chat and the existing messages with that user will be rendered.
+   * Otherwise, the current user will be placed in an anonymous chat that does
+   * not accept messages.
+   */
   async componentDidMount() {
     if (!this.state.user) {
       this.props.history.replace("/");
@@ -60,7 +68,7 @@ class ChatRoom extends React.Component {
       }
       this.setState({ loading: false, users: users });
     }
-  }
+  } /* componentDidMount */
 
   /**
    * Handles message input change, updates state accordingly.
@@ -233,8 +241,7 @@ class ChatRoom extends React.Component {
   } /* getUsers */
 
   /**
-   * Returns list of users whose username has a longest prefix
-   * match of the input keyword
+   * Returns the list of users whose username is prefixed with the input keyword
    * @param {string} username - username of the current [user]{@link _User}
    * @param {string} keyword - prefix of username to search for
    * @return {_User[]} list of users whose username matches keyword
@@ -258,7 +265,7 @@ class ChatRoom extends React.Component {
   } /* searchPrefix */
 
   /**
-   * Update user timestamp and append [message]{@link _Message} to room of messages.
+   * Append [message]{@link _Message} to room of messages.
    * @param {string} message - message to be sent
    * @param {string} roomId - id of the [room]{@link _Room}
    * @param {string} username - username of the current [user]{@link _User}
